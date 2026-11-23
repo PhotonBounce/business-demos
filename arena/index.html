@@ -2,55 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PhotonBounce Expanded Arena — C-210 Private Tactical Sandbox</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>PhotonBounce 3D Arena — Real Baked-Texture Models, Skins &amp; Cutout</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c10; color: #e8edf5; font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
-  #hud { position: fixed; top: 12px; left: 12px; z-index: 10; background: rgba(10, 14, 22, 0.82); border: 1px solid rgba(110, 168, 255, 0.35); border-radius: 10px; padding: 12px 14px; width: 320px; backdrop-filter: blur(8px); }
-  #hud h1 { font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: #7bc3ff; margin-bottom: 6px; }
-  .row { display: flex; justify-content: space-between; align-items: center; margin: 5px 0; font-size: 12px; }
-  select, button { background: #161d2b; color: #e8edf5; border: 1px solid #30415f; border-radius: 6px; padding: 5px 8px; font-size: 12px; cursor: pointer; }
-  button:hover { background: #223049; border-color: #6ea8ff; }
-  .btn-row { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-  #crosshair { position: fixed; top: 50%; left: 50%; width: 22px; height: 22px; transform: translate(-50%, -50%); pointer-events: none; z-index: 8; }
-  #crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(120, 255, 175, 0.9); }
-  #crosshair::before { left: 10px; top: 0; width: 2px; height: 22px; }
-  #crosshair::after { top: 10px; left: 0; height: 2px; width: 22px; }
-  #stats { position: fixed; top: 12px; right: 12px; z-index: 10; background: rgba(10, 14, 22, 0.82); border: 1px solid rgba(110, 168, 255, 0.35); border-radius: 10px; padding: 10px 14px; font-size: 12px; min-width: 220px; }
-  #controls-bar { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 10; background: rgba(10, 14, 22, 0.82); border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; padding: 7px 16px; font-size: 12px; white-space: nowrap; }
-  .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-weight: 600; font-size: 11px; background: #1d3a2f; color: #7ef7b8; }
-  .badge.warn { background: #3d2d14; color: #ffd166; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0c1018; color: #eef3fa; font-family: system-ui, -apple-system, Segoe UI, sans-serif; touch-action: none; }
+  #topbar {
+    position: fixed; top: 10px; left: 10px; right: 10px; z-index: 20;
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    pointer-events: none;
+  }
+  #topbar > * { pointer-events: auto; }
+  .pill {
+    background: rgba(12, 17, 28, 0.88); border: 1px solid rgba(110, 175, 255, 0.42);
+    border-radius: 10px; padding: 8px 12px; font-size: 13px; color: #eef3fa;
+    backdrop-filter: blur(10px); cursor: pointer; font-weight: 600;
+  }
+  #drawer {
+    position: fixed; top: 54px; left: 10px; z-index: 19; width: min(330px, calc(100vw - 20px));
+    max-height: calc(100vh - 135px); overflow-y: auto;
+    background: rgba(11, 16, 26, 0.92); border: 1px solid rgba(110, 175, 255, 0.42);
+    border-radius: 12px; padding: 12px 14px; backdrop-filter: blur(12px);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  #drawer.collapsed { display: none; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 7px 0; font-size: 13px; }
+  select, input[type="range"] { flex: 1; max-width: 195px; background: #172033; color: #eef3fa; border: 1px solid #354a6e; border-radius: 7px; padding: 6px 8px; font-size: 13px; }
+  button.ctrl {
+    background: #1b2840; color: #eef3fa; border: 1px solid #3b5682; border-radius: 8px;
+    padding: 8px 11px; font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  button.ctrl:active, button.ctrl.active { background: #2c4b7d; border-color: #84c0ff; }
+  #bottomBar {
+    position: fixed; bottom: 12px; left: 10px; right: 10px; z-index: 20;
+    display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; pointer-events: none;
+  }
+  #bottomBar button { pointer-events: auto; box-shadow: 0 4px 16px rgba(0,0,0,0.45); }
+  #btnFire { background: #b82d2d; border-color: #ff6b6b; color: #fff; padding: 10px 18px; font-size: 14px; }
+  #btnFire:active { background: #e03c3c; }
+  #loader {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 30;
+    background: rgba(10, 15, 25, 0.92); border: 1px solid rgba(120, 190, 255, 0.5);
+    border-radius: 12px; padding: 14px 20px; text-align: center; min-width: 240px;
+    pointer-events: none;
+  }
+  #loader.hidden { display: none; }
+  #progWrap { width: 100%; height: 7px; background: #1a2438; border-radius: 99px; overflow: hidden; margin-top: 8px; }
+  #progBar { width: 0%; height: 100%; background: linear-gradient(90deg, #4da6ff, #6ff7b8); transition: width 0.1s; }
+  #modelInfo { font-size: 12px; color: #9fc7ff; }
 </style>
 </head>
 <body>
-<div id="hud">
-  <h1>PhotonBounce Expanded Arena (C-210)</h1>
+
+<div id="topbar">
+  <button id="btnToggleDrawer" class="pill">☰ Models / Skins / Cutout</button>
+  <div id="modelInfo" class="pill">SVD Dragunov PSO-1</div>
+</div>
+
+<div id="drawer">
   <div class="row">
-    <span>Active Platform:</span>
+    <span>Model:</span>
     <select id="platformSelect">
-      <option value="ak47">AK-47 Scoped (7.62x39mm)</option>
-      <option value="svd">SVD Dragunov PSO-1 (7.62x54R)</option>
-      <option value="pkm">PKM GPMG (7.62x54R Auto)</option>
-      <option value="makarov">Makarov PM (9x18mm)</option>
-      <option value="rpg7">RPG-7V Anti-Tank (PG-7VL)</option>
-      <option value="javelin">FGM-148 Javelin ATGM</option>
-      <option value="gatling">M134 Gatling Rotary</option>
-      <option value="vortex">Vortex V12 Prototype</option>
-      <option value="t64bv">T-64BV MBT (125mm 2A46M HE)</option>
-      <option value="t72b3">T-72B3 MBT (125mm HE)</option>
-      <option value="leopard2a4">Leopard 2A4 MBT (120mm)</option>
-      <option value="bmp3">BMP-3 IFV (100mm/30mm)</option>
-      <option value="bmp2">BMP-2 IFV (30mm 2A42)</option>
-      <option value="mtlb">MT-LB Armored Carrier</option>
-      <option value="m113">M113 APC (.50 Cal)</option>
-      <option value="tractor">Field Recovery Tractor</option>
+      <option value="svd" selected>SVD Dragunov PSO-1 (45 MB, Baked PBR)</option>
+      <option value="ak47">AK-47 Scoped + GP-25 UBGL (41 MB)</option>
+      <option value="pkm">PKM GPMG (62 MB, Baked PBR)</option>
+      <option value="makarov">Makarov PM (68 MB, Baked PBR)</option>
+      <option value="t64bv">T-64BV Tank + Interior Cutaway (54 MB)</option>
+      <option value="t72b3">T-72B3 MBT (16.5 MB)</option>
+      <option value="leopard2a4">Leopard 2A4 MBT (17.4 MB)</option>
+      <option value="bmp3">BMP-3 IFV (72.8 MB, Baked PBR)</option>
+      <option value="rpg7">RPG-7V Launcher (0.6 MB)</option>
+      <option value="javelin">FGM-148 Javelin ATGM (5.9 MB)</option>
+      <option value="gatling">M134 Gatling Rotary (21 MB)</option>
+      <option value="vortex">Vortex V12 Glass Cutaway (0.8 MB)</option>
     </select>
   </div>
   <div class="row">
     <span>Skin / Camo:</span>
     <select id="skinSelect">
-      <option value="factory">Factory Original (32K/PBR)</option>
+      <option value="factory">Factory Original (Baked Textures)</option>
       <option value="4bo">Soviet 4BO Olive Drab</option>
       <option value="nato">NATO Bronzegrün</option>
       <option value="desert">Desert Sand Tan</option>
@@ -60,47 +90,38 @@
     </select>
   </div>
   <div class="row">
-    <span>Internal Cutout:</span>
+    <span>Cutout Mode:</span>
     <select id="cutoutMode">
       <option value="solid">Solid Exterior</option>
-      <option value="cutaway">Cutout GLB + Live Slice</option>
+      <option value="cutaway">Cutout GLB + Live 3D Slice</option>
       <option value="xray">X-Ray Internal Workings</option>
     </select>
   </div>
   <div class="row">
-    <span>Slice Plane:</span>
-    <input id="cutoutSlider" type="range" min="-100" max="100" value="100" style="width:155px" />
+    <span>3D Slice Plane:</span>
+    <input id="cutoutSlider" type="range" min="-100" max="100" value="100" />
   </div>
-  <div class="row"><span>Model Load:</span><span id="glbStatus" class="badge">Ready</span></div>
-  <div class="row"><span>DualShock 4 / PS4:</span><span id="padStatus" class="badge warn">Keyboard/Mouse</span></div>
-  <div class="row"><span>Mode:</span><span id="modeBadge" class="badge">Live Ballistics + Physics</span></div>
-  <div class="btn-row">
-    <button id="btnFire">FIRE (LMB / R2)</button>
-    <button id="btnInspect">360° Inspect: OFF</button>
-    <button id="btnReset">Reset Buildings &amp; NPCs</button>
-    <button id="btnDropGlb">Load Local .GLB</button>
+  <div class="row" style="justify-content:flex-start; gap:6px; flex-wrap:wrap; margin-top:10px;">
+    <button id="btnSpin" class="ctrl">360° Spin: OFF</button>
+    <button id="btnResetCam" class="ctrl">Reset View</button>
+    <button id="btnDropGlb" class="ctrl">Load Local .GLB</button>
     <input id="glbFile" type="file" accept=".glb,.gltf" style="display:none" />
   </div>
-  <div style="margin-top:8px; padding-top:7px; border-top:1px solid rgba(110,168,255,0.22); font-size:11px; line-height:1.45;">
-    <div style="color:#7bc3ff; font-weight:600; margin-bottom:3px;">Latest Models Hosted (C-219b — 2026-11-23):</div>
-    <div>• <a style="color:#9ad1ff" target="_blank" href="https://github.com/PhotonBounce/photonbounce/blob/media-exacto/32k-textures/ak47-scoped-v5/ak47_scoped_v5_32k_qa_3x2.jpg">AK-47 Scoped v5 32K (0-043)</a></div>
-    <div>• <a style="color:#9ad1ff" target="_blank" href="https://github.com/PhotonBounce/photonbounce/blob/media-exacto/32k-textures/svd-c213-v5/svd_c213_v5_32k_qa_3x2.jpg">SVD Dragunov v5 32K (0-044)</a></div>
-    <div>• <a style="color:#9ad1ff" target="_blank" href="https://github.com/PhotonBounce/photonbounce/blob/media-exacto/32k-textures/t64bv-c177-v2/t64bv_c177_v2_32k_qa_3x2.jpg">T-64BV v2 Cutaway 32K (0-045)</a></div>
-    <div>• <a style="color:#9ad1ff" target="_blank" href="https://github.com/PhotonBounce/photonbounce/blob/media-exacto/32k-textures/bmp3-32k/bmp3_32k_qa_3x2.jpg">BMP-3 Native 32K (0-048)</a></div>
-    <div>• <a style="color:#7ef7b8; font-weight:600" target="_blank" href="https://github.com/PhotonBounce/photonbounce/blob/mudel-master/members/cloud-claude-work/fleet/C214-NATIVE-32K-INVENTORY-2026-11-23.md">All 48 Native 32K Packs Inventory →</a></div>
+  <div style="margin-top:8px; font-size:11px; color:#8ea6c9; line-height:1.4;">
+    Drag to orbit 360° • Pinch / Scroll to zoom • Tap FIRE to shoot targets • Slide 3D Slice Plane or pick X-Ray to inspect internal workings.
   </div>
 </div>
 
-<div id="stats">
-  <div class="row"><span>Shots Fired:</span><strong id="stShots">0</strong></div>
-  <div class="row"><span>NPC Targets Hit:</span><strong id="stNpcHits">0 / 6</strong></div>
-  <div class="row"><span>Building Blocks Collapsed:</span><strong id="stBlocks">0</strong></div>
-  <div class="row"><span>PS4 Profile:</span><strong id="stPs4">Auto</strong></div>
+<div id="loader">
+  <div id="loaderText" style="font-size:13px; font-weight:600;">Loading real baked-texture model...</div>
+  <div id="progWrap"><div id="progBar"></div></div>
 </div>
 
-<div id="crosshair"></div>
-<div id="controls-bar">
-  WASD / Left Stick: Move &nbsp;|&nbsp; Mouse / Right Stick: Aim &nbsp;|&nbsp; Click / R2 / Space: Fire &nbsp;|&nbsp; 1-5 / Triangle: Switch Weapon/Tank &nbsp;|&nbsp; R / Options: Reset
+<div id="bottomBar">
+  <button id="btnFire" class="ctrl">FIRE</button>
+  <button id="btnQuickCutout" class="ctrl">Cutout: OFF</button>
+  <button id="btnQuickSkin" class="ctrl">Next Skin</button>
+  <button id="btnNextModel" class="ctrl">Next Model ▸</button>
 </div>
 
 <script type="importmap">
@@ -113,180 +134,132 @@
 </script>
 <script type="module">
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-const params = new URLSearchParams(location.search);
-const isPs4Profile = params.get('profile') === 'ps4';
-document.getElementById('stPs4').textContent = isPs4Profile ? 'PS4 WebGL1/LowMem' : 'Desktop/PS4 Auto';
+const isMobile = window.innerWidth < 768;
+const drawer = document.getElementById('drawer');
+if (isMobile) drawer.classList.add('collapsed');
+document.getElementById('btnToggleDrawer').addEventListener('click', () => drawer.classList.toggle('collapsed'));
 
-// Scene & Renderer
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0f141e);
-scene.fog = new THREE.FogExp2(0x0f141e, 0.0085);
-
-const camera = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, 0.1, 400);
-const renderer = new THREE.WebGLRenderer({ antialias: !isPs4Profile, powerPreference: 'high-performance' });
+// Renderer with PBR Tone Mapping + Local Clipping
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
 renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(Math.min(devicePixelRatio, isPs4Profile ? 1 : 2));
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
 renderer.localClippingEnabled = true;
 document.body.appendChild(renderer.domElement);
 
-// Lighting
-scene.add(new THREE.HemisphereLight(0x9ec5ff, 0x262930, 0.75));
-const sun = new THREE.DirectionalLight(0xfff4e0, 2.2);
-sun.position.set(45, 70, 35);
-sun.castShadow = true;
-sun.shadow.mapSize.set(isPs4Profile ? 1024 : 2048, isPs4Profile ? 1024 : 2048);
-sun.shadow.camera.left = -80; sun.shadow.camera.right = 80;
-sun.shadow.camera.top = 80; sun.shadow.camera.bottom = -80;
-scene.add(sun);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x101622);
+scene.fog = new THREE.FogExp2(0x101622, 0.012);
 
-// Tactical Proving Ground Floor + Grid
+// Studio PBR environment reflections so blued steel & wood pop
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+const camera = new THREE.PerspectiveCamera(isMobile ? 52 : 45, innerWidth / innerHeight, 0.05, 250);
+camera.position.set(0, 1.35, isMobile ? 3.8 : 2.9);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.07;
+controls.target.set(0, 0.9, 0);
+controls.minDistance = 0.6;
+controls.maxDistance = 14;
+
+// Lighting
+scene.add(new THREE.HemisphereLight(0xc2dcff, 0x262c36, 0.9));
+const keyLight = new THREE.DirectionalLight(0xfff5e4, 2.4);
+keyLight.position.set(6, 10, 7);
+keyLight.castShadow = true;
+scene.add(keyLight);
+const rimLight = new THREE.DirectionalLight(0x7eb8ff, 1.2);
+rimLight.position.set(-7, 5, -6);
+scene.add(rimLight);
+
+// Proving Ground Floor + Target Range Wall
 const ground = new THREE.Mesh(
-  new THREE.PlaneGeometry(260, 260),
-  new THREE.MeshStandardMaterial({ color: 0x232832, roughness: 0.92, metalness: 0.08 })
+  new THREE.PlaneGeometry(140, 140),
+  new THREE.MeshStandardMaterial({ color: 0x1a202c, roughness: 0.88, metalness: 0.12 })
 );
 ground.rotation.x = -Math.PI / 2;
 ground.receiveShadow = true;
 scene.add(ground);
-scene.add(new THREE.GridHelper(240, 48, 0x3b4a64, 0x222936));
+scene.add(new THREE.GridHelper(120, 40, 0x3b5075, 0x202838));
 
-// Physics state containers (lightweight rigid-body dynamics for zero-WASM-failure universal browser + PS4 compatibility)
-const dynamicBlocks = [];
-const npcs = [];
-const projectiles = [];
-const flashes = [];
-let shotsFired = 0, npcHits = 0, blocksCollapsed = 0;
-
-// Build Destructible Buildings (masonry blocks that shatter & collapse under tank shells & heavy fire)
-const matConcrete = new THREE.MeshStandardMaterial({ color: 0x7b8089, roughness: 0.85 });
-const matBrick = new THREE.MeshStandardMaterial({ color: 0x8b4c3b, roughness: 0.88 });
-const matRoof = new THREE.MeshStandardMaterial({ color: 0x3d4450, roughness: 0.75 });
-
-function buildStructure(cx, cz, floors = 4) {
-  const bw = 2.2, bh = 1.4, bd = 1.0;
-  for (let f = 0; f < floors; f++) {
-    const y = bh * 0.5 + f * bh;
-    const mat = f === floors - 1 ? matRoof : (f % 2 === 0 ? matConcrete : matBrick);
-    for (let i = -1; i <= 1; i++) {
-      // Front & Back walls
-      for (const zOff of [-2.4, 2.4]) {
-        const mesh = new THREE.Mesh(new THREE.BoxGeometry(bw, bh, bd), mat.clone());
-        mesh.position.set(cx + i * (bw + 0.05), y, cz + zOff);
-        mesh.castShadow = true; mesh.receiveShadow = true;
-        scene.add(mesh);
-        dynamicBlocks.push({ mesh, vel: new THREE.Vector3(), angVel: new THREE.Vector3(), awake: false, collapsed: false, halfH: bh * 0.5 });
-      }
-    }
-    for (const xOff of [-3.3, 3.3]) {
-      for (const zOff of [-1.1, 1.1]) {
-        const mesh = new THREE.Mesh(new THREE.BoxGeometry(bd, bh, bw), mat.clone());
-        mesh.position.set(cx + xOff, y, cz + zOff);
-        mesh.castShadow = true; mesh.receiveShadow = true;
-        scene.add(mesh);
-        dynamicBlocks.push({ mesh, vel: new THREE.Vector3(), angVel: new THREE.Vector3(), awake: false, collapsed: false, halfH: bh * 0.5 });
-      }
+// Destructible Range Target Wall downrange (-Z)
+const blocks = [];
+function buildRangeTargets() {
+  blocks.forEach(b => scene.remove(b.mesh));
+  blocks.length = 0;
+  const mat1 = new THREE.MeshStandardMaterial({ color: 0x7c8492, roughness: 0.85 });
+  const mat2 = new THREE.MeshStandardMaterial({ color: 0x99533e, roughness: 0.85 });
+  for (let row = 0; row < 4; row++) {
+    for (let col = -2; col <= 2; col++) {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.75, 0.6), (row + col) % 2 === 0 ? mat1 : mat2);
+      m.position.set(col * 1.15, 0.375 + row * 0.76, -14);
+      m.castShadow = true;
+      scene.add(m);
+      blocks.push({ mesh: m, vel: new THREE.Vector3(), ang: new THREE.Vector3(), awake: false });
     }
   }
 }
+buildRangeTargets();
 
-// Build Articulated Target-Shooting NPCs (head, torso, limbs — react to ballistic hits)
-function spawnNpc(x, z, idx) {
-  const g = new THREE.Group();
-  g.position.set(x, 0, z);
-  const bodyMat = new THREE.MeshStandardMaterial({ color: 0xc97b36, roughness: 0.65 });
-  const headMat = new THREE.MeshStandardMaterial({ color: 0xe6c3a5, roughness: 0.6 });
-  const vestMat = new THREE.MeshStandardMaterial({ color: 0x2d3a2f, roughness: 0.75 });
+// Model Registry — real baked-texture GLBs staged in arena/models/
+const MODELS = {
+  svd:        { label: 'SVD Dragunov PSO-1', std: 'models/svd.glb', cut: 'models/svd_cutaway.glb', heavy: false },
+  ak47:       { label: 'AK-47 Scoped + GP-25', std: 'models/ak47.glb', cut: 'models/ak47_cutaway.glb', heavy: false },
+  pkm:        { label: 'PKM GPMG', std: 'models/pkm.glb', cut: 'models/pkm.glb', heavy: false },
+  makarov:    { label: 'Makarov PM', std: 'models/makarov.glb', cut: 'models/makarov.glb', heavy: false },
+  t64bv:      { label: 'T-64BV Tank + Interior', std: 'models/t64bv_cutaway.glb', cut: 'models/t64bv_cutaway.glb', heavy: true },
+  t72b3:      { label: 'T-72B3 MBT', std: 'models/t72b3.glb', cut: 'models/t72b3.glb', heavy: true },
+  leopard2a4: { label: 'Leopard 2A4 MBT', std: 'models/leopard2a4.glb', cut: 'models/leopard2a4.glb', heavy: true },
+  bmp3:       { label: 'BMP-3 IFV', std: 'models/bmp3.glb', cut: 'models/bmp3.glb', heavy: true },
+  rpg7:       { label: 'RPG-7V Launcher', std: 'models/rpg7.glb', cut: 'models/rpg7.glb', heavy: true },
+  javelin:    { label: 'FGM-148 Javelin', std: 'models/javelin.glb', cut: 'models/javelin.glb', heavy: true },
+  gatling:    { label: 'M134 Gatling Rotary', std: 'models/gatling.glb', cut: 'models/gatling.glb', heavy: false },
+  vortex:     { label: 'Vortex V12 Cutaway', std: 'models/vortex_cutaway.glb', cut: 'models/vortex_cutaway.glb', heavy: false }
+};
 
-  const legs = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.9, 0.28), bodyMat);
-  legs.position.y = 0.45; legs.castShadow = true; g.add(legs);
-  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.72, 0.30), vestMat);
-  torso.position.y = 1.26; torso.castShadow = true; g.add(torso);
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.18, 16, 12), headMat);
-  head.position.y = 1.82; head.castShadow = true; g.add(head);
-  scene.add(g);
-  npcs.push({ group: g, alive: true, fallVel: 0, rotX: 0, basePos: new THREE.Vector3(x, 0, z), patrolPhase: idx * 1.1 });
-}
+const SKINS = {
+  factory: null,
+  '4bo': { color: 0x4b5c3a, roughness: 0.65, metalness: 0.22 },
+  nato: { color: 0x3f4f3c, roughness: 0.62, metalness: 0.25 },
+  desert: { color: 0xc8af82, roughness: 0.76, metalness: 0.12 },
+  winter: { color: 0xe2e8f0, roughness: 0.72, metalness: 0.08 },
+  tactical: { color: 0x20252e, roughness: 0.50, metalness: 0.48 },
+  steel: { color: 0x5c6675, roughness: 0.30, metalness: 0.88 }
+};
 
-function resetArena() {
-  for (const b of dynamicBlocks) scene.remove(b.mesh);
-  dynamicBlocks.length = 0;
-  for (const n of npcs) scene.remove(n.group);
-  npcs.length = 0;
-  for (const p of projectiles) scene.remove(p.mesh);
-  projectiles.length = 0;
-  shotsFired = 0; npcHits = 0; blocksCollapsed = 0;
-  updateStats();
+const stageGroup = new THREE.Group();
+stageGroup.position.set(0, 0.9, 0);
+scene.add(stageGroup);
 
-  // 3 destructible tactical buildings
-  buildStructure(-16, -28, 4);
-  buildStructure(16, -34, 5);
-  buildStructure(0, -48, 4);
-
-  // 6 range/patrol test-shooting NPCs
-  const coords = [[-9, -18], [-3, -22], [4, -20], [10, -24], [-18, -16], [18, -18]];
-  coords.forEach(([x, z], i) => spawnNpc(x, z, i));
-}
-
-function updateStats() {
-  document.getElementById('stShots').textContent = shotsFired;
-  document.getElementById('stNpcHits').textContent = `${npcHits} / ${npcs.length}`;
-  document.getElementById('stBlocks').textContent = blocksCollapsed;
-}
-
-// Player / Vehicle Rig + First-Person Weapon / Tank Barrel Model
-const player = { pos: new THREE.Vector3(0, 1.75, 10), yaw: 0, pitch: -0.03, platform: 'ak47', recoil: 0 };
-const weaponRig = new THREE.Group();
-camera.add(weaponRig);
-scene.add(camera);
-
-const customModels = {};
 const gltfLoader = new GLTFLoader();
-const clipPlane = new THREE.Plane(new THREE.Vector3(-1, 0, 0), 10);
+const modelCache = {};
+const clipPlane = new THREE.Plane(new THREE.Vector3(-1, 0, 0), 5);
+let activePlatform = 'svd';
 let activeSkin = 'factory';
 let activeCutout = 'solid';
-let inspectSpin = false;
-
-const MODEL_PATHS = {
-  ak47: { std: 'ALL-3D-MODELS/weapons/ak16k-hd.glb', cut: 'ALL-3D-MODELS/weapons/ak47-exacto-plus200-cutaway.glb', heavy: false },
-  svd: { std: 'ALL-3D-MODELS/weapons/svd_c147_glass_pso1.glb', cut: 'ALL-3D-MODELS/weapons/svd-exacto-cutaway.glb', heavy: false },
-  pkm: { std: 'ALL-3D-MODELS/weapons/pkm8k-hd.glb', cut: 'ALL-3D-MODELS/weapons/pkm8k-hd.glb', heavy: false },
-  makarov: { std: 'ALL-3D-MODELS/weapons/makarov16k-hd.glb', cut: 'ALL-3D-MODELS/weapons/makarov16k-hd.glb', heavy: false },
-  rpg7: { std: 'MODELS-CATALOG/05-RPG-7/model/rpg7_hd_fixed.glb', cut: 'MODELS-CATALOG/05-RPG-7/model/rpg7_hd_fixed.glb', heavy: true },
-  javelin: { std: 'ALL-3D-MODELS/weapons/javelin-hd.glb', cut: 'ALL-3D-MODELS/weapons/javelin-hd.glb', heavy: true },
-  gatling: { std: 'ALL-3D-MODELS/weapons/gatling-hd.glb', cut: 'ALL-3D-MODELS/weapons/gatling-hd.glb', heavy: false },
-  vortex: { std: 'ALL-3D-MODELS/weapons/vortex_v12.glb', cut: 'ALL-3D-MODELS/weapons/vortex_v12_glass_cutaway.glb', heavy: false },
-  t64bv: { std: 'ALL-3D-MODELS/vehicles/t64bv-hd.glb', cut: 'ALL-3D-MODELS/vehicles/t64bv_c177_v2_cutaway_32k.glb', heavy: true },
-  t72b3: { std: 'MODELS-CATALOG/10-T-72B3/model/t72b3_hd_fixed.glb', cut: 'MODELS-CATALOG/10-T-72B3/model/t72b3_hd_fixed.glb', heavy: true },
-  leopard2a4: { std: 'MODELS-CATALOG/11-Leopard-2A4/model/leopard2a4_hd_fixed.glb', cut: 'MODELS-CATALOG/11-Leopard-2A4/model/leopard2a4_hd_fixed.glb', heavy: true },
-  bmp3: { std: 'ALL-3D-MODELS/vehicles/bmp3-hd.glb', cut: 'ALL-3D-MODELS/vehicles/bmp3-hd.glb', heavy: true },
-  bmp2: { std: 'ALL-3D-MODELS/vehicles/bmp2-hd.glb', cut: 'ALL-3D-MODELS/vehicles/bmp2-hd.glb', heavy: true },
-  mtlb: { std: 'ALL-3D-MODELS/vehicles/mtlb-hd.glb', cut: 'ALL-3D-MODELS/vehicles/mtlb-hd.glb', heavy: false },
-  m113: { std: 'ALL-3D-MODELS/vehicles/m113-hd.glb', cut: 'ALL-3D-MODELS/vehicles/m113-hd.glb', heavy: false },
-  tractor: { std: 'ALL-3D-MODELS/vehicles/tractor-hd.glb', cut: 'ALL-3D-MODELS/vehicles/tractor-hd.glb', heavy: false }
-};
-
-const SKIN_PRESETS = {
-  factory: null,
-  '4bo': { color: 0x455336, roughness: 0.68, metalness: 0.22 },
-  nato: { color: 0x3b4938, roughness: 0.64, metalness: 0.25 },
-  desert: { color: 0xc2aa80, roughness: 0.78, metalness: 0.12 },
-  winter: { color: 0xdce2e8, roughness: 0.72, metalness: 0.10 },
-  tactical: { color: 0x1e2228, roughness: 0.55, metalness: 0.45 },
-  steel: { color: 0x4e5662, roughness: 0.32, metalness: 0.85 }
-};
+let autoSpin = false;
+let recoilOffset = 0;
 
 function applySkinAndCutout(root) {
-  const skin = SKIN_PRESETS[activeSkin];
+  const skin = SKINS[activeSkin];
   const sliceVal = Number(document.getElementById('cutoutSlider').value) / 100;
-  clipPlane.constant = sliceVal * 1.4;
+  clipPlane.constant = sliceVal * 1.45;
   root.traverse((o) => {
     if (!o.isMesh || !o.material) return;
     const mats = Array.isArray(o.material) ? o.material : [o.material];
     mats.forEach((m) => {
-      if (!m.userData.origColor && m.color) {
-        m.userData.origColor = m.color.clone();
+      if (!m.userData.origSaved) {
+        m.userData.origSaved = true;
+        m.userData.origColor = m.color ? m.color.clone() : null;
         m.userData.origRough = m.roughness;
         m.userData.origMetal = m.metalness;
       }
@@ -300,43 +273,160 @@ function applySkinAndCutout(root) {
         m.metalness = m.userData.origMetal;
       }
       if (activeCutout === 'xray') {
-        m.transparent = true;
-        m.opacity = 0.28;
-        m.depthWrite = false;
-        m.clippingPlanes = [];
+        m.transparent = true; m.opacity = 0.28; m.depthWrite = false; m.clippingPlanes = [];
       } else if (activeCutout === 'cutaway') {
-        m.transparent = false;
-        m.opacity = 1.0;
-        m.depthWrite = true;
-        m.clippingPlanes = [clipPlane];
-        m.clipShadows = true;
+        m.transparent = false; m.opacity = 1.0; m.depthWrite = true; m.clippingPlanes = [clipPlane]; m.clipShadows = true;
       } else {
-        m.transparent = false;
-        m.opacity = 1.0;
-        m.depthWrite = true;
-        m.clippingPlanes = [];
+        m.transparent = false; m.opacity = 1.0; m.depthWrite = true; m.clippingPlanes = [];
       }
       m.needsUpdate = true;
     });
   });
 }
 
-function tryAutoLoadGlb(type) {
-  const spec = MODEL_PATHS[type];
-  const st = document.getElementById('glbStatus');
+function frameCameraForModel(isHeavy) {
+  const dist = isMobile ? (isHeavy ? 4.2 : 3.2) : (isHeavy ? 3.2 : 2.3);
+  camera.position.set(dist * 0.72, 1.35, dist * 0.72);
+  controls.target.set(0, 0.9, 0);
+  controls.update();
+}
+
+function mountModel(obj, isHeavy) {
+  stageGroup.clear();
+  const clone = obj.clone(true);
+  applySkinAndCutout(clone);
+  stageGroup.add(clone);
+  frameCameraForModel(isHeavy);
+}
+
+function loadPlatform(key) {
+  activePlatform = key;
+  const spec = MODELS[key];
   if (!spec) return;
-  const rel = (activeCutout === 'cutaway' && spec.cut) ? spec.cut : spec.std;
-  const cacheKey = `${type}:${rel}`;
-  if (customModels[cacheKey]) {
-    weaponRig.clear();
-    const clone = customModels[cacheKey].clone(true);
-    applySkinAndCutout(clone);
-    weaponRig.add(clone);
-    st.textContent = `Loaded: ${rel.split('/').pop()}`;
+  document.getElementById('modelInfo').textContent = spec.label;
+  const url = (activeCutout === 'cutaway' && spec.cut) ? spec.cut : spec.std;
+  const cacheKey = `${key}:${url}`;
+  const loaderEl = document.getElementById('loader');
+  const loaderTxt = document.getElementById('loaderText');
+  const progBar = document.getElementById('progBar');
+
+  if (modelCache[cacheKey]) {
+    loaderEl.classList.add('hidden');
+    mountModel(modelCache[cacheKey], spec.heavy);
     return;
   }
-  st.textContent = `Loading ${rel.split('/').pop()}...`;
-  gltfLoader.load(rel, (gltf) => {
+
+  loaderEl.classList.remove('hidden');
+  loaderTxt.textContent = `Loading ${spec.label}...`;
+  progBar.style.width = '8%';
+
+  gltfLoader.load(
+    url,
+    (gltf) => {
+      const obj = gltf.scene;
+      const box = new THREE.Box3().setFromObject(obj);
+      const sz = box.getSize(new THREE.Vector3());
+      const ctr = box.getCenter(new THREE.Vector3());
+      obj.position.sub(ctr);
+      const wrap = new THREE.Group();
+      wrap.add(obj);
+      const targetSpan = spec.heavy ? 2.6 : 2.1;
+      const sc = targetSpan / Math.max(sz.x, sz.y, sz.z, 0.001);
+      wrap.scale.setScalar(sc);
+      modelCache[cacheKey] = wrap;
+      if (activePlatform === key) {
+        loaderEl.classList.add('hidden');
+        mountModel(wrap, spec.heavy);
+      }
+    },
+    (xhr) => {
+      if (xhr.total > 0) {
+        const pct = Math.min(99, Math.round((xhr.loaded / xhr.total) * 100));
+        progBar.style.width = pct + '%';
+        loaderTxt.textContent = `Loading ${spec.label}... ${pct}%`;
+      }
+    },
+    () => {
+      loaderTxt.textContent = `Could not load ${url} — tap "Load Local .GLB"`;
+    }
+  );
+}
+
+// Shooting: Ballistic Tracers + Muzzle Flash + Target Collapse
+const projectiles = [];
+const flashes = [];
+function fireRound() {
+  const isHeavy = MODELS[activePlatform]?.heavy;
+  recoilOffset = isHeavy ? 0.25 : 0.09;
+  const start = new THREE.Vector3(0, 0.95, -1.0);
+  const target = new THREE.Vector3((Math.random() - 0.5) * 2.2, 1.0 + Math.random() * 1.4, -14);
+  const dir = target.clone().sub(start).normalize();
+  const rad = isHeavy ? 0.11 : 0.04;
+  const proj = new THREE.Mesh(
+    new THREE.SphereGeometry(rad, 10, 10),
+    new THREE.MeshBasicMaterial({ color: isHeavy ? 0xff9933 : 0xffe46b })
+  );
+  proj.position.copy(start);
+  scene.add(proj);
+  projectiles.push({ mesh: proj, vel: dir.multiplyScalar(isHeavy ? 42 : 70), isHeavy, life: 2.0 });
+
+  const fl = new THREE.PointLight(0xffb84d, isHeavy ? 18 : 8, 16);
+  fl.position.copy(start);
+  scene.add(fl);
+  flashes.push({ light: fl, life: 0.09 });
+}
+
+// UI Bindings
+document.getElementById('platformSelect').addEventListener('change', (e) => loadPlatform(e.target.value));
+document.getElementById('skinSelect').addEventListener('change', (e) => { activeSkin = e.target.value; applySkinAndCutout(stageGroup); });
+document.getElementById('cutoutMode').addEventListener('change', (e) => {
+  activeCutout = e.target.value;
+  document.getElementById('btnQuickCutout').textContent = activeCutout === 'solid' ? 'Cutout: OFF' : `Cutout: ${activeCutout.toUpperCase()}`;
+  loadPlatform(activePlatform);
+});
+document.getElementById('cutoutSlider').addEventListener('input', () => {
+  if (activeCutout === 'solid') {
+    activeCutout = 'cutaway';
+    document.getElementById('cutoutMode').value = 'cutaway';
+    document.getElementById('btnQuickCutout').textContent = 'Cutout: CUTAWAY';
+  }
+  applySkinAndCutout(stageGroup);
+});
+document.getElementById('btnSpin').addEventListener('click', (e) => {
+  autoSpin = !autoSpin;
+  e.target.textContent = autoSpin ? '360° Spin: ON' : '360° Spin: OFF';
+});
+document.getElementById('btnResetCam').addEventListener('click', () => {
+  frameCameraForModel(MODELS[activePlatform]?.heavy);
+  buildRangeTargets();
+});
+document.getElementById('btnFire').addEventListener('click', fireRound);
+document.getElementById('btnQuickCutout').addEventListener('click', () => {
+  const order = ['solid', 'cutaway', 'xray'];
+  activeCutout = order[(order.indexOf(activeCutout) + 1) % order.length];
+  document.getElementById('cutoutMode').value = activeCutout;
+  if (activeCutout === 'cutaway') document.getElementById('cutoutSlider').value = 10;
+  document.getElementById('btnQuickCutout').textContent = activeCutout === 'solid' ? 'Cutout: OFF' : `Cutout: ${activeCutout.toUpperCase()}`;
+  loadPlatform(activePlatform);
+});
+document.getElementById('btnQuickSkin').addEventListener('click', () => {
+  const keys = Object.keys(SKINS);
+  activeSkin = keys[(keys.indexOf(activeSkin) + 1) % keys.length];
+  document.getElementById('skinSelect').value = activeSkin;
+  applySkinAndCutout(stageGroup);
+});
+document.getElementById('btnNextModel').addEventListener('click', () => {
+  const keys = Object.keys(MODELS);
+  const next = keys[(keys.indexOf(activePlatform) + 1) % keys.length];
+  document.getElementById('platformSelect').value = next;
+  loadPlatform(next);
+});
+document.getElementById('btnDropGlb').addEventListener('click', () => document.getElementById('glbFile').click());
+document.getElementById('glbFile').addEventListener('change', (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const url = URL.createObjectURL(f);
+  gltfLoader.load(url, (gltf) => {
     const obj = gltf.scene;
     const box = new THREE.Box3().setFromObject(obj);
     const sz = box.getSize(new THREE.Vector3());
@@ -344,345 +434,43 @@ function tryAutoLoadGlb(type) {
     obj.position.sub(ctr);
     const wrap = new THREE.Group();
     wrap.add(obj);
-    const targetSize = spec.heavy ? 2.2 : 0.95;
-    const sc = targetSize / Math.max(sz.x, sz.y, sz.z, 0.001);
-    wrap.scale.setScalar(sc);
-    wrap.position.set(spec.heavy ? 0 : 0.24, spec.heavy ? -0.75 : -0.22, spec.heavy ? -2.2 : -0.72);
-    customModels[cacheKey] = wrap;
-    if (player.platform === type) {
-      weaponRig.clear();
-      const clone = wrap.clone(true);
-      applySkinAndCutout(clone);
-      weaponRig.add(clone);
-      st.textContent = `LIVE GLB: ${rel.split('/').pop()}`;
-    }
-  }, undefined, () => {
-    st.textContent = 'Procedural (serve via LAUNCH-ARENA.bat for GLBs)';
-  });
-}
-
-function buildProceduralWeapon(type) {
-  weaponRig.clear();
-  if (customModels[type]) {
-    weaponRig.add(customModels[type].clone());
-    return;
-  }
-  const gunSteel = new THREE.MeshStandardMaterial({ color: 0x22262e, metalness: 0.85, roughness: 0.3 });
-  const wood = new THREE.MeshStandardMaterial({ color: 0x6e4323, roughness: 0.6 });
-  const olive = new THREE.MeshStandardMaterial({ color: 0x3b4832, metalness: 0.35, roughness: 0.55 });
-  const glass = new THREE.MeshStandardMaterial({ color: 0x28d69a, metalness: 0.2, roughness: 0.08 });
-
-  if (type === 't64bv') {
-    // T-64BV 125mm 2A46M smoothbore cannon + glacis hood
-    const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.11, 4.4, 24), olive);
-    barrel.rotation.x = Math.PI / 2;
-    barrel.position.set(0, -0.42, -2.5);
-    const evac = new THREE.Mesh(new THREE.CylinderGeometry(0.145, 0.145, 0.75, 24), olive);
-    evac.rotation.x = Math.PI / 2;
-    evac.position.set(0, -0.42, -2.3);
-    const hood = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.35, 1.8), olive);
-    hood.position.set(0, -1.05, -1.3);
-    weaponRig.add(barrel, evac, hood);
-  } else {
-    const len = type === 'svd' ? 1.15 : (type === 'makarov' ? 0.32 : 0.85);
-    const body = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.08, len * 0.55), gunSteel);
-    body.position.set(0.24, -0.22, -0.48);
-    const bbl = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.014, len, 14), gunSteel);
-    bbl.rotation.x = Math.PI / 2;
-    bbl.position.set(0.24, -0.19, -0.45 - len * 0.35);
-    weaponRig.add(body, bbl);
-    if (type !== 'makarov') {
-      const hg = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.075, 0.28), wood);
-      hg.position.set(0.24, -0.22, -0.68);
-      weaponRig.add(hg);
-    }
-    if (type === 'ak47' || type === 'svd') {
-      const scope = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.026, 0.30, 16), gunSteel);
-      scope.rotation.x = Math.PI / 2;
-      scope.position.set(0.24, -0.13, -0.50);
-      const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.020, 0.020, 0.01, 16), glass);
-      lens.rotation.x = Math.PI / 2;
-      lens.position.set(0.24, -0.13, -0.35);
-      weaponRig.add(scope, lens);
-    }
-  }
-}
-
-document.getElementById('platformSelect').addEventListener('change', (e) => {
-  player.platform = e.target.value;
-  const spec = MODEL_PATHS[player.platform] || {};
-  player.pos.y = spec.heavy ? 2.65 : 1.75;
-  buildProceduralWeapon(player.platform);
-  applySkinAndCutout(weaponRig);
-  tryAutoLoadGlb(player.platform);
-});
-
-document.getElementById('skinSelect').addEventListener('change', (e) => {
-  activeSkin = e.target.value;
-  applySkinAndCutout(weaponRig);
-});
-
-document.getElementById('cutoutMode').addEventListener('change', (e) => {
-  activeCutout = e.target.value;
-  tryAutoLoadGlb(player.platform);
-  applySkinAndCutout(weaponRig);
-});
-
-document.getElementById('cutoutSlider').addEventListener('input', () => {
-  if (activeCutout === 'solid') {
-    activeCutout = 'cutaway';
-    document.getElementById('cutoutMode').value = 'cutaway';
-  }
-  applySkinAndCutout(weaponRig);
-});
-
-document.getElementById('btnInspect').addEventListener('click', (e) => {
-  inspectSpin = !inspectSpin;
-  e.target.textContent = inspectSpin ? '360° Inspect: ON' : '360° Inspect: OFF';
-});
-
-setInterval(() => {
-  if (inspectSpin && weaponRig.children[0]) {
-    weaponRig.children[0].rotation.y += 0.025;
-  }
-}, 30);
-
-tryAutoLoadGlb(player.platform);
-
-document.getElementById('btnDropGlb').addEventListener('click', () => document.getElementById('glbFile').click());
-document.getElementById('glbFile').addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const url = URL.createObjectURL(file);
-  gltfLoader.load(url, (gltf) => {
-    const obj = gltf.scene;
-    const box = new THREE.Box3().setFromObject(obj);
-    const sz = box.getSize(new THREE.Vector3());
-    const sc = 0.85 / Math.max(sz.x, sz.y, sz.z, 0.001);
-    obj.scale.setScalar(sc);
-    obj.position.set(0.25, -0.25, -0.65);
-    customModels[player.platform] = obj;
-    buildProceduralWeapon(player.platform);
+    wrap.scale.setScalar(2.2 / Math.max(sz.x, sz.y, sz.z, 0.001));
+    document.getElementById('modelInfo').textContent = f.name;
+    mountModel(wrap, false);
   });
 });
 
-// Fire Ballistic Round / Tank 125mm HE Shell
-function fireWeapon() {
-  shotsFired++;
-  updateStats();
-  const isTank = player.platform === 't64bv';
-  player.recoil = isTank ? 0.28 : 0.06;
-
-  const dir = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion).normalize();
-  const start = camera.position.clone().addScaledVector(dir, isTank ? 3.5 : 1.1);
-  const rad = isTank ? 0.14 : 0.035;
-  const mesh = new THREE.Mesh(
-    new THREE.SphereGeometry(rad, 10, 10),
-    new THREE.MeshBasicMaterial({ color: isTank ? 0xffaa33 : 0xffe066 })
-  );
-  mesh.position.copy(start);
-  scene.add(mesh);
-
-  const speed = isTank ? 72 : 115;
-  projectiles.push({ mesh, vel: dir.multiplyScalar(speed), isTank, life: 4.0 });
-
-  // Muzzle flash
-  const fl = new THREE.PointLight(0xffb84d, isTank ? 18 : 6, isTank ? 22 : 8);
-  fl.position.copy(start);
-  scene.add(fl);
-  flashes.push({ light: fl, life: 0.08 });
-}
-
-function triggerExplosion(pos, radius, force) {
-  const blastLight = new THREE.PointLight(0xff6b2b, 26, radius * 2.5);
-  blastLight.position.copy(pos);
-  scene.add(blastLight);
-  flashes.push({ light: blastLight, life: 0.22 });
-
-  for (const b of dynamicBlocks) {
-    const d = b.mesh.position.distanceTo(pos);
-    if (d < radius) {
-      b.awake = true;
-      if (!b.collapsed) { b.collapsed = true; blocksCollapsed++; }
-      const push = b.mesh.position.clone().sub(pos).normalize();
-      const mag = (1 - d / radius) * force;
-      b.vel.addScaledVector(push, mag);
-      b.vel.y += mag * 0.45;
-      b.angVel.set((Math.random() - 0.5) * 6, (Math.random() - 0.5) * 6, (Math.random() - 0.5) * 6);
-    }
-  }
-  // Wake upper blocks above collapsed supports
-  for (const b of dynamicBlocks) {
-    if (!b.awake) {
-      const horiz = Math.hypot(b.mesh.position.x - pos.x, b.mesh.position.z - pos.z);
-      if (horiz < radius * 1.15 && b.mesh.position.y > pos.y) {
-        b.awake = true;
-        if (!b.collapsed) { b.collapsed = true; blocksCollapsed++; }
-        b.vel.y -= 1.5;
-      }
-    }
-  }
-  updateStats();
-}
-
-// Input: Keyboard + Mouse PointerLock + DualShock 4 Web Gamepad API
-const keys = {};
-addEventListener('keydown', (e) => {
-  keys[e.code] = true;
-  if (e.code === 'Space') fireWeapon();
-  if (e.code === 'KeyR') resetArena();
-  const map = { Digit1: 'ak47', Digit2: 'svd', Digit3: 't64bv', Digit4: 'makarov', Digit5: 'pkm' };
-  if (map[e.code]) {
-    document.getElementById('platformSelect').value = map[e.code];
-    document.getElementById('platformSelect').dispatchEvent(new Event('change'));
-  }
-});
-addEventListener('keyup', (e) => { keys[e.code] = false; });
-
-renderer.domElement.addEventListener('click', () => {
-  if (document.pointerLockElement !== renderer.domElement) renderer.domElement.requestPointerLock?.();
-  fireWeapon();
-});
-document.getElementById('btnFire').addEventListener('click', fireWeapon);
-document.getElementById('btnReset').addEventListener('click', resetArena);
-
-addEventListener('mousemove', (e) => {
-  if (document.pointerLockElement === renderer.domElement) {
-    player.yaw -= e.movementX * 0.0022;
-    player.pitch = Math.max(-1.1, Math.min(1.1, player.pitch - e.movementY * 0.0022));
-  }
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
 });
 
-let lastR2 = false, lastTri = false, lastOpt = false;
-function pollGamepad(dt) {
-  const pads = navigator.getGamepads ? navigator.getGamepads() : [];
-  const gp = Array.from(pads).find(Boolean);
-  const badge = document.getElementById('padStatus');
-  if (!gp) {
-    badge.textContent = 'Keyboard/Mouse';
-    badge.className = 'badge warn';
-    return;
-  }
-  badge.textContent = `Connected: ${gp.id.slice(0, 22)}`;
-  badge.className = 'badge';
-  const dz = (v) => (Math.abs(v) > 0.14 ? v : 0);
-  const lx = dz(gp.axes[0] || 0), ly = dz(gp.axes[1] || 0);
-  const rx = dz(gp.axes[2] || 0), ry = dz(gp.axes[3] || 0);
-  player.yaw -= rx * 2.2 * dt;
-  player.pitch = Math.max(-1.1, Math.min(1.1, player.pitch - ry * 1.8 * dt));
-  const fwd = new THREE.Vector3(-Math.sin(player.yaw), 0, -Math.cos(player.yaw));
-  const right = new THREE.Vector3(Math.cos(player.yaw), 0, -Math.sin(player.yaw));
-  const spd = player.platform === 't64bv' ? 14 : 9;
-  player.pos.addScaledVector(fwd, -ly * spd * dt);
-  player.pos.addScaledVector(right, lx * spd * dt);
-
-  const r2 = (gp.buttons[7]?.value || 0) > 0.35 || gp.buttons[0]?.pressed;
-  if (r2 && !lastR2) fireWeapon();
-  lastR2 = r2;
-
-  const tri = !!gp.buttons[3]?.pressed;
-  if (tri && !lastTri) {
-    const sel = document.getElementById('platformSelect');
-    sel.selectedIndex = (sel.selectedIndex + 1) % sel.options.length;
-    sel.dispatchEvent(new Event('change'));
-  }
-  lastTri = tri;
-
-  const opt = !!gp.buttons[9]?.pressed;
-  if (opt && !lastOpt) resetArena();
-  lastOpt = opt;
-}
-
-resetArena();
-buildProceduralWeapon('ak47');
-
-let prevT = performance.now();
-function animate(now) {
+const clock = new THREE.Clock();
+function animate() {
   requestAnimationFrame(animate);
-  const dt = Math.min(0.05, (now - prevT) / 1000);
-  prevT = now;
+  const dt = Math.min(clock.getDelta(), 0.05);
+  controls.update();
 
-  // Keyboard movement
-  const fwd = new THREE.Vector3(-Math.sin(player.yaw), 0, -Math.cos(player.yaw));
-  const right = new THREE.Vector3(Math.cos(player.yaw), 0, -Math.sin(player.yaw));
-  const spd = player.platform === 't64bv' ? 14 : 9;
-  if (keys['KeyW'] || keys['ArrowUp']) player.pos.addScaledVector(fwd, spd * dt);
-  if (keys['KeyS'] || keys['ArrowDown']) player.pos.addScaledVector(fwd, -spd * dt);
-  if (keys['KeyA'] || keys['ArrowLeft']) player.pos.addScaledVector(right, -spd * dt);
-  if (keys['KeyD'] || keys['ArrowRight']) player.pos.addScaledVector(right, spd * dt);
-
-  pollGamepad(dt);
-
-  // Tank hull collision with buildings!
-  if (player.platform === 't64bv') {
-    for (const b of dynamicBlocks) {
-      if (b.mesh.position.distanceTo(player.pos) < 3.4) {
-        triggerExplosion(player.pos.clone(), 5.5, 16);
-        break;
-      }
-    }
+  if (autoSpin) stageGroup.rotation.y += dt * 0.7;
+  if (recoilOffset > 0.001) {
+    recoilOffset = Math.max(0, recoilOffset - dt * 1.4);
+    stageGroup.position.z = recoilOffset;
+  } else {
+    stageGroup.position.z = 0;
   }
 
-  // Camera & recoil
-  camera.position.copy(player.pos);
-  camera.rotation.order = 'YXZ';
-  camera.rotation.y = player.yaw;
-  camera.rotation.x = player.pitch;
-  player.recoil = Math.max(0, player.recoil - dt * 1.4);
-  weaponRig.position.z = player.recoil;
-
-  // NPC patrol & ragdoll knockback
-  const tSec = now * 0.001;
-  for (const n of npcs) {
-    if (n.alive) {
-      n.group.position.x = n.basePos.x + Math.sin(tSec * 1.2 + n.patrolPhase) * 2.2;
-    } else if (n.rotX < Math.PI * 0.5) {
-      n.fallVel += 9.5 * dt;
-      n.rotX = Math.min(Math.PI * 0.5, n.rotX + n.fallVel * dt);
-      n.group.rotation.x = n.rotX;
-    }
-  }
-
-  // Projectiles & collisions
   for (let i = projectiles.length - 1; i >= 0; i--) {
     const p = projectiles[i];
-    p.vel.y -= (p.isTank ? 9.8 : 2.5) * dt;
     p.mesh.position.addScaledVector(p.vel, dt);
     p.life -= dt;
     let hit = false;
-
-    // Ground impact
-    if (p.mesh.position.y <= 0.15) {
-      if (p.isTank) triggerExplosion(p.mesh.position, 8.5, 22);
-      hit = true;
-    }
-    // NPC hits
-    if (!hit) {
-      for (const n of npcs) {
-        if (n.alive && p.mesh.position.distanceTo(new THREE.Vector3(n.group.position.x, 1.15, n.group.position.z)) < (p.isTank ? 2.2 : 0.75)) {
-          n.alive = false;
-          npcHits++;
-          updateStats();
-          if (p.isTank) triggerExplosion(p.mesh.position, 8.5, 22);
-          hit = true;
-          break;
-        }
-      }
-    }
-    // Building block impacts
-    if (!hit) {
-      for (const b of dynamicBlocks) {
-        if (p.mesh.position.distanceTo(b.mesh.position) < (p.isTank ? 1.8 : 1.15)) {
-          if (p.isTank) {
-            triggerExplosion(p.mesh.position, 9.5, 26);
-          } else {
-            b.awake = true;
-            if (!b.collapsed) { b.collapsed = true; blocksCollapsed++; updateStats(); }
-            b.vel.addScaledVector(p.vel.clone().normalize(), 6.5);
-          }
-          hit = true;
-          break;
-        }
+    for (const b of blocks) {
+      if (b.mesh.position.distanceTo(p.mesh.position) < (p.isHeavy ? 1.8 : 0.85)) {
+        b.awake = true;
+        b.vel.set((Math.random() - 0.5) * 6, 3 + Math.random() * 4, -5 - Math.random() * 5);
+        b.ang.set((Math.random() - 0.5) * 6, (Math.random() - 0.5) * 6, (Math.random() - 0.5) * 6);
+        hit = true;
       }
     }
     if (hit || p.life <= 0) {
@@ -690,42 +478,27 @@ function animate(now) {
       projectiles.splice(i, 1);
     }
   }
-
-  // Dynamic collapsing blocks physics
-  for (const b of dynamicBlocks) {
+  for (const b of blocks) {
     if (!b.awake) continue;
-    b.vel.y -= 18.0 * dt;
+    b.vel.y -= 14 * dt;
     b.mesh.position.addScaledVector(b.vel, dt);
-    b.mesh.rotation.x += b.angVel.x * dt;
-    b.mesh.rotation.y += b.angVel.y * dt;
-    b.mesh.rotation.z += b.angVel.z * dt;
-    if (b.mesh.position.y < b.halfH) {
-      b.mesh.position.y = b.halfH;
-      b.vel.y *= -0.22;
-      b.vel.x *= 0.72;
-      b.vel.z *= 0.72;
-      b.angVel.multiplyScalar(0.65);
+    b.mesh.rotation.x += b.ang.x * dt;
+    b.mesh.rotation.y += b.ang.y * dt;
+    if (b.mesh.position.y < 0.375) {
+      b.mesh.position.y = 0.375;
+      b.vel.multiplyScalar(0.5);
+      b.vel.y = Math.abs(b.vel.y) * 0.3;
     }
   }
-
-  // Muzzle / blast flash decay
   for (let i = flashes.length - 1; i >= 0; i--) {
     flashes[i].life -= dt;
-    if (flashes[i].life <= 0) {
-      scene.remove(flashes[i].light);
-      flashes.splice(i, 1);
-    }
+    if (flashes[i].life <= 0) { scene.remove(flashes[i].light); flashes.splice(i, 1); }
   }
-
   renderer.render(scene, camera);
 }
-requestAnimationFrame(animate);
 
-addEventListener('resize', () => {
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
-});
+loadPlatform('svd');
+animate();
 </script>
 </body>
 </html>
