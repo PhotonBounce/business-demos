@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PhotonBounce Expanded Arena — C-210 Private Tactical Sandbox</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c10; color: #e8edf5; font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+  #hud { position: fixed; top: 12px; left: 12px; z-index: 10; background: rgba(10, 14, 22, 0.82); border: 1px solid rgba(110, 168, 255, 0.35); border-radius: 10px; padding: 12px 14px; width: 320px; backdrop-filter: blur(8px); }
+  #hud h1 { font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: #7bc3ff; margin-bottom: 6px; }
+  .row { display: flex; justify-content: space-between; align-items: center; margin: 5px 0; font-size: 12px; }
+  select, button { background: #161d2b; color: #e8edf5; border: 1px solid #30415f; border-radius: 6px; padding: 5px 8px; font-size: 12px; cursor: pointer; }
+  button:hover { background: #223049; border-color: #6ea8ff; }
+  .btn-row { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  #crosshair { position: fixed; top: 50%; left: 50%; width: 22px; height: 22px; transform: translate(-50%, -50%); pointer-events: none; z-index: 8; }
+  #crosshair::before, #crosshair::after { content: ''; position: absolute; background: rgba(120, 255, 175, 0.9); }
+  #crosshair::before { left: 10px; top: 0; width: 2px; height: 22px; }
+  #crosshair::after { top: 10px; left: 0; height: 2px; width: 22px; }
+  #stats { position: fixed; top: 12px; right: 12px; z-index: 10; background: rgba(10, 14, 22, 0.82); border: 1px solid rgba(110, 168, 255, 0.35); border-radius: 10px; padding: 10px 14px; font-size: 12px; min-width: 220px; }
+  #controls-bar { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 10; background: rgba(10, 14, 22, 0.82); border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; padding: 7px 16px; font-size: 12px; white-space: nowrap; }
+  .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-weight: 600; font-size: 11px; background: #1d3a2f; color: #7ef7b8; }
+  .badge.warn { background: #3d2d14; color: #ffd166; }
+</style>
+</head>
+<body>
+<div id="hud">
+  <h1>PhotonBounce Expanded Arena (C-210)</h1>
+  <div class="row">
+    <span>Active Platform:</span>
+    <select id="platformSelect">
+      <option value="ak47">AK-47 Scoped (7.62x39mm)</option>
+      <option value="svd">SVD Dragunov PSO-1 (7.62x54R)</option>
+      <option value="pkm">PKM GPMG (7.62x54R Auto)</option>
+      <option value="makarov">Makarov PM (9x18mm)</option>
+      <option value="rpg7">RPG-7V Anti-Tank (PG-7VL)</option>
+      <option value="javelin">FGM-148 Javelin ATGM</option>
+      <option value="gatling">M134 Gatling Rotary</option>
+      <option value="vortex">Vortex V12 Prototype</option>
+      <option value="t64bv">T-64BV MBT (125mm 2A46M HE)</option>
+      <option value="t72b3">T-72B3 MBT (125mm HE)</option>
+      <option value="leopard2a4">Leopard 2A4 MBT (120mm)</option>
+      <option value="bmp3">BMP-3 IFV (100mm/30mm)</option>
+      <option value="bmp2">BMP-2 IFV (30mm 2A42)</option>
+      <option value="mtlb">MT-LB Armored Carrier</option>
+      <option value="m113">M113 APC (.50 Cal)</option>
+      <option value="tractor">Field Recovery Tractor</option>
+    </select>
+  </div>
+  <div class="row">
+    <span>Skin / Camo:</span>
+    <select id="skinSelect">
+      <option value="factory">Factory Original (32K/PBR)</option>
+      <option value="4bo">Soviet 4BO Olive Drab</option>
+      <option value="nato">NATO Bronzegrün</option>
+      <option value="desert">Desert Sand Tan</option>
+      <option value="winter">Winter Whitewash</option>
+      <option value="tactical">Tactical Matte Black</option>
+      <option value="steel">Battle-Worn Gunmetal</option>
+    </select>
+  </div>
+  <div class="row">
+    <span>Internal Cutout:</span>
+    <select id="cutoutMode">
+      <option value="solid">Solid Exterior</option>
+      <option value="cutaway">Cutout GLB + Live Slice</option>
+      <option value="xray">X-Ray Internal Workings</option>
+    </select>
+  </div>
+  <div class="row">
+    <span>Slice Plane:</span>
+    <input id="cutoutSlider" type="range" min="-100" max="100" value="100" style="width:155px" />
+  </div>
+  <div class="row"><span>Model Load:</span><span id="glbStatus" class="badge">Ready</span></div>
+  <div class="row"><span>DualShock 4 / PS4:</span><span id="padStatus" class="badge warn">Keyboard/Mouse</span></div>
+  <div class="row"><span>Mode:</span><span id="modeBadge" class="badge">Live Ballistics + Physics</span></div>
+  <div class="btn-row">
+    <button id="btnFire">FIRE (LMB / R2)</button>
+    <button id="btnInspect">360° Inspect: OFF</button>
+    <button id="btnReset">Reset Buildings &amp; NPCs</button>
+    <button id="btnDropGlb">Load Local .GLB</button>
+    <input id="glbFile" type="file" accept=".glb,.gltf" style="display:none" />
+  </div>
+  <div style="margin-top:8px; padding-top:7px; border-top:1px solid rgba(110,168,255,0.22); font-size:11px; line-height:1.45;">
+    <div style="color:#7bc3ff; font-weight:600; margin-bottom:3px;">Latest Models Hosted (C-219b — 2026-11-23):</div>
+    <div>• <a style="color:#9ad1ff" target="_blank" href="https://github.com/PhotonBounce/photonbounce/blob/media-exacto/32k-textures/ak47-scoped-v5/ak47_scoped_v5_32k_qa_3x2.jpg">AK-47 Scoped v5 32K (0-043)</a></div>
+    <div>• <a style="color:#9ad1ff" target="_blank" href="https://github.com/PhotonBounce/photonbounce/blob/media-exacto/32k-textures/svd-c213-v5/svd_c213_v5_32k_qa_3x2.jpg">SVD Dragunov v5 32K (0-044)</a></div>
+    <div>• <a style="color:#9ad1ff" target="_blank" href="https://github.com/PhotonBounce/photonbounce/blob/media-exacto/32k-textures/t64bv-c177-v2/t64bv_c177_v2_32k_qa_3x2.jpg">T-64BV v2 Cutaway 32K (0-045)</a></div>
+    <div>• <a style="color:#9ad1ff" target="_blank" href="https://github.com/PhotonBounce/photonbounce/blob/media-exacto/32k-textures/bmp3-32k/bmp3_32k_qa_3x2.jpg">BMP-3 Native 32K (0-048)</a></div>
+    <div>• <a style="color:#7ef7b8; font-weight:600" target="_blank" href="https://github.com/PhotonBounce/photonbounce/blob/mudel-master/members/cloud-claude-work/fleet/C214-NATIVE-32K-INVENTORY-2026-11-23.md">All 48 Native 32K Packs Inventory →</a></div>
+  </div>
+</div>
+
+<div id="stats">
+  <div class="row"><span>Shots Fired:</span><strong id="stShots">0</strong></div>
+  <div class="row"><span>NPC Targets Hit:</span><strong id="stNpcHits">0 / 6</strong></div>
+  <div class="row"><span>Building Blocks Collapsed:</span><strong id="stBlocks">0</strong></div>
+  <div class="row"><span>PS4 Profile:</span><strong id="stPs4">Auto</strong></div>
+</div>
+
+<div id="crosshair"></div>
+<div id="controls-bar">
+  WASD / Left Stick: Move &nbsp;|&nbsp; Mouse / Right Stick: Aim &nbsp;|&nbsp; Click / R2 / Space: Fire &nbsp;|&nbsp; 1-5 / Triangle: Switch Weapon/Tank &nbsp;|&nbsp; R / Options: Reset
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const params = new URLSearchParams(location.search);
+const isPs4Profile = params.get('profile') === 'ps4';
+document.getElementById('stPs4').textContent = isPs4Profile ? 'PS4 WebGL1/LowMem' : 'Desktop/PS4 Auto';
+
+// Scene & Renderer
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0f141e);
+scene.fog = new THREE.FogExp2(0x0f141e, 0.0085);
+
+const camera = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, 0.1, 400);
+const renderer = new THREE.WebGLRenderer({ antialias: !isPs4Profile, powerPreference: 'high-performance' });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, isPs4Profile ? 1 : 2));
+renderer.shadowMap.enabled = true;
+renderer.localClippingEnabled = true;
+document.body.appendChild(renderer.domElement);
+
+// Lighting
+scene.add(new THREE.HemisphereLight(0x9ec5ff, 0x262930, 0.75));
+const sun = new THREE.DirectionalLight(0xfff4e0, 2.2);
+sun.position.set(45, 70, 35);
+sun.castShadow = true;
+sun.shadow.mapSize.set(isPs4Profile ? 1024 : 2048, isPs4Profile ? 1024 : 2048);
+sun.shadow.camera.left = -80; sun.shadow.camera.right = 80;
+sun.shadow.camera.top = 80; sun.shadow.camera.bottom = -80;
+scene.add(sun);
+
+// Tactical Proving Ground Floor + Grid
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(260, 260),
+  new THREE.MeshStandardMaterial({ color: 0x232832, roughness: 0.92, metalness: 0.08 })
+);
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+scene.add(new THREE.GridHelper(240, 48, 0x3b4a64, 0x222936));
+
+// Physics state containers (lightweight rigid-body dynamics for zero-WASM-failure universal browser + PS4 compatibility)
+const dynamicBlocks = [];
+const npcs = [];
+const projectiles = [];
+const flashes = [];
+let shotsFired = 0, npcHits = 0, blocksCollapsed = 0;
+
+// Build Destructible Buildings (masonry blocks that shatter & collapse under tank shells & heavy fire)
+const matConcrete = new THREE.MeshStandardMaterial({ color: 0x7b8089, roughness: 0.85 });
+const matBrick = new THREE.MeshStandardMaterial({ color: 0x8b4c3b, roughness: 0.88 });
+const matRoof = new THREE.MeshStandardMaterial({ color: 0x3d4450, roughness: 0.75 });
+
+function buildStructure(cx, cz, floors = 4) {
+  const bw = 2.2, bh = 1.4, bd = 1.0;
+  for (let f = 0; f < floors; f++) {
+    const y = bh * 0.5 + f * bh;
+    const mat = f === floors - 1 ? matRoof : (f % 2 === 0 ? matConcrete : matBrick);
+    for (let i = -1; i <= 1; i++) {
+      // Front & Back walls
+      for (const zOff of [-2.4, 2.4]) {
+        const mesh = new THREE.Mesh(new THREE.BoxGeometry(bw, bh, bd), mat.clone());
+        mesh.position.set(cx + i * (bw + 0.05), y, cz + zOff);
+        mesh.castShadow = true; mesh.receiveShadow = true;
+        scene.add(mesh);
+        dynamicBlocks.push({ mesh, vel: new THREE.Vector3(), angVel: new THREE.Vector3(), awake: false, collapsed: false, halfH: bh * 0.5 });
+      }
+    }
+    for (const xOff of [-3.3, 3.3]) {
+      for (const zOff of [-1.1, 1.1]) {
+        const mesh = new THREE.Mesh(new THREE.BoxGeometry(bd, bh, bw), mat.clone());
+        mesh.position.set(cx + xOff, y, cz + zOff);
+        mesh.castShadow = true; mesh.receiveShadow = true;
+        scene.add(mesh);
+        dynamicBlocks.push({ mesh, vel: new THREE.Vector3(), angVel: new THREE.Vector3(), awake: false, collapsed: false, halfH: bh * 0.5 });
+      }
+    }
+  }
+}
+
+// Build Articulated Target-Shooting NPCs (head, torso, limbs — react to ballistic hits)
+function spawnNpc(x, z, idx) {
+  const g = new THREE.Group();
+  g.position.set(x, 0, z);
+  const bodyMat = new THREE.MeshStandardMaterial({ color: 0xc97b36, roughness: 0.65 });
+  const headMat = new THREE.MeshStandardMaterial({ color: 0xe6c3a5, roughness: 0.6 });
+  const vestMat = new THREE.MeshStandardMaterial({ color: 0x2d3a2f, roughness: 0.75 });
+
+  const legs = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.9, 0.28), bodyMat);
+  legs.position.y = 0.45; legs.castShadow = true; g.add(legs);
+  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.72, 0.30), vestMat);
+  torso.position.y = 1.26; torso.castShadow = true; g.add(torso);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.18, 16, 12), headMat);
+  head.position.y = 1.82; head.castShadow = true; g.add(head);
+  scene.add(g);
+  npcs.push({ group: g, alive: true, fallVel: 0, rotX: 0, basePos: new THREE.Vector3(x, 0, z), patrolPhase: idx * 1.1 });
+}
+
+function resetArena() {
+  for (const b of dynamicBlocks) scene.remove(b.mesh);
+  dynamicBlocks.length = 0;
+  for (const n of npcs) scene.remove(n.group);
+  npcs.length = 0;
+  for (const p of projectiles) scene.remove(p.mesh);
+  projectiles.length = 0;
+  shotsFired = 0; npcHits = 0; blocksCollapsed = 0;
+  updateStats();
+
+  // 3 destructible tactical buildings
+  buildStructure(-16, -28, 4);
+  buildStructure(16, -34, 5);
+  buildStructure(0, -48, 4);
+
+  // 6 range/patrol test-shooting NPCs
+  const coords = [[-9, -18], [-3, -22], [4, -20], [10, -24], [-18, -16], [18, -18]];
+  coords.forEach(([x, z], i) => spawnNpc(x, z, i));
+}
+
+function updateStats() {
+  document.getElementById('stShots').textContent = shotsFired;
+  document.getElementById('stNpcHits').textContent = `${npcHits} / ${npcs.length}`;
+  document.getElementById('stBlocks').textContent = blocksCollapsed;
+}
+
+// Player / Vehicle Rig + First-Person Weapon / Tank Barrel Model
+const player = { pos: new THREE.Vector3(0, 1.75, 10), yaw: 0, pitch: -0.03, platform: 'ak47', recoil: 0 };
+const weaponRig = new THREE.Group();
+camera.add(weaponRig);
+scene.add(camera);
+
+const customModels = {};
+const gltfLoader = new GLTFLoader();
+const clipPlane = new THREE.Plane(new THREE.Vector3(-1, 0, 0), 10);
+let activeSkin = 'factory';
+let activeCutout = 'solid';
+let inspectSpin = false;
+
+const MODEL_PATHS = {
+  ak47: { std: 'ALL-3D-MODELS/weapons/ak16k-hd.glb', cut: 'ALL-3D-MODELS/weapons/ak47-exacto-plus200-cutaway.glb', heavy: false },
+  svd: { std: 'ALL-3D-MODELS/weapons/svd_c147_glass_pso1.glb', cut: 'ALL-3D-MODELS/weapons/svd-exacto-cutaway.glb', heavy: false },
+  pkm: { std: 'ALL-3D-MODELS/weapons/pkm8k-hd.glb', cut: 'ALL-3D-MODELS/weapons/pkm8k-hd.glb', heavy: false },
+  makarov: { std: 'ALL-3D-MODELS/weapons/makarov16k-hd.glb', cut: 'ALL-3D-MODELS/weapons/makarov16k-hd.glb', heavy: false },
+  rpg7: { std: 'MODELS-CATALOG/05-RPG-7/model/rpg7_hd_fixed.glb', cut: 'MODELS-CATALOG/05-RPG-7/model/rpg7_hd_fixed.glb', heavy: true },
+  javelin: { std: 'ALL-3D-MODELS/weapons/javelin-hd.glb', cut: 'ALL-3D-MODELS/weapons/javelin-hd.glb', heavy: true },
+  gatling: { std: 'ALL-3D-MODELS/weapons/gatling-hd.glb', cut: 'ALL-3D-MODELS/weapons/gatling-hd.glb', heavy: false },
+  vortex: { std: 'ALL-3D-MODELS/weapons/vortex_v12.glb', cut: 'ALL-3D-MODELS/weapons/vortex_v12_glass_cutaway.glb', heavy: false },
+  t64bv: { std: 'ALL-3D-MODELS/vehicles/t64bv-hd.glb', cut: 'ALL-3D-MODELS/vehicles/t64bv_c177_v2_cutaway_32k.glb', heavy: true },
+  t72b3: { std: 'MODELS-CATALOG/10-T-72B3/model/t72b3_hd_fixed.glb', cut: 'MODELS-CATALOG/10-T-72B3/model/t72b3_hd_fixed.glb', heavy: true },
+  leopard2a4: { std: 'MODELS-CATALOG/11-Leopard-2A4/model/leopard2a4_hd_fixed.glb', cut: 'MODELS-CATALOG/11-Leopard-2A4/model/leopard2a4_hd_fixed.glb', heavy: true },
+  bmp3: { std: 'ALL-3D-MODELS/vehicles/bmp3-hd.glb', cut: 'ALL-3D-MODELS/vehicles/bmp3-hd.glb', heavy: true },
+  bmp2: { std: 'ALL-3D-MODELS/vehicles/bmp2-hd.glb', cut: 'ALL-3D-MODELS/vehicles/bmp2-hd.glb', heavy: true },
+  mtlb: { std: 'ALL-3D-MODELS/vehicles/mtlb-hd.glb', cut: 'ALL-3D-MODELS/vehicles/mtlb-hd.glb', heavy: false },
+  m113: { std: 'ALL-3D-MODELS/vehicles/m113-hd.glb', cut: 'ALL-3D-MODELS/vehicles/m113-hd.glb', heavy: false },
+  tractor: { std: 'ALL-3D-MODELS/vehicles/tractor-hd.glb', cut: 'ALL-3D-MODELS/vehicles/tractor-hd.glb', heavy: false }
+};
+
+const SKIN_PRESETS = {
+  factory: null,
+  '4bo': { color: 0x455336, roughness: 0.68, metalness: 0.22 },
+  nato: { color: 0x3b4938, roughness: 0.64, metalness: 0.25 },
+  desert: { color: 0xc2aa80, roughness: 0.78, metalness: 0.12 },
+  winter: { color: 0xdce2e8, roughness: 0.72, metalness: 0.10 },
+  tactical: { color: 0x1e2228, roughness: 0.55, metalness: 0.45 },
+  steel: { color: 0x4e5662, roughness: 0.32, metalness: 0.85 }
+};
+
+function applySkinAndCutout(root) {
+  const skin = SKIN_PRESETS[activeSkin];
+  const sliceVal = Number(document.getElementById('cutoutSlider').value) / 100;
+  clipPlane.constant = sliceVal * 1.4;
+  root.traverse((o) => {
+    if (!o.isMesh || !o.material) return;
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    mats.forEach((m) => {
+      if (!m.userData.origColor && m.color) {
+        m.userData.origColor = m.color.clone();
+        m.userData.origRough = m.roughness;
+        m.userData.origMetal = m.metalness;
+      }
+      if (skin && m.color) {
+        m.color.setHex(skin.color);
+        if (typeof m.roughness === 'number') m.roughness = skin.roughness;
+        if (typeof m.metalness === 'number') m.metalness = skin.metalness;
+      } else if (m.userData.origColor && m.color) {
+        m.color.copy(m.userData.origColor);
+        m.roughness = m.userData.origRough;
+        m.metalness = m.userData.origMetal;
+      }
+      if (activeCutout === 'xray') {
+        m.transparent = true;
+        m.opacity = 0.28;
+        m.depthWrite = false;
+        m.clippingPlanes = [];
+      } else if (activeCutout === 'cutaway') {
+        m.transparent = false;
+        m.opacity = 1.0;
+        m.depthWrite = true;
+        m.clippingPlanes = [clipPlane];
+        m.clipShadows = true;
+      } else {
+        m.transparent = false;
+        m.opacity = 1.0;
+        m.depthWrite = true;
+        m.clippingPlanes = [];
+      }
+      m.needsUpdate = true;
+    });
+  });
+}
+
+function tryAutoLoadGlb(type) {
+  const spec = MODEL_PATHS[type];
+  const st = document.getElementById('glbStatus');
+  if (!spec) return;
+  const rel = (activeCutout === 'cutaway' && spec.cut) ? spec.cut : spec.std;
+  const cacheKey = `${type}:${rel}`;
+  if (customModels[cacheKey]) {
+    weaponRig.clear();
+    const clone = customModels[cacheKey].clone(true);
+    applySkinAndCutout(clone);
+    weaponRig.add(clone);
+    st.textContent = `Loaded: ${rel.split('/').pop()}`;
+    return;
+  }
+  st.textContent = `Loading ${rel.split('/').pop()}...`;
+  gltfLoader.load(rel, (gltf) => {
+    const obj = gltf.scene;
+    const box = new THREE.Box3().setFromObject(obj);
+    const sz = box.getSize(new THREE.Vector3());
+    const ctr = box.getCenter(new THREE.Vector3());
+    obj.position.sub(ctr);
+    const wrap = new THREE.Group();
+    wrap.add(obj);
+    const targetSize = spec.heavy ? 2.2 : 0.95;
+    const sc = targetSize / Math.max(sz.x, sz.y, sz.z, 0.001);
+    wrap.scale.setScalar(sc);
+    wrap.position.set(spec.heavy ? 0 : 0.24, spec.heavy ? -0.75 : -0.22, spec.heavy ? -2.2 : -0.72);
+    customModels[cacheKey] = wrap;
+    if (player.platform === type) {
+      weaponRig.clear();
+      const clone = wrap.clone(true);
+      applySkinAndCutout(clone);
+      weaponRig.add(clone);
+      st.textContent = `LIVE GLB: ${rel.split('/').pop()}`;
+    }
+  }, undefined, () => {
+    st.textContent = 'Procedural (serve via LAUNCH-ARENA.bat for GLBs)';
+  });
+}
+
+function buildProceduralWeapon(type) {
+  weaponRig.clear();
+  if (customModels[type]) {
+    weaponRig.add(customModels[type].clone());
+    return;
+  }
+  const gunSteel = new THREE.MeshStandardMaterial({ color: 0x22262e, metalness: 0.85, roughness: 0.3 });
+  const wood = new THREE.MeshStandardMaterial({ color: 0x6e4323, roughness: 0.6 });
+  const olive = new THREE.MeshStandardMaterial({ color: 0x3b4832, metalness: 0.35, roughness: 0.55 });
+  const glass = new THREE.MeshStandardMaterial({ color: 0x28d69a, metalness: 0.2, roughness: 0.08 });
+
+  if (type === 't64bv') {
+    // T-64BV 125mm 2A46M smoothbore cannon + glacis hood
+    const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.11, 4.4, 24), olive);
+    barrel.rotation.x = Math.PI / 2;
+    barrel.position.set(0, -0.42, -2.5);
+    const evac = new THREE.Mesh(new THREE.CylinderGeometry(0.145, 0.145, 0.75, 24), olive);
+    evac.rotation.x = Math.PI / 2;
+    evac.position.set(0, -0.42, -2.3);
+    const hood = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.35, 1.8), olive);
+    hood.position.set(0, -1.05, -1.3);
+    weaponRig.add(barrel, evac, hood);
+  } else {
+    const len = type === 'svd' ? 1.15 : (type === 'makarov' ? 0.32 : 0.85);
+    const body = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.08, len * 0.55), gunSteel);
+    body.position.set(0.24, -0.22, -0.48);
+    const bbl = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.014, len, 14), gunSteel);
+    bbl.rotation.x = Math.PI / 2;
+    bbl.position.set(0.24, -0.19, -0.45 - len * 0.35);
+    weaponRig.add(body, bbl);
+    if (type !== 'makarov') {
+      const hg = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.075, 0.28), wood);
+      hg.position.set(0.24, -0.22, -0.68);
+      weaponRig.add(hg);
+    }
+    if (type === 'ak47' || type === 'svd') {
+      const scope = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.026, 0.30, 16), gunSteel);
+      scope.rotation.x = Math.PI / 2;
+      scope.position.set(0.24, -0.13, -0.50);
+      const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.020, 0.020, 0.01, 16), glass);
+      lens.rotation.x = Math.PI / 2;
+      lens.position.set(0.24, -0.13, -0.35);
+      weaponRig.add(scope, lens);
+    }
+  }
+}
+
+document.getElementById('platformSelect').addEventListener('change', (e) => {
+  player.platform = e.target.value;
+  const spec = MODEL_PATHS[player.platform] || {};
+  player.pos.y = spec.heavy ? 2.65 : 1.75;
+  buildProceduralWeapon(player.platform);
+  applySkinAndCutout(weaponRig);
+  tryAutoLoadGlb(player.platform);
+});
+
+document.getElementById('skinSelect').addEventListener('change', (e) => {
+  activeSkin = e.target.value;
+  applySkinAndCutout(weaponRig);
+});
+
+document.getElementById('cutoutMode').addEventListener('change', (e) => {
+  activeCutout = e.target.value;
+  tryAutoLoadGlb(player.platform);
+  applySkinAndCutout(weaponRig);
+});
+
+document.getElementById('cutoutSlider').addEventListener('input', () => {
+  if (activeCutout === 'solid') {
+    activeCutout = 'cutaway';
+    document.getElementById('cutoutMode').value = 'cutaway';
+  }
+  applySkinAndCutout(weaponRig);
+});
+
+document.getElementById('btnInspect').addEventListener('click', (e) => {
+  inspectSpin = !inspectSpin;
+  e.target.textContent = inspectSpin ? '360° Inspect: ON' : '360° Inspect: OFF';
+});
+
+setInterval(() => {
+  if (inspectSpin && weaponRig.children[0]) {
+    weaponRig.children[0].rotation.y += 0.025;
+  }
+}, 30);
+
+tryAutoLoadGlb(player.platform);
+
+document.getElementById('btnDropGlb').addEventListener('click', () => document.getElementById('glbFile').click());
+document.getElementById('glbFile').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  gltfLoader.load(url, (gltf) => {
+    const obj = gltf.scene;
+    const box = new THREE.Box3().setFromObject(obj);
+    const sz = box.getSize(new THREE.Vector3());
+    const sc = 0.85 / Math.max(sz.x, sz.y, sz.z, 0.001);
+    obj.scale.setScalar(sc);
+    obj.position.set(0.25, -0.25, -0.65);
+    customModels[player.platform] = obj;
+    buildProceduralWeapon(player.platform);
+  });
+});
+
+// Fire Ballistic Round / Tank 125mm HE Shell
+function fireWeapon() {
+  shotsFired++;
+  updateStats();
+  const isTank = player.platform === 't64bv';
+  player.recoil = isTank ? 0.28 : 0.06;
+
+  const dir = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion).normalize();
+  const start = camera.position.clone().addScaledVector(dir, isTank ? 3.5 : 1.1);
+  const rad = isTank ? 0.14 : 0.035;
+  const mesh = new THREE.Mesh(
+    new THREE.SphereGeometry(rad, 10, 10),
+    new THREE.MeshBasicMaterial({ color: isTank ? 0xffaa33 : 0xffe066 })
+  );
+  mesh.position.copy(start);
+  scene.add(mesh);
+
+  const speed = isTank ? 72 : 115;
+  projectiles.push({ mesh, vel: dir.multiplyScalar(speed), isTank, life: 4.0 });
+
+  // Muzzle flash
+  const fl = new THREE.PointLight(0xffb84d, isTank ? 18 : 6, isTank ? 22 : 8);
+  fl.position.copy(start);
+  scene.add(fl);
+  flashes.push({ light: fl, life: 0.08 });
+}
+
+function triggerExplosion(pos, radius, force) {
+  const blastLight = new THREE.PointLight(0xff6b2b, 26, radius * 2.5);
+  blastLight.position.copy(pos);
+  scene.add(blastLight);
+  flashes.push({ light: blastLight, life: 0.22 });
+
+  for (const b of dynamicBlocks) {
+    const d = b.mesh.position.distanceTo(pos);
+    if (d < radius) {
+      b.awake = true;
+      if (!b.collapsed) { b.collapsed = true; blocksCollapsed++; }
+      const push = b.mesh.position.clone().sub(pos).normalize();
+      const mag = (1 - d / radius) * force;
+      b.vel.addScaledVector(push, mag);
+      b.vel.y += mag * 0.45;
+      b.angVel.set((Math.random() - 0.5) * 6, (Math.random() - 0.5) * 6, (Math.random() - 0.5) * 6);
+    }
+  }
+  // Wake upper blocks above collapsed supports
+  for (const b of dynamicBlocks) {
+    if (!b.awake) {
+      const horiz = Math.hypot(b.mesh.position.x - pos.x, b.mesh.position.z - pos.z);
+      if (horiz < radius * 1.15 && b.mesh.position.y > pos.y) {
+        b.awake = true;
+        if (!b.collapsed) { b.collapsed = true; blocksCollapsed++; }
+        b.vel.y -= 1.5;
+      }
+    }
+  }
+  updateStats();
+}
+
+// Input: Keyboard + Mouse PointerLock + DualShock 4 Web Gamepad API
+const keys = {};
+addEventListener('keydown', (e) => {
+  keys[e.code] = true;
+  if (e.code === 'Space') fireWeapon();
+  if (e.code === 'KeyR') resetArena();
+  const map = { Digit1: 'ak47', Digit2: 'svd', Digit3: 't64bv', Digit4: 'makarov', Digit5: 'pkm' };
+  if (map[e.code]) {
+    document.getElementById('platformSelect').value = map[e.code];
+    document.getElementById('platformSelect').dispatchEvent(new Event('change'));
+  }
+});
+addEventListener('keyup', (e) => { keys[e.code] = false; });
+
+renderer.domElement.addEventListener('click', () => {
+  if (document.pointerLockElement !== renderer.domElement) renderer.domElement.requestPointerLock?.();
+  fireWeapon();
+});
+document.getElementById('btnFire').addEventListener('click', fireWeapon);
+document.getElementById('btnReset').addEventListener('click', resetArena);
+
+addEventListener('mousemove', (e) => {
+  if (document.pointerLockElement === renderer.domElement) {
+    player.yaw -= e.movementX * 0.0022;
+    player.pitch = Math.max(-1.1, Math.min(1.1, player.pitch - e.movementY * 0.0022));
+  }
+});
+
+let lastR2 = false, lastTri = false, lastOpt = false;
+function pollGamepad(dt) {
+  const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+  const gp = Array.from(pads).find(Boolean);
+  const badge = document.getElementById('padStatus');
+  if (!gp) {
+    badge.textContent = 'Keyboard/Mouse';
+    badge.className = 'badge warn';
+    return;
+  }
+  badge.textContent = `Connected: ${gp.id.slice(0, 22)}`;
+  badge.className = 'badge';
+  const dz = (v) => (Math.abs(v) > 0.14 ? v : 0);
+  const lx = dz(gp.axes[0] || 0), ly = dz(gp.axes[1] || 0);
+  const rx = dz(gp.axes[2] || 0), ry = dz(gp.axes[3] || 0);
+  player.yaw -= rx * 2.2 * dt;
+  player.pitch = Math.max(-1.1, Math.min(1.1, player.pitch - ry * 1.8 * dt));
+  const fwd = new THREE.Vector3(-Math.sin(player.yaw), 0, -Math.cos(player.yaw));
+  const right = new THREE.Vector3(Math.cos(player.yaw), 0, -Math.sin(player.yaw));
+  const spd = player.platform === 't64bv' ? 14 : 9;
+  player.pos.addScaledVector(fwd, -ly * spd * dt);
+  player.pos.addScaledVector(right, lx * spd * dt);
+
+  const r2 = (gp.buttons[7]?.value || 0) > 0.35 || gp.buttons[0]?.pressed;
+  if (r2 && !lastR2) fireWeapon();
+  lastR2 = r2;
+
+  const tri = !!gp.buttons[3]?.pressed;
+  if (tri && !lastTri) {
+    const sel = document.getElementById('platformSelect');
+    sel.selectedIndex = (sel.selectedIndex + 1) % sel.options.length;
+    sel.dispatchEvent(new Event('change'));
+  }
+  lastTri = tri;
+
+  const opt = !!gp.buttons[9]?.pressed;
+  if (opt && !lastOpt) resetArena();
+  lastOpt = opt;
+}
+
+resetArena();
+buildProceduralWeapon('ak47');
+
+let prevT = performance.now();
+function animate(now) {
+  requestAnimationFrame(animate);
+  const dt = Math.min(0.05, (now - prevT) / 1000);
+  prevT = now;
+
+  // Keyboard movement
+  const fwd = new THREE.Vector3(-Math.sin(player.yaw), 0, -Math.cos(player.yaw));
+  const right = new THREE.Vector3(Math.cos(player.yaw), 0, -Math.sin(player.yaw));
+  const spd = player.platform === 't64bv' ? 14 : 9;
+  if (keys['KeyW'] || keys['ArrowUp']) player.pos.addScaledVector(fwd, spd * dt);
+  if (keys['KeyS'] || keys['ArrowDown']) player.pos.addScaledVector(fwd, -spd * dt);
+  if (keys['KeyA'] || keys['ArrowLeft']) player.pos.addScaledVector(right, -spd * dt);
+  if (keys['KeyD'] || keys['ArrowRight']) player.pos.addScaledVector(right, spd * dt);
+
+  pollGamepad(dt);
+
+  // Tank hull collision with buildings!
+  if (player.platform === 't64bv') {
+    for (const b of dynamicBlocks) {
+      if (b.mesh.position.distanceTo(player.pos) < 3.4) {
+        triggerExplosion(player.pos.clone(), 5.5, 16);
+        break;
+      }
+    }
+  }
+
+  // Camera & recoil
+  camera.position.copy(player.pos);
+  camera.rotation.order = 'YXZ';
+  camera.rotation.y = player.yaw;
+  camera.rotation.x = player.pitch;
+  player.recoil = Math.max(0, player.recoil - dt * 1.4);
+  weaponRig.position.z = player.recoil;
+
+  // NPC patrol & ragdoll knockback
+  const tSec = now * 0.001;
+  for (const n of npcs) {
+    if (n.alive) {
+      n.group.position.x = n.basePos.x + Math.sin(tSec * 1.2 + n.patrolPhase) * 2.2;
+    } else if (n.rotX < Math.PI * 0.5) {
+      n.fallVel += 9.5 * dt;
+      n.rotX = Math.min(Math.PI * 0.5, n.rotX + n.fallVel * dt);
+      n.group.rotation.x = n.rotX;
+    }
+  }
+
+  // Projectiles & collisions
+  for (let i = projectiles.length - 1; i >= 0; i--) {
+    const p = projectiles[i];
+    p.vel.y -= (p.isTank ? 9.8 : 2.5) * dt;
+    p.mesh.position.addScaledVector(p.vel, dt);
+    p.life -= dt;
+    let hit = false;
+
+    // Ground impact
+    if (p.mesh.position.y <= 0.15) {
+      if (p.isTank) triggerExplosion(p.mesh.position, 8.5, 22);
+      hit = true;
+    }
+    // NPC hits
+    if (!hit) {
+      for (const n of npcs) {
+        if (n.alive && p.mesh.position.distanceTo(new THREE.Vector3(n.group.position.x, 1.15, n.group.position.z)) < (p.isTank ? 2.2 : 0.75)) {
+          n.alive = false;
+          npcHits++;
+          updateStats();
+          if (p.isTank) triggerExplosion(p.mesh.position, 8.5, 22);
+          hit = true;
+          break;
+        }
+      }
+    }
+    // Building block impacts
+    if (!hit) {
+      for (const b of dynamicBlocks) {
+        if (p.mesh.position.distanceTo(b.mesh.position) < (p.isTank ? 1.8 : 1.15)) {
+          if (p.isTank) {
+            triggerExplosion(p.mesh.position, 9.5, 26);
+          } else {
+            b.awake = true;
+            if (!b.collapsed) { b.collapsed = true; blocksCollapsed++; updateStats(); }
+            b.vel.addScaledVector(p.vel.clone().normalize(), 6.5);
+          }
+          hit = true;
+          break;
+        }
+      }
+    }
+    if (hit || p.life <= 0) {
+      scene.remove(p.mesh);
+      projectiles.splice(i, 1);
+    }
+  }
+
+  // Dynamic collapsing blocks physics
+  for (const b of dynamicBlocks) {
+    if (!b.awake) continue;
+    b.vel.y -= 18.0 * dt;
+    b.mesh.position.addScaledVector(b.vel, dt);
+    b.mesh.rotation.x += b.angVel.x * dt;
+    b.mesh.rotation.y += b.angVel.y * dt;
+    b.mesh.rotation.z += b.angVel.z * dt;
+    if (b.mesh.position.y < b.halfH) {
+      b.mesh.position.y = b.halfH;
+      b.vel.y *= -0.22;
+      b.vel.x *= 0.72;
+      b.vel.z *= 0.72;
+      b.angVel.multiplyScalar(0.65);
+    }
+  }
+
+  // Muzzle / blast flash decay
+  for (let i = flashes.length - 1; i >= 0; i--) {
+    flashes[i].life -= dt;
+    if (flashes[i].life <= 0) {
+      scene.remove(flashes[i].light);
+      flashes.splice(i, 1);
+    }
+  }
+
+  renderer.render(scene, camera);
+}
+requestAnimationFrame(animate);
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+</body>
+</html>
