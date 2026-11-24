@@ -281,8 +281,46 @@ button.fire.safe{filter:grayscale(.7)}
           <option value="veh:vortex-v12">Vortex V12 Engine [DONE]</option>
           <option value="veh:vortex-v12-glass">Vortex V12 Full Glass Cutaway [GLASS]</option>
         </optgroup>
+        <optgroup label="Ukrainian Wave 1 Blueprints (NEW — Regular / Cutaway / Glass)">
+          <option value="veh:fort14tp-reg">RPC Fort-14TP (9x18mm Ukraine) [NEW]</option>
+          <option value="veh:fort14tp-cut">RPC Fort-14TP Cutaway Internals [CUTAWAY]</option>
+          <option value="veh:fort14tp-glass">RPC Fort-14TP Full Glass Skin [GLASS]</option>
+          <option value="veh:malyuk-reg">IPI Malyuk / Vulcan-M (5.45mm Bullpup) [NEW]</option>
+          <option value="veh:malyuk-cut">IPI Malyuk Cutaway Internals [CUTAWAY]</option>
+          <option value="veh:malyuk-glass">IPI Malyuk Full Glass Skin [GLASS]</option>
+          <option value="veh:uar15-reg">Zbroyar UAR-15 (5.56mm NATO) [NEW]</option>
+          <option value="veh:uar15-cut">Zbroyar UAR-15 Cutaway Internals [CUTAWAY]</option>
+          <option value="veh:uar15-glass">Zbroyar UAR-15 Full Glass Skin [GLASS]</option>
+          <option value="veh:uar10-reg">Zbroyar UAR-10 (7.62x51mm DMR) [NEW]</option>
+          <option value="veh:uar10-cut">Zbroyar UAR-10 Cutaway Internals [CUTAWAY]</option>
+          <option value="veh:uar10-glass">Zbroyar UAR-10 Full Glass Skin [GLASS]</option>
+          <option value="veh:alligator-reg">Snipex Alligator (14.5x114mm AMR) [NEW]</option>
+          <option value="veh:alligator-cut">Snipex Alligator Cutaway [CUTAWAY]</option>
+          <option value="veh:alligator-glass">Snipex Alligator Full Glass Skin [GLASS]</option>
+          <option value="veh:km762-reg">Mayak KM-7.62 (7.62x54mmR GPMG) [NEW]</option>
+          <option value="veh:km762-cut">Mayak KM-7.62 Cutaway Internals [CUTAWAY]</option>
+          <option value="veh:km762-glass">Mayak KM-7.62 Full Glass Skin [GLASS]</option>
+        </optgroup>
+        <optgroup label="SVD Family Blueprint Variants (All 6)">
+          <option value="veh:svds-reg">SVDS Paratrooper (7.62x54mmR) [NEW]</option>
+          <option value="veh:svds-cut">SVDS Cutaway [CUTAWAY]</option>
+          <option value="veh:svdk-reg">SVDK Heavy (9.3x64mm Brenneke) [NEW]</option>
+          <option value="veh:svdk-cut">SVDK Cutaway [CUTAWAY]</option>
+          <option value="veh:svdsm-reg">SVDSM Heavy Barrel [NEW]</option>
+          <option value="veh:svd-sm-sup-reg">SVD SM w. Suppressor [NEW]</option>
+          <option value="veh:svd-6x49-reg">SVD 6x49mm Experimental [NEW]</option>
+        </optgroup>
+        <optgroup label="Elephant Rifle & WWII Anti-Tank Rifles (NEW)">
+          <option value="veh:elephant-700ne-reg">H&H Royal .700 Nitro Express Elephant Rifle [NEW]</option>
+          <option value="veh:elephant-700ne-cut">Elephant Rifle .700 NE Cutaway [CUTAWAY]</option>
+          <option value="veh:elephant-700ne-gls">Elephant Rifle .700 NE Glass Skin [GLASS]</option>
+          <option value="veh:ptrd41-reg">PTRD-41 WWII Anti-Tank Rifle (14.5mm) [NEW]</option>
+          <option value="veh:ptrd41-cut">PTRD-41 Cutaway Internals [CUTAWAY]</option>
+          <option value="veh:ptrs41-reg">PTRS-41 WWII Semi-Auto ATR (14.5mm) [NEW]</option>
+          <option value="veh:ptrs41-cut">PTRS-41 Cutaway Internals [CUTAWAY]</option>
+        </optgroup>
         </select>
-        <span class="mp-badge" id="modelCountBadge">36 models · Live + Drones + WIP</span>
+        <span class="mp-badge" id="modelCountBadge">68 models · Live + Drones + Wave 1 + ATR</span>
       </div>
       <div class="seg mp-hidden" id="gunSeg" role="group" aria-label="Gun">
         <button type="button" data-gun="AK" aria-pressed="true">AK Claude</button>
@@ -2966,7 +3004,39 @@ const VIEWONLY = {
   "pzh2000-ext": { file: "models/pzh2000-ext.glb", label: "PzH-2000 155mm SPG", lenM: 11.67 },
   "pzh2000-cutaway": { file: "models/pzh2000-cutaway.glb", label: "PzH-2000 Cutaway Interior", lenM: 11.67 },
   "gepard-ext": { file: "models/gepard-ext.glb", label: "Gepard 35mm SPAAG", lenM: 7.68 },
-  "gepard-cutaway": { file: "models/gepard-cutaway.glb", label: "Gepard Cutaway Interior", lenM: 7.68 }
+  "gepard-cutaway": { file: "models/gepard-cutaway.glb", label: "Gepard Cutaway Interior", lenM: 7.68 },
+  "fort14tp-reg": { file: "models/fort14tp-reg.glb", label: "RPC Fort-14TP (9x18mm Ukraine) [NEW]", lenM: 1.75 },
+  "fort14tp-cut": { file: "models/fort14tp-cut.glb", label: "RPC Fort-14TP Cutaway Internals [CUTAWAY]", lenM: 1.75 },
+  "fort14tp-glass": { file: "models/fort14tp-glass.glb", label: "RPC Fort-14TP Full Glass Skin [GLASS]", lenM: 1.75 },
+  "malyuk-reg": { file: "models/malyuk-reg.glb", label: "IPI Malyuk / Vulcan-M (5.45mm Bullpup) [NEW]", lenM: 2.15 },
+  "malyuk-cut": { file: "models/malyuk-cut.glb", label: "IPI Malyuk Cutaway Internals [CUTAWAY]", lenM: 2.15 },
+  "malyuk-glass": { file: "models/malyuk-glass.glb", label: "IPI Malyuk Full Glass Skin [GLASS]", lenM: 2.15 },
+  "uar15-reg": { file: "models/uar15-reg.glb", label: "Zbroyar UAR-15 (5.56mm NATO) [NEW]", lenM: 2.3 },
+  "uar15-cut": { file: "models/uar15-cut.glb", label: "Zbroyar UAR-15 Cutaway Internals [CUTAWAY]", lenM: 2.3 },
+  "uar15-glass": { file: "models/uar15-glass.glb", label: "Zbroyar UAR-15 Full Glass Skin [GLASS]", lenM: 2.3 },
+  "uar10-reg": { file: "models/uar10-reg.glb", label: "Zbroyar UAR-10 (7.62x51mm DMR) [NEW]", lenM: 2.55 },
+  "uar10-cut": { file: "models/uar10-cut.glb", label: "Zbroyar UAR-10 Cutaway Internals [CUTAWAY]", lenM: 2.55 },
+  "uar10-glass": { file: "models/uar10-glass.glb", label: "Zbroyar UAR-10 Full Glass Skin [GLASS]", lenM: 2.55 },
+  "alligator-reg": { file: "models/alligator-reg.glb", label: "Snipex Alligator (14.5x114mm AMR) [NEW]", lenM: 3.4 },
+  "alligator-cut": { file: "models/alligator-cut.glb", label: "Snipex Alligator Cutaway [CUTAWAY]", lenM: 3.4 },
+  "alligator-glass": { file: "models/alligator-glass.glb", label: "Snipex Alligator Full Glass Skin [GLASS]", lenM: 3.4 },
+  "km762-reg": { file: "models/km762-reg.glb", label: "Mayak KM-7.62 (7.62x54mmR GPMG) [NEW]", lenM: 2.75 },
+  "km762-cut": { file: "models/km762-cut.glb", label: "Mayak KM-7.62 Cutaway Internals [CUTAWAY]", lenM: 2.75 },
+  "km762-glass": { file: "models/km762-glass.glb", label: "Mayak KM-7.62 Full Glass Skin [GLASS]", lenM: 2.75 },
+  "svds-reg": { file: "models/svds-reg.glb", label: "SVDS Paratrooper (7.62x54mmR) [NEW]", lenM: 2.55 },
+  "svds-cut": { file: "models/svds-cut.glb", label: "SVDS Cutaway [CUTAWAY]", lenM: 2.55 },
+  "svdk-reg": { file: "models/svdk-reg.glb", label: "SVDK Heavy (9.3x64mm Brenneke) [NEW]", lenM: 2.7 },
+  "svdk-cut": { file: "models/svdk-cut.glb", label: "SVDK Cutaway [CUTAWAY]", lenM: 2.7 },
+  "svdsm-reg": { file: "models/svdsm-reg.glb", label: "SVDSM Heavy Barrel [NEW]", lenM: 2.7 },
+  "svd-sm-sup-reg": { file: "models/svd-sm-sup-reg.glb", label: "SVD SM w. Suppressor [NEW]", lenM: 2.85 },
+  "svd-6x49-reg": { file: "models/svd-6x49-reg.glb", label: "SVD 6x49mm Experimental [NEW]", lenM: 2.8 },
+  "elephant-700ne-reg": { file: "models/elephant-700ne-reg.glb", label: "H&H Royal .700 Nitro Express Elephant Rifle [NEW]", lenM: 2.55 },
+  "elephant-700ne-cut": { file: "models/elephant-700ne-cut.glb", label: "Elephant Rifle .700 NE Cutaway [CUTAWAY]", lenM: 2.55 },
+  "elephant-700ne-gls": { file: "models/elephant-700ne-gls.glb", label: "Elephant Rifle .700 NE Glass Skin [GLASS]", lenM: 2.55 },
+  "ptrd41-reg": { file: "models/ptrd41-reg.glb", label: "PTRD-41 WWII Anti-Tank Rifle (14.5mm) [NEW]", lenM: 3.45 },
+  "ptrd41-cut": { file: "models/ptrd41-cut.glb", label: "PTRD-41 Cutaway Internals [CUTAWAY]", lenM: 3.45 },
+  "ptrs41-reg": { file: "models/ptrs41-reg.glb", label: "PTRS-41 WWII Semi-Auto ATR (14.5mm) [NEW]", lenM: 3.55 },
+  "ptrs41-cut": { file: "models/ptrs41-cut.glb", label: "PTRS-41 Cutaway Internals [CUTAWAY]", lenM: 3.55 }
 };
 const staticRigs = {}, staticLoading = {};
 function buildStaticRig(gltf, key) {
