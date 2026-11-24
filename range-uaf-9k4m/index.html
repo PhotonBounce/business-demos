@@ -2937,9 +2937,9 @@ try {
   updateAgeWarn();
 } catch (e) { console.warn("age marks", e); }
 const VIEWONLY = {
-  t64bv: { file: "models/t64bv-v4.glb.gz.b64.txt", label: "T-64BV", lenM: 9.225 },
-  bmp3: { file: "models/bmp3.glb.gz.b64.txt", label: "BMP-3", lenM: 7.1 },
-  bm21: { file: "models/bm21.glb.gz.b64.txt", label: "BM-21 Grad", lenM: 7.4 },
+  t64bv: { file: "models/t64bv-hd-4k.glb", label: "T-64BV", lenM: 9.225 },
+  bmp3: { file: "models/bmp3-hd-4k.glb", label: "BMP-3", lenM: 7.1 },
+  bm21: { file: "models/bm21-hd-4k.glb", label: "BM-21 Grad", lenM: 7.4 },
   "fort12-wip": { file: "models/fort12-wip.glb", label: "RPC Fort-12 (Ukraine, 9x18mm) [WIP]", lenM: 1.65 },
   "fort12-cutaway-wip": { file: "models/fort12-cutaway-wip.glb", label: "RPC Fort-12 Cutaway [WIP]", lenM: 1.65 },
   "svd-v6-ria": { file: "models/svd-v6-ria.glb", label: "SVD Dragunov v6 RIA + PSO-1", lenM: 2.6 },
@@ -3034,10 +3034,25 @@ function buildStaticRig(gltf, key) {
   outer.updateMatrixWorld(true); box = new THREE.Box3().setFromObject(gltf.scene); const c = box.getCenter(new THREE.Vector3()); orient.position.sub(c); outer.updateMatrixWorld(true);
   const flash = new THREE.Group(); flash.visible = false; outer.add(flash); const light = new THREE.PointLight(0xffa040, 0, 1); flash.add(light);
   const size = new THREE.Box3().setFromObject(gltf.scene).getSize(new THREE.Vector3());
-  const rollers = []; const gy = new THREE.Box3().setFromObject(gltf.scene).min.y, wp = new THREE.Vector3();
+  const rollers = [], rotors = []; const gy = new THREE.Box3().setFromObject(gltf.scene).min.y, wp = new THREE.Vector3();
+  if (key.startsWith("drone-")) {
+    gltf.scene.traverse((o) => {
+      const nm = (o.name || "").toLowerCase();
+      if (/^(prop_|motor_.*_spin)/.test(nm) && !/clamp|pin|clip/.test(nm)) {
+        // Compute local pivot around mesh center so each propeller spins cleanly in place
+        if (o.isMesh && o.geometry) {
+          o.geometry.computeBoundingBox();
+          const c = o.geometry.boundingBox.getCenter(new THREE.Vector3());
+          o.geometry.translate(-c.x, -c.y, -c.z);
+          o.position.add(c);
+          rotors.push({ n: o, dir: (rotors.length % 2 === 0) ? 1 : -1 });
+        }
+      }
+    });
+  }
   gltf.scene.traverse((o) => { if (o.name && o.name.startsWith("spin_")) { o.getWorldPosition(wp); rollers.push({ n: o, r: o.name.startsWith("spin_roller") ? 0.14 : Math.max(0.2, wp.y - gy) }); } });
   const pv = key === "bmp3" ? { yaw: gltf.scene.getObjectByName("turret"), elev: gltf.scene.getObjectByName("gun") } : key === "bm21" ? { yaw: gltf.scene.getObjectByName("launcher_traverse"), elev: gltf.scene.getObjectByName("launcher_elevation") } : null;
-  return { gun: "GAT", vehicle: key, viewOnly: true, gltf, rollers, pv, outer, orient, container: gltf.scene, unit: 1, rear: new THREE.Vector3(-1, 0, 0), kick: 0, noAtt: true, parts: {}, box: size, size: size.length(), muzzle: new THREE.Vector3(size.x / 2, 0, 0), flash, flashLight: light, pose: {}, carrier: [], caseNodes: [], bulletNodes: [], magRounds: [[]], magNodes: [], slots: null, spin: null };
+  return { gun: "GAT", vehicle: key, viewOnly: true, gltf, rollers, rotors, pv, outer, orient, container: gltf.scene, unit: 1, rear: new THREE.Vector3(-1, 0, 0), kick: 0, noAtt: true, parts: {}, box: size, size: size.length(), muzzle: new THREE.Vector3(size.x / 2, 0, 0), flash, flashLight: light, pose: {}, carrier: [], caseNodes: [], bulletNodes: [], magRounds: [[]], magNodes: [], slots: null, spin: null };
 }
 // KHR_materials_variants (three r160 does not apply it): the names are in the GLB's extension, the per-primitive material mappings in each mesh's definition
 async function applyVariant(rig, name) {
@@ -3094,7 +3109,11 @@ function configVehPanel(v) {   // the same panel serves the tractor, the BMP-3 a
   else if (v === "bm21") { set("yaw", -60, 60, 0); set("elev", 0, 55, 0); $("yawlbl").textContent = "Launcher traverse"; $("elvlbl").textContent = "Launcher elevation"; }
   if (st) staticPose(); else if (t && vehRig) vehPose();
 }
-function stepVehRoll(dt) {   // wheels / tracks roll at 2.5 m/s toward the targets (-Z in the GLB)
+function stepVehRoll(dt) {
+  if (activeRig && activeRig.rotors && activeRig.rotors.length) {
+    for (const r of activeRig.rotors) r.n.rotation.y += r.dir * dt * 38.0;
+    dirty = true;
+  }   // wheels / tracks roll at 2.5 m/s toward the targets (-Z in the GLB)
   const r = activeRig; if (!r || !r.rollers || !r.rollers.length || !$("roll").checked || CLOCK.paused || !(dt > 0)) return;
   for (const w of r.rollers) w.n.rotation.x -= 2.5 / w.r * dt; dirty = true;
 }
@@ -3625,7 +3644,7 @@ if (DEBUG) {
       return { slots: r.slotNodes.length, shown, topY: tp ? tp.y : null, topZ: tp ? tp.z : null, follower: r.follower ? r.follower.n.position.toArray() : null, followerBase: r.follower ? r.follower.base.toArray() : null,
         topSlot: r.slots[0].toArray(), bottomSlot: r.slots[r.slots.length - 1].toArray(), unit: r.unit, ref: r.followerRef || r.slots.length }; },
     attGaps: () => attGaps(activeRig), rigInfo: () => ({ tip: activeRig.muzzleTip && activeRig.muzzleTip.toArray(), flash: activeRig.flash.position.toArray(), flashScale: activeRig.flash.scale.toArray(), stockHidden: !!activeRig.stockHidden, stockVisible: (activeRig.magNodes || []).filter(({ n }) => n.visible).length, att: (activeRig.att ? activeRig.att.children.map((c) => c.name) : []), muzzle: activeRig.muzzle.toArray() }),
-    camPos: () => camera.position.toArray(), resetView, setGame, bus: rangeBus, setCam, setQuality, look, maximize, clearRandom, applyRandomJam, condEffects, setJamRate: (n, seed = 1) => { S.jamRate = n; jamRng = new SessionRNG(seed); }, commentTarget, openComment, setCMT: (c) => { CMT = c; $("mcomment").hidden = !c; }, flying: () => flying.map((f) => ({ kind: f.kind, y: f.o.position.y, settled: f.settled, contacts: f.contacts })), floorY: () => floor.mesh.position.y, clearFloor,
+    camPos: () => camera.position.toArray(), setCamVec: (p, t) => { camera.position.set(p[0], p[1], p[2]); controls.target.set(t[0], t[1], t[2]); controls.update(); dirty = true; }, resetView, setGame, bus: rangeBus, setCam, setQuality, look, maximize, clearRandom, applyRandomJam, condEffects, setJamRate: (n, seed = 1) => { S.jamRate = n; jamRng = new SessionRNG(seed); }, commentTarget, openComment, setCMT: (c) => { CMT = c; $("mcomment").hidden = !c; }, flying: () => flying.map((f) => ({ kind: f.kind, y: f.o.position.y, settled: f.settled, contacts: f.contacts })), floorY: () => floor.mesh.position.y, clearFloor,
     offlineShot: async () => { const ev = S.lastEv; if (!ev || !ev.mv) return null; return audio.offlineCheck(audio.plan("shot", { ev })); }, clear: () => $("clear").click(), setGun, cut: (v) => { $("cut").checked = v; $("cut").dispatchEvent(new Event("change")); },
     bw: BW, status: () => S.session.status(), models: () => Object.keys(models), rig: () => activeRig, anim: () => anim, loading: () => !$("loading").hidden };
 }
