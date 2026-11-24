@@ -319,8 +319,25 @@ button.fire.safe{filter:grayscale(.7)}
           <option value="veh:ptrs41-reg">PTRS-41 WWII Semi-Auto ATR (14.5mm) [NEW]</option>
           <option value="veh:ptrs41-cut">PTRS-41 Cutaway Internals [CUTAWAY]</option>
         </optgroup>
+        <optgroup label="Ukrainian Wave 1B + Swiss 20mm ATR (NEW)">
+          <option value="veh:fort17-reg">RPC Fort-17 (9x18mm Ukraine) [NEW]</option>
+          <option value="veh:fort17-cut">RPC Fort-17 Cutaway [CUTAWAY]</option>
+          <option value="veh:fort17-gls">RPC Fort-17 Full Glass Skin [GLASS]</option>
+          <option value="veh:fort221-reg">RPC Fort-221 / Tavor (5.56mm Bullpup) [NEW]</option>
+          <option value="veh:fort221-cut">RPC Fort-221 Cutaway [CUTAWAY]</option>
+          <option value="veh:fort221-gls">RPC Fort-221 Full Glass Skin [GLASS]</option>
+          <option value="veh:fort500-reg">RPC Fort-500 (12-Gauge Shotgun) [NEW]</option>
+          <option value="veh:fort500-cut">RPC Fort-500 Cutaway [CUTAWAY]</option>
+          <option value="veh:fort500-gls">RPC Fort-500 Full Glass Skin [GLASS]</option>
+          <option value="veh:horizons-lord-reg">Horizon's Lord (12.7x114mm HL AMR) [NEW]</option>
+          <option value="veh:horizons-lord-cut">Horizon's Lord Cutaway [CUTAWAY]</option>
+          <option value="veh:horizons-lord-gls">Horizon's Lord Full Glass Skin [GLASS]</option>
+          <option value="veh:solothurn-s18-reg">Swiss Solothurn S-18/1000 (20mm WWII ATR) [NEW]</option>
+          <option value="veh:solothurn-s18-cut">Swiss Solothurn S-18/1000 Cutaway [CUTAWAY]</option>
+          <option value="veh:solothurn-s18-gls">Swiss Solothurn S-18/1000 Full Glass Skin [GLASS]</option>
+        </optgroup>
         </select>
-        <span class="mp-badge" id="modelCountBadge">68 models · Live + Drones + Wave 1 + ATR</span>
+        <span class="mp-badge" id="modelCountBadge">83 models · Live + Drones + Wave 1A/B + ATR</span>
       </div>
       <div class="seg mp-hidden" id="gunSeg" role="group" aria-label="Gun">
         <button type="button" data-gun="AK" aria-pressed="true">AK Claude</button>
@@ -3036,7 +3053,22 @@ const VIEWONLY = {
   "ptrd41-reg": { file: "models/ptrd41-reg.glb", label: "PTRD-41 WWII Anti-Tank Rifle (14.5mm) [NEW]", lenM: 3.45 },
   "ptrd41-cut": { file: "models/ptrd41-cut.glb", label: "PTRD-41 Cutaway Internals [CUTAWAY]", lenM: 3.45 },
   "ptrs41-reg": { file: "models/ptrs41-reg.glb", label: "PTRS-41 WWII Semi-Auto ATR (14.5mm) [NEW]", lenM: 3.55 },
-  "ptrs41-cut": { file: "models/ptrs41-cut.glb", label: "PTRS-41 Cutaway Internals [CUTAWAY]", lenM: 3.55 }
+  "ptrs41-cut": { file: "models/ptrs41-cut.glb", label: "PTRS-41 Cutaway Internals [CUTAWAY]", lenM: 3.55 },
+  "fort17-reg": { file: "models/fort17-reg.glb", label: "RPC Fort-17 (9x18mm Ukraine) [NEW]", lenM: 1.65 },
+  "fort17-cut": { file: "models/fort17-cut.glb", label: "RPC Fort-17 Cutaway [CUTAWAY]", lenM: 1.65 },
+  "fort17-gls": { file: "models/fort17-gls.glb", label: "RPC Fort-17 Full Glass Skin [GLASS]", lenM: 1.65 },
+  "fort221-reg": { file: "models/fort221-reg.glb", label: "RPC Fort-221 / Tavor (5.56mm Bullpup) [NEW]", lenM: 2.15 },
+  "fort221-cut": { file: "models/fort221-cut.glb", label: "RPC Fort-221 Cutaway [CUTAWAY]", lenM: 2.15 },
+  "fort221-gls": { file: "models/fort221-gls.glb", label: "RPC Fort-221 Full Glass Skin [GLASS]", lenM: 2.15 },
+  "fort500-reg": { file: "models/fort500-reg.glb", label: "RPC Fort-500 (12-Gauge Shotgun) [NEW]", lenM: 2.45 },
+  "fort500-cut": { file: "models/fort500-cut.glb", label: "RPC Fort-500 Cutaway [CUTAWAY]", lenM: 2.45 },
+  "fort500-gls": { file: "models/fort500-gls.glb", label: "RPC Fort-500 Full Glass Skin [GLASS]", lenM: 2.45 },
+  "horizons-lord-reg": { file: "models/horizons-lord-reg.glb", label: "Horizon's Lord (12.7x114mm HL AMR) [NEW]", lenM: 3.35 },
+  "horizons-lord-cut": { file: "models/horizons-lord-cut.glb", label: "Horizon's Lord Cutaway [CUTAWAY]", lenM: 3.35 },
+  "horizons-lord-gls": { file: "models/horizons-lord-gls.glb", label: "Horizon's Lord Full Glass Skin [GLASS]", lenM: 3.35 },
+  "solothurn-s18-reg": { file: "models/solothurn-s18-reg.glb", label: "Swiss Solothurn S-18/1000 (20mm WWII ATR) [NEW]", lenM: 3.65 },
+  "solothurn-s18-cut": { file: "models/solothurn-s18-cut.glb", label: "Swiss Solothurn S-18/1000 Cutaway [CUTAWAY]", lenM: 3.65 },
+  "solothurn-s18-gls": { file: "models/solothurn-s18-gls.glb", label: "Swiss Solothurn S-18/1000 Full Glass Skin [GLASS]", lenM: 3.65 }
 };
 const staticRigs = {}, staticLoading = {};
 function buildStaticRig(gltf, key) {
