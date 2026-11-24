@@ -3,27 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>PhotonBounce 3D Arena — Real Baked-Texture Models, Skins &amp; Cutout</title>
+<title>PhotonBounce 3D Arena v3 — Articulated Internals, Live Firing &amp; Real Audio</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { width: 100%; height: 100%; overflow: hidden; background: #0c1018; color: #eef3fa; font-family: system-ui, -apple-system, Segoe UI, sans-serif; touch-action: none; }
   #topbar {
     position: fixed; top: 10px; left: 10px; right: 10px; z-index: 20;
     display: flex; justify-content: space-between; align-items: center; gap: 8px;
-    pointer-events: none;
+    pointer-events: none; flex-wrap: wrap;
   }
   #topbar > * { pointer-events: auto; }
   .pill {
-    background: rgba(12, 17, 28, 0.88); border: 1px solid rgba(110, 175, 255, 0.42);
+    background: rgba(12, 17, 28, 0.90); border: 1px solid rgba(110, 175, 255, 0.42);
     border-radius: 10px; padding: 8px 12px; font-size: 13px; color: #eef3fa;
     backdrop-filter: blur(10px); cursor: pointer; font-weight: 600;
   }
+  #hudPhase {
+    font-size: 12px; color: #7ef7b8; border-color: rgba(126, 247, 184, 0.45);
+    cursor: default; letter-spacing: 0.3px;
+  }
   #drawer {
-    position: fixed; top: 54px; left: 10px; z-index: 19; width: min(330px, calc(100vw - 20px));
-    max-height: calc(100vh - 135px); overflow-y: auto;
-    background: rgba(11, 16, 26, 0.92); border: 1px solid rgba(110, 175, 255, 0.42);
+    position: fixed; top: 54px; left: 10px; z-index: 19; width: min(340px, calc(100vw - 20px));
+    max-height: calc(100vh - 140px); overflow-y: auto;
+    background: rgba(11, 16, 26, 0.93); border: 1px solid rgba(110, 175, 255, 0.42);
     border-radius: 12px; padding: 12px 14px; backdrop-filter: blur(12px);
-    transition: transform 0.2s ease, opacity 0.2s ease;
   }
   #drawer.collapsed { display: none; }
   .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 7px 0; font-size: 13px; }
@@ -35,11 +38,12 @@
   button.ctrl:active, button.ctrl.active { background: #2c4b7d; border-color: #84c0ff; }
   #bottomBar {
     position: fixed; bottom: 12px; left: 10px; right: 10px; z-index: 20;
-    display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; pointer-events: none;
+    display: flex; justify-content: center; gap: 7px; flex-wrap: wrap; pointer-events: none;
   }
   #bottomBar button { pointer-events: auto; box-shadow: 0 4px 16px rgba(0,0,0,0.45); }
   #btnFire { background: #b82d2d; border-color: #ff6b6b; color: #fff; padding: 10px 18px; font-size: 14px; }
   #btnFire:active { background: #e03c3c; }
+  #btnReload { background: #1f4d36; border-color: #5ee3a1; color: #eafff4; }
   #loader {
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 30;
     background: rgba(10, 15, 25, 0.92); border: 1px solid rgba(120, 190, 255, 0.5);
@@ -49,21 +53,22 @@
   #loader.hidden { display: none; }
   #progWrap { width: 100%; height: 7px; background: #1a2438; border-radius: 99px; overflow: hidden; margin-top: 8px; }
   #progBar { width: 0%; height: 100%; background: linear-gradient(90deg, #4da6ff, #6ff7b8); transition: width 0.1s; }
-  #modelInfo { font-size: 12px; color: #9fc7ff; }
+  #modelInfo { font-size: 12px; color: #9fc7ff; cursor: default; }
 </style>
 </head>
 <body>
 
 <div id="topbar">
   <button id="btnToggleDrawer" class="pill">☰ Models / Skins / Cutout</button>
-  <div id="modelInfo" class="pill">SVD Dragunov PSO-1</div>
+  <div id="hudPhase" class="pill">READY • MAG 10/10 • 1×</div>
+  <div id="modelInfo" class="pill">SVD Dragunov v6 (RIA + PSO-1)</div>
 </div>
 
 <div id="drawer">
   <div class="row">
     <span>Model:</span>
     <select id="platformSelect">
-      <option value="svd" selected>SVD Dragunov PSO-1 (45 MB, Baked PBR)</option>
+      <option value="svd" selected>SVD Dragunov v6 (RIA + PSO-1 + Working Internals)</option>
       <option value="ak47">AK-47 Scoped + GP-25 UBGL (41 MB)</option>
       <option value="pkm">PKM GPMG (62 MB, Baked PBR)</option>
       <option value="makarov">Makarov PM (68 MB, Baked PBR)</option>
@@ -80,7 +85,7 @@
   <div class="row">
     <span>Skin / Camo:</span>
     <select id="skinSelect">
-      <option value="factory">Factory Original (Baked Textures)</option>
+      <option value="factory">Factory Original (Izhevsk Birch + PSO-1)</option>
       <option value="4bo">Soviet 4BO Olive Drab</option>
       <option value="nato">NATO Bronzegrün</option>
       <option value="desert">Desert Sand Tan</option>
@@ -93,8 +98,16 @@
     <span>Cutout Mode:</span>
     <select id="cutoutMode">
       <option value="solid">Solid Exterior</option>
-      <option value="cutaway">Cutout GLB + Live 3D Slice</option>
-      <option value="xray">X-Ray Internal Workings</option>
+      <option value="cutaway">Cutaway (Exposed Working Internals)</option>
+      <option value="xray">X-Ray Translucent Shell</option>
+    </select>
+  </div>
+  <div class="row">
+    <span>Cycle Speed:</span>
+    <select id="speedSelect">
+      <option value="1">1× Real-Time (Full Speed)</option>
+      <option value="0.25">0.25× Slow-Motion</option>
+      <option value="0.1" selected>0.1× Ultra Slow-Mo (Inspect Internals)</option>
     </select>
   </div>
   <div class="row">
@@ -104,24 +117,27 @@
   <div class="row" style="justify-content:flex-start; gap:6px; flex-wrap:wrap; margin-top:10px;">
     <button id="btnSpin" class="ctrl">360° Spin: OFF</button>
     <button id="btnResetCam" class="ctrl">Reset View</button>
+    <button id="btnInspectInternals" class="ctrl">Zoom Receiver</button>
     <button id="btnDropGlb" class="ctrl">Load Local .GLB</button>
     <input id="glbFile" type="file" accept=".glb,.gltf" style="display:none" />
   </div>
-  <div style="margin-top:8px; font-size:11px; color:#8ea6c9; line-height:1.4;">
-    Drag to orbit 360° • Pinch / Scroll to zoom • Tap FIRE to shoot targets • Slide 3D Slice Plane or pick X-Ray to inspect internal workings.
+  <div style="margin-top:8px; font-size:11px; color:#8ea6c9; line-height:1.45;">
+    <b>SVD v6 Working Internals:</b> Tap <b>Cutaway</b> + <b>FIRE</b> in 0.1× Slow-Mo to watch the trigger, hammer, firing pin, short-stroke gas piston, 3-lug rotating bolt, dual recoil spring, spinning brass ejection, and 10 live 7.62×54mmR rounds feeding up the magazine.
   </div>
 </div>
 
 <div id="loader">
-  <div id="loaderText" style="font-size:13px; font-weight:600;">Loading real baked-texture model...</div>
+  <div id="loaderText" style="font-size:13px; font-weight:600;">Loading articulated SVD v6...</div>
   <div id="progWrap"><div id="progBar"></div></div>
 </div>
 
 <div id="bottomBar">
   <button id="btnFire" class="ctrl">FIRE</button>
-  <button id="btnQuickCutout" class="ctrl">Cutout: OFF</button>
-  <button id="btnQuickSkin" class="ctrl">Next Skin</button>
-  <button id="btnNextModel" class="ctrl">Next Model ▸</button>
+  <button id="btnReload" class="ctrl">RELOAD (10)</button>
+  <button id="btnQuickCutout" class="ctrl">Cutaway: OFF</button>
+  <button id="btnQuickSpeed" class="ctrl">0.1× Slow-Mo</button>
+  <button id="btnSound" class="ctrl active">Sound: ON</button>
+  <button id="btnNextModel" class="ctrl">Next ▸</button>
 </div>
 
 <script type="importmap">
@@ -143,45 +159,130 @@ const drawer = document.getElementById('drawer');
 if (isMobile) drawer.classList.add('collapsed');
 document.getElementById('btnToggleDrawer').addEventListener('click', () => drawer.classList.toggle('collapsed'));
 
-// Renderer with PBR Tone Mapping + Local Clipping
+// ================= REAL WEAPON AUDIO ENGINE (WAV + WebAudio Ballistic Synth) =================
+let audioCtx = null;
+let soundEnabled = true;
+const sfxBuffers = {};
+const SFX_URLS = {
+  shot: 'sfx/svd_shot.wav',
+  bolt: 'sfx/svd_bolt.wav',
+  brass: 'sfx/svd_brass.wav',
+  reload: 'sfx/svd_reload.wav',
+  dryfire: 'sfx/svd_dryfire.wav',
+};
+
+function ensureAudio() {
+  if (!soundEnabled) return null;
+  if (!audioCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    audioCtx = new AC();
+    preloadSfx();
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+async function preloadSfx() {
+  if (!audioCtx) return;
+  for (const [k, url] of Object.entries(SFX_URLS)) {
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) continue;
+      const arr = await resp.arrayBuffer();
+      sfxBuffers[k] = await audioCtx.decodeAudioData(arr);
+    } catch (_) {}
+  }
+}
+
+function playSynthFallback(kind, rate = 1.0) {
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+  const dur = kind === 'shot' ? 0.55 : kind === 'reload' ? 0.35 : 0.16;
+  const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * dur), ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < data.length; i++) {
+    const t = i / ctx.sampleRate;
+    const n = Math.random() * 2 - 1;
+    if (kind === 'shot') {
+      const crack = Math.exp(-t / 0.006) * Math.sin(2 * Math.PI * (2100 * Math.exp(-t * 70) + 380) * t) * 0.7;
+      const boom = Math.exp(-t / 0.045) * Math.sin(2 * Math.PI * (110 * Math.exp(-t * 14) + 42) * t) * 0.9;
+      const blast = n * (Math.exp(-t / 0.065) + 0.25 * Math.exp(-t / 0.25)) * 0.85;
+      data[i] = Math.tanh((crack + boom + blast) * 1.2);
+    } else if (kind === 'brass') {
+      data[i] = Math.exp(-t / 0.03) * (0.5 * Math.sin(2 * Math.PI * 5600 * t) + 0.4 * Math.sin(2 * Math.PI * 8200 * t));
+    } else if (kind === 'bolt' || kind === 'dryfire') {
+      data[i] = Math.exp(-t / 0.014) * (0.55 * Math.sin(2 * Math.PI * 1750 * t) + 0.45 * n);
+    } else {
+      data[i] = Math.exp(-t / 0.025) * (0.6 * Math.sin(2 * Math.PI * 620 * t) + 0.35 * n);
+    }
+  }
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  src.playbackRate.value = Math.max(0.45, Math.min(1.5, rate));
+  const gain = ctx.createGain();
+  gain.gain.value = kind === 'shot' ? 0.85 : 0.55;
+  src.connect(gain).connect(ctx.destination);
+  src.start(now);
+}
+
+function playSfx(kind, rate = 1.0, vol = 0.85) {
+  if (!soundEnabled) return;
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  if (sfxBuffers[kind]) {
+    const src = ctx.createBufferSource();
+    src.buffer = sfxBuffers[kind];
+    src.playbackRate.value = Math.max(0.45, Math.min(1.5, rate));
+    const gain = ctx.createGain();
+    gain.gain.value = vol;
+    src.connect(gain).connect(ctx.destination);
+    src.start(ctx.currentTime);
+  } else {
+    playSynthFallback(kind, rate);
+  }
+}
+
+// ================= THREE.JS SCENE & LIGHTING =================
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
 renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.15;
+renderer.toneMappingExposure = 1.18;
 renderer.localClippingEnabled = true;
 document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x101622);
-scene.fog = new THREE.FogExp2(0x101622, 0.012);
+scene.fog = new THREE.FogExp2(0x101622, 0.011);
 
-// Studio PBR environment reflections so blued steel & wood pop
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 
-const camera = new THREE.PerspectiveCamera(isMobile ? 52 : 45, innerWidth / innerHeight, 0.05, 250);
-camera.position.set(0, 1.35, isMobile ? 3.8 : 2.9);
+const camera = new THREE.PerspectiveCamera(isMobile ? 50 : 42, innerWidth / innerHeight, 0.02, 250);
+camera.position.set(1.65, 1.25, 1.35);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.07;
 controls.target.set(0, 0.9, 0);
-controls.minDistance = 0.6;
+controls.minDistance = 0.28;
 controls.maxDistance = 14;
 
-// Lighting
-scene.add(new THREE.HemisphereLight(0xc2dcff, 0x262c36, 0.9));
-const keyLight = new THREE.DirectionalLight(0xfff5e4, 2.4);
+scene.add(new THREE.HemisphereLight(0xc8e0ff, 0x262c36, 1.0));
+const keyLight = new THREE.DirectionalLight(0xfff5e4, 2.5);
 keyLight.position.set(6, 10, 7);
 keyLight.castShadow = true;
 scene.add(keyLight);
-const rimLight = new THREE.DirectionalLight(0x7eb8ff, 1.2);
+const rimLight = new THREE.DirectionalLight(0x7eb8ff, 1.3);
 rimLight.position.set(-7, 5, -6);
 scene.add(rimLight);
+const intLight = new THREE.PointLight(0xfff0d4, 1.4, 3.0);
+intLight.position.set(0.55, 1.05, 0.25);
+scene.add(intLight);
 
-// Proving Ground Floor + Target Range Wall
 const ground = new THREE.Mesh(
   new THREE.PlaneGeometry(140, 140),
   new THREE.MeshStandardMaterial({ color: 0x1a202c, roughness: 0.88, metalness: 0.12 })
@@ -210,9 +311,8 @@ function buildRangeTargets() {
 }
 buildRangeTargets();
 
-// Model Registry — real baked-texture GLBs staged in arena/models/
 const MODELS = {
-  svd:        { label: 'SVD Dragunov PSO-1', std: 'models/svd.glb', cut: 'models/svd_cutaway.glb', heavy: false },
+  svd:        { label: 'SVD Dragunov v6 (RIA + PSO-1)', std: 'models/svd.glb', cut: 'models/svd.glb', heavy: false, articulated: true },
   ak47:       { label: 'AK-47 Scoped + GP-25', std: 'models/ak47.glb', cut: 'models/ak47_cutaway.glb', heavy: false },
   pkm:        { label: 'PKM GPMG', std: 'models/pkm.glb', cut: 'models/pkm.glb', heavy: false },
   makarov:    { label: 'Makarov PM', std: 'models/makarov.glb', cut: 'models/makarov.glb', heavy: false },
@@ -248,13 +348,117 @@ let activeSkin = 'factory';
 let activeCutout = 'solid';
 let autoSpin = false;
 let recoilOffset = 0;
+let cycleSpeed = 0.1; // default 0.1x slow-mo so Dmitri sees every moving internal part!
+
+// ================= ARTICULATED SVD MECHANICAL STATE =================
+let svdRig = null;
+let magAmmo = 10;
+let boltLockedOpen = false;
+let cycleActive = false;
+let cycleT = 0; // 0..1 mechanical phase
+let cycleFlags = {};
+const ejectingShells = [];
+const projectiles = [];
+const flashes = [];
+
+function updateHud(phaseText) {
+  const spdLbl = cycleSpeed === 1 ? '1×' : `${cycleSpeed}×`;
+  document.getElementById('hudPhase').textContent = `${phaseText} • MAG ${magAmmo}/10 • ${spdLbl}`;
+  document.getElementById('btnReload').textContent = `RELOAD (${magAmmo})`;
+}
+
+function buildSvdRig(root, kinMeta) {
+  if (!kinMeta || !kinMeta.groups) return null;
+  const byName = {};
+  root.traverse(o => {
+    if (o.name) {
+      byName[o.name] = o;
+      o.userData.basePos = o.position.clone();
+      o.userData.baseRot = o.rotation.clone();
+      o.userData.baseScale = o.scale.clone();
+    }
+  });
+  const resolveList = (names) => (names || []).map(n => byName[n]).filter(Boolean);
+  const magRounds = [];
+  for (let i = 1; i <= 10; i++) {
+    const tag = String(i).padStart(2, '0');
+    magRounds.push(resolveList(kinMeta.groups.mag_rounds?.[tag]));
+  }
+  return {
+    meta: kinMeta,
+    carrier: resolveList(kinMeta.groups.bolt_carrier),
+    boltHead: resolveList(kinMeta.groups.bolt_head),
+    firingPin: resolveList(kinMeta.groups.firing_pin),
+    gasPiston: resolveList(kinMeta.groups.gas_piston),
+    recoilSpring: resolveList(kinMeta.groups.recoil_spring),
+    hammer: resolveList(kinMeta.groups.hammer),
+    trigger: resolveList(kinMeta.groups.trigger),
+    chamberCase: resolveList(kinMeta.groups.chambered_case),
+    chamberBullet: resolveList(kinMeta.groups.chambered_bullet),
+    magFollower: resolveList(kinMeta.groups.mag_follower),
+    magSpring: resolveList(kinMeta.groups.mag_spring),
+    magRounds,
+    cutawayHide: new Set(kinMeta.groups.cutaway_hide || []),
+  };
+}
+
+function resetRigParts(rig) {
+  if (!rig) return;
+  const all = [
+    ...rig.carrier, ...rig.boltHead, ...rig.firingPin, ...rig.gasPiston,
+    ...rig.recoilSpring, ...rig.hammer, ...rig.trigger,
+    ...rig.chamberCase, ...rig.chamberBullet, ...rig.magFollower, ...rig.magSpring,
+    ...rig.magRounds.flat()
+  ];
+  for (const o of all) {
+    if (o.userData.basePos) o.position.copy(o.userData.basePos);
+    if (o.userData.baseRot) o.rotation.copy(o.userData.baseRot);
+    if (o.userData.baseScale) o.scale.copy(o.userData.baseScale);
+    o.visible = true;
+  }
+  updateMagVisuals(rig, 0);
+}
+
+function updateMagVisuals(rig, feedLift = 0) {
+  if (!rig) return;
+  const spent = Math.max(0, 10 - magAmmo);
+  const pitch = rig.meta.mag_pitch_m || 0.0068;
+  // Rounds 1..10: spent rounds hidden; remaining rounds slide UP (+Y) along curved magazine
+  for (let i = 0; i < 10; i++) {
+    const meshes = rig.magRounds[i];
+    const isSpent = i < spent;
+    const shiftRounds = spent + feedLift;
+    for (const m of meshes) {
+      m.visible = !isSpent;
+      if (!isSpent && m.userData.basePos) {
+        m.position.copy(m.userData.basePos);
+        m.position.y += shiftRounds * pitch;
+        m.position.z -= shiftRounds * pitch * 0.14;
+      }
+    }
+  }
+  // Magazine follower rises with the stack
+  for (const m of rig.magFollower) {
+    if (m.userData.basePos) {
+      m.position.copy(m.userData.basePos);
+      m.position.y += (spent + feedLift) * pitch;
+      m.position.z -= (spent + feedLift) * pitch * 0.14;
+    }
+  }
+}
 
 function applySkinAndCutout(root) {
   const skin = SKINS[activeSkin];
   const sliceVal = Number(document.getElementById('cutoutSlider').value) / 100;
   clipPlane.constant = sliceVal * 1.45;
+  const hasArticulatedCutaway = !!(svdRig && svdRig.cutawayHide.size > 0);
+
   root.traverse((o) => {
     if (!o.isMesh || !o.material) return;
+    // Articulated SVD cutaway hides right-side exterior shell while keeping ALL internals 100% solid & visible
+    if (hasArticulatedCutaway && svdRig.cutawayHide.has(o.name)) {
+      o.visible = (activeCutout !== 'cutaway');
+    }
     const mats = Array.isArray(o.material) ? o.material : [o.material];
     mats.forEach((m) => {
       if (!m.userData.origSaved) {
@@ -272,9 +476,10 @@ function applySkinAndCutout(root) {
         m.roughness = m.userData.origRough;
         m.metalness = m.userData.origMetal;
       }
-      if (activeCutout === 'xray') {
-        m.transparent = true; m.opacity = 0.28; m.depthWrite = false; m.clippingPlanes = [];
-      } else if (activeCutout === 'cutaway') {
+      const isInternalPart = o.name && (o.name.startsWith('int_') || o.name.startsWith('mag_round_') || o.name.startsWith('chambered_'));
+      if (activeCutout === 'xray' && !isInternalPart) {
+        m.transparent = true; m.opacity = 0.20; m.depthWrite = false; m.clippingPlanes = [];
+      } else if (activeCutout === 'cutaway' && !hasArticulatedCutaway) {
         m.transparent = false; m.opacity = 1.0; m.depthWrite = true; m.clippingPlanes = [clipPlane]; m.clipShadows = true;
       } else {
         m.transparent = false; m.opacity = 1.0; m.depthWrite = true; m.clippingPlanes = [];
@@ -284,19 +489,32 @@ function applySkinAndCutout(root) {
   });
 }
 
-function frameCameraForModel(isHeavy) {
-  const dist = isMobile ? (isHeavy ? 4.2 : 3.2) : (isHeavy ? 3.2 : 2.3);
-  camera.position.set(dist * 0.72, 1.35, dist * 0.72);
+function frameCameraForModel(isHeavy, focusReceiver = false) {
+  if (focusReceiver) {
+    camera.position.set(0.85, 0.98, 0.35);
+    controls.target.set(0, 0.88, 0.22);
+    controls.update();
+    return;
+  }
+  const dist = isMobile ? (isHeavy ? 4.2 : 2.9) : (isHeavy ? 3.2 : 2.15);
+  camera.position.set(dist * 0.86, 1.22, dist * 0.52);
   controls.target.set(0, 0.9, 0);
   controls.update();
 }
 
-function mountModel(obj, isHeavy) {
+function mountModel(entry, isHeavy) {
   stageGroup.clear();
-  const clone = obj.clone(true);
+  const clone = entry.wrap.clone(true);
+  svdRig = entry.kinMeta ? buildSvdRig(clone, entry.kinMeta) : null;
+  magAmmo = 10;
+  boltLockedOpen = false;
+  cycleActive = false;
+  cycleT = 0;
+  if (svdRig) resetRigParts(svdRig);
   applySkinAndCutout(clone);
   stageGroup.add(clone);
   frameCameraForModel(isHeavy);
+  updateHud('READY');
 }
 
 function loadPlatform(key) {
@@ -304,7 +522,7 @@ function loadPlatform(key) {
   const spec = MODELS[key];
   if (!spec) return;
   document.getElementById('modelInfo').textContent = spec.label;
-  const url = (activeCutout === 'cutaway' && spec.cut) ? spec.cut : spec.std;
+  const url = (activeCutout === 'cutaway' && spec.cut && !spec.articulated) ? spec.cut : spec.std;
   const cacheKey = `${key}:${url}`;
   const loaderEl = document.getElementById('loader');
   const loaderTxt = document.getElementById('loaderText');
@@ -333,10 +551,11 @@ function loadPlatform(key) {
       const targetSpan = spec.heavy ? 2.6 : 2.1;
       const sc = targetSpan / Math.max(sz.x, sz.y, sz.z, 0.001);
       wrap.scale.setScalar(sc);
-      modelCache[cacheKey] = wrap;
+      const kinMeta = gltf.asset?.extras?.svd_v6_kinematics || null;
+      modelCache[cacheKey] = { wrap, kinMeta };
       if (activePlatform === key) {
         loaderEl.classList.add('hidden');
-        mountModel(wrap, spec.heavy);
+        mountModel(modelCache[cacheKey], spec.heavy);
       }
     },
     (xhr) => {
@@ -352,43 +571,229 @@ function loadPlatform(key) {
   );
 }
 
-// Shooting: Ballistic Tracers + Muzzle Flash + Target Collapse
-const projectiles = [];
-const flashes = [];
-function fireRound() {
+// ================= SPAWN SPINNING EJECTED 7.62x54mmR BRASS CASING =================
+function spawnEjectedBrass() {
+  const geom = new THREE.CylinderGeometry(0.011, 0.013, 0.095, 12);
+  geom.rotateX(Math.PI / 2);
+  const mat = new THREE.MeshStandardMaterial({ color: 0xe6b84c, metalness: 0.94, roughness: 0.22 });
+  const mesh = new THREE.Mesh(geom, mat);
+  mesh.position.set(0.12, 0.95, 0.25);
+  scene.add(mesh);
+  ejectingShells.push({
+    mesh,
+    vel: new THREE.Vector3(1.6 + Math.random() * 0.5, 1.5 + Math.random() * 0.4, 0.6 + Math.random() * 0.3),
+    ang: new THREE.Vector3(16, 22, 14),
+    life: 2.5,
+    bounced: false
+  });
+}
+
+function spawnBallisticRound() {
   const isHeavy = MODELS[activePlatform]?.heavy;
-  recoilOffset = isHeavy ? 0.25 : 0.09;
-  const start = new THREE.Vector3(0, 0.95, -1.0);
-  const target = new THREE.Vector3((Math.random() - 0.5) * 2.2, 1.0 + Math.random() * 1.4, -14);
+  recoilOffset = isHeavy ? 0.22 : 0.065;
+  const start = new THREE.Vector3(0, 0.93, -1.05);
+  const target = new THREE.Vector3((Math.random() - 0.5) * 1.6, 1.0 + Math.random() * 1.3, -14);
   const dir = target.clone().sub(start).normalize();
-  const rad = isHeavy ? 0.11 : 0.04;
+  const rad = isHeavy ? 0.11 : 0.028;
   const proj = new THREE.Mesh(
     new THREE.SphereGeometry(rad, 10, 10),
     new THREE.MeshBasicMaterial({ color: isHeavy ? 0xff9933 : 0xffe46b })
   );
   proj.position.copy(start);
   scene.add(proj);
-  projectiles.push({ mesh: proj, vel: dir.multiplyScalar(isHeavy ? 42 : 70), isHeavy, life: 2.0 });
+  projectiles.push({ mesh: proj, vel: dir.multiplyScalar(isHeavy ? 42 : 76), isHeavy, life: 2.0 });
 
-  const fl = new THREE.PointLight(0xffb84d, isHeavy ? 18 : 8, 16);
+  const fl = new THREE.PointLight(0xffb84d, isHeavy ? 18 : 11, 16);
   fl.position.copy(start);
   scene.add(fl);
-  flashes.push({ light: fl, life: 0.09 });
+  flashes.push({ light: fl, life: 0.08 });
 }
 
-// UI Bindings
+function fireRound() {
+  ensureAudio();
+  if (svdRig) {
+    if (cycleActive) return;
+    if (magAmmo <= 0 || boltLockedOpen) {
+      playSfx('dryfire', 1.0, 0.7);
+      updateHud('EMPTY — TAP RELOAD');
+      return;
+    }
+    cycleActive = true;
+    cycleT = 0;
+    cycleFlags = { shot: false, eject: false, boltLock: false };
+    updateHud('TRIGGER / HAMMER DROP');
+    return;
+  }
+  playSfx('shot', 1.0, 0.85);
+  spawnBallisticRound();
+}
+
+function reloadMag() {
+  ensureAudio();
+  playSfx('reload', 1.0, 0.85);
+  magAmmo = 10;
+  boltLockedOpen = false;
+  cycleActive = false;
+  cycleT = 0;
+  if (svdRig) resetRigParts(svdRig);
+  updateHud('MAG RELOADED • CHAMBERED');
+}
+
+function stepSvdKinematics(dt) {
+  if (!svdRig || !cycleActive) return;
+  const baseCycleDuration = 0.26; // real SVD mechanical cycle ~260ms visual
+  cycleT += (dt * cycleSpeed) / baseCycleDuration;
+
+  const stroke = svdRig.meta.carrier_stroke_m || 0.118;
+  const gasStroke = svdRig.meta.gas_piston_stroke_m || 0.024;
+  const unlockRad = svdRig.meta.bolt_unlock_rad || 0.61;
+
+  // 1. Trigger pull (0.00 -> 0.15)
+  const trigPull = cycleT < 0.08 ? cycleT / 0.08 : Math.max(0, 1 - (cycleT - 0.08) / 0.12);
+  for (const m of svdRig.trigger) {
+    m.position.z = m.userData.basePos.z + trigPull * 0.008;
+  }
+
+  // 2. Hammer drop (0.02 -> 0.09) then re-cock under carrier (0.28 -> 0.55)
+  let hammerDrop = 0;
+  if (cycleT < 0.09) hammerDrop = Math.min(1, cycleT / 0.07);
+  else if (cycleT < 0.30) hammerDrop = 1.0;
+  else if (cycleT < 0.52) hammerDrop = Math.max(0, 1 - (cycleT - 0.30) / 0.22);
+  for (const m of svdRig.hammer) {
+    m.position.z = m.userData.basePos.z - hammerDrop * 0.012;
+    m.position.y = m.userData.basePos.y + hammerDrop * 0.006;
+  }
+
+  // 3. Firing pin strike forward at ignition (0.06 -> 0.14)
+  const pinStrike = (cycleT >= 0.06 && cycleT <= 0.16) ? Math.sin(((cycleT - 0.06) / 0.10) * Math.PI) : 0;
+  for (const m of svdRig.firingPin) {
+    m.position.z = m.userData.basePos.z - pinStrike * 0.004;
+  }
+
+  // 4. IGNITION at t = 0.08!
+  if (cycleT >= 0.08 && !cycleFlags.shot) {
+    cycleFlags.shot = true;
+    playSfx('shot', cycleSpeed < 0.5 ? 0.68 : 1.0, 0.9);
+    spawnBallisticRound();
+    updateHud('IGNITION • GAS PISTON');
+  }
+
+  // Bullet races forward out of chamber through barrel (0.08 -> 0.24)
+  if (cycleT >= 0.08 && cycleT < 0.55) {
+    const bProg = Math.min(1, (cycleT - 0.08) / 0.14);
+    for (const m of svdRig.chamberBullet) {
+      m.visible = bProg < 0.98;
+      m.position.z = m.userData.basePos.z - bProg * 0.68;
+    }
+  }
+
+  // 5. Short-stroke gas piston & tolkatel pusher rod (0.10 -> 0.34)
+  const gasPhase = (cycleT >= 0.10 && cycleT <= 0.34) ? Math.sin(((cycleT - 0.10) / 0.24) * Math.PI) : 0;
+  for (const m of svdRig.gasPiston) {
+    m.position.z = m.userData.basePos.z + gasPhase * gasStroke;
+  }
+
+  // 6. Bolt carrier rearward travel (0.14 -> 0.54) & forward return (0.54 -> 0.94)
+  let carrierFrac = 0;
+  if (cycleT >= 0.14 && cycleT <= 0.54) {
+    carrierFrac = Math.sin(((cycleT - 0.14) / 0.40) * (Math.PI / 2));
+  } else if (cycleT > 0.54 && cycleT <= 0.94) {
+    const ret = (cycleT - 0.54) / 0.40;
+    // If this was the 10th (last) round, lock bolt carrier open at 82% rearward!
+    carrierFrac = (magAmmo <= 1) ? Math.max(0.82, 1.0 - ret * 0.2) : Math.cos(ret * (Math.PI / 2));
+  } else if (cycleT > 0.94) {
+    carrierFrac = (magAmmo <= 1) ? 0.82 : 0;
+  }
+
+  for (const m of svdRig.carrier) {
+    m.position.z = m.userData.basePos.z + carrierFrac * stroke;
+  }
+
+  // 7. 3-Lug rotating bolt unlocks 35° CCW as carrier moves back, locks CW on return
+  const boltRot = Math.min(1, carrierFrac * 2.5) * unlockRad;
+  for (const m of svdRig.boltHead) {
+    m.position.z = m.userData.basePos.z + carrierFrac * stroke;
+    m.rotation.z = m.userData.baseRot.z + boltRot;
+  }
+  for (const m of svdRig.firingPin) {
+    m.position.z = m.userData.basePos.z + carrierFrac * stroke - pinStrike * 0.004;
+  }
+
+  // 8. Dual recoil spring compresses dynamically with carrier
+  for (const m of svdRig.recoilSpring) {
+    m.position.z = m.userData.basePos.z + carrierFrac * stroke * 0.45;
+  }
+
+  // 9. Spent brass case extracts rearward with bolt (0.18 -> 0.40) then EJECTS spinning out right port!
+  if (cycleT >= 0.18 && cycleT < 0.40) {
+    updateHud('3-LUG UNLOCK • EXTRACT');
+    for (const m of svdRig.chamberCase) {
+      m.visible = true;
+      m.position.z = m.userData.basePos.z + carrierFrac * stroke;
+    }
+  } else if (cycleT >= 0.40 && !cycleFlags.eject) {
+    cycleFlags.eject = true;
+    for (const m of svdRig.chamberCase) m.visible = false;
+    spawnEjectedBrass();
+    playSfx('brass', 1.0, 0.55);
+    updateHud('BRASS EJECT • MAG FEED ↑');
+  }
+
+  // 10. Magazine follower & live 7.62x54mmR cartridges rise UP during carrier rearward/forward transition (0.45 -> 0.72)
+  if (cycleT >= 0.45 && cycleT < 0.92 && magAmmo > 1) {
+    const lift = Math.min(1, (cycleT - 0.45) / 0.22);
+    updateMagVisuals(svdRig, lift);
+    if (cycleT >= 0.62) {
+      updateHud('STRIP & CHAMBER ROUND');
+      const chamberProg = Math.min(1, (cycleT - 0.62) / 0.28);
+      for (const m of [...svdRig.chamberCase, ...svdRig.chamberBullet]) {
+        m.visible = true;
+        m.position.z = m.userData.basePos.z + (1 - chamberProg) * stroke * 0.72;
+        m.position.y = m.userData.basePos.y - (1 - chamberProg) * 0.022;
+      }
+    }
+  }
+
+  if (cycleT >= 0.88 && !cycleFlags.boltLock) {
+    cycleFlags.boltLock = true;
+    playSfx('bolt', cycleSpeed < 0.5 ? 0.75 : 1.0, 0.65);
+  }
+
+  if (cycleT >= 1.0) {
+    cycleActive = false;
+    cycleT = 0;
+    magAmmo = Math.max(0, magAmmo - 1);
+    if (magAmmo === 0) {
+      boltLockedOpen = true;
+      for (const m of [...svdRig.chamberCase, ...svdRig.chamberBullet]) m.visible = false;
+      updateMagVisuals(svdRig, 0);
+      updateHud('BOLT HOLD-OPEN • EMPTY');
+    } else {
+      resetRigParts(svdRig);
+      applySkinAndCutout(stageGroup);
+      updateHud('LOCKED & READY');
+    }
+  }
+}
+
+// ================= UI BINDINGS =================
 document.getElementById('platformSelect').addEventListener('change', (e) => loadPlatform(e.target.value));
 document.getElementById('skinSelect').addEventListener('change', (e) => { activeSkin = e.target.value; applySkinAndCutout(stageGroup); });
 document.getElementById('cutoutMode').addEventListener('change', (e) => {
   activeCutout = e.target.value;
-  document.getElementById('btnQuickCutout').textContent = activeCutout === 'solid' ? 'Cutout: OFF' : `Cutout: ${activeCutout.toUpperCase()}`;
-  loadPlatform(activePlatform);
+  document.getElementById('btnQuickCutout').textContent = activeCutout === 'solid' ? 'Cutaway: OFF' : `Cutaway: ${activeCutout.toUpperCase()}`;
+  applySkinAndCutout(stageGroup);
+});
+document.getElementById('speedSelect').addEventListener('change', (e) => {
+  cycleSpeed = Number(e.target.value);
+  document.getElementById('btnQuickSpeed').textContent = cycleSpeed === 1 ? '1× Speed' : `${cycleSpeed}× Slow-Mo`;
+  updateHud(boltLockedOpen ? 'BOLT HOLD-OPEN' : 'READY');
 });
 document.getElementById('cutoutSlider').addEventListener('input', () => {
   if (activeCutout === 'solid') {
     activeCutout = 'cutaway';
     document.getElementById('cutoutMode').value = 'cutaway';
-    document.getElementById('btnQuickCutout').textContent = 'Cutout: CUTAWAY';
+    document.getElementById('btnQuickCutout').textContent = 'Cutaway: ON';
   }
   applySkinAndCutout(stageGroup);
 });
@@ -397,23 +802,38 @@ document.getElementById('btnSpin').addEventListener('click', (e) => {
   e.target.textContent = autoSpin ? '360° Spin: ON' : '360° Spin: OFF';
 });
 document.getElementById('btnResetCam').addEventListener('click', () => {
-  frameCameraForModel(MODELS[activePlatform]?.heavy);
+  frameCameraForModel(MODELS[activePlatform]?.heavy, false);
   buildRangeTargets();
 });
+document.getElementById('btnInspectInternals').addEventListener('click', () => {
+  activeCutout = 'cutaway';
+  document.getElementById('cutoutMode').value = 'cutaway';
+  document.getElementById('btnQuickCutout').textContent = 'Cutaway: INTERNALS';
+  applySkinAndCutout(stageGroup);
+  frameCameraForModel(false, true);
+});
 document.getElementById('btnFire').addEventListener('click', fireRound);
+document.getElementById('btnReload').addEventListener('click', reloadMag);
 document.getElementById('btnQuickCutout').addEventListener('click', () => {
   const order = ['solid', 'cutaway', 'xray'];
   activeCutout = order[(order.indexOf(activeCutout) + 1) % order.length];
   document.getElementById('cutoutMode').value = activeCutout;
-  if (activeCutout === 'cutaway') document.getElementById('cutoutSlider').value = 10;
-  document.getElementById('btnQuickCutout').textContent = activeCutout === 'solid' ? 'Cutout: OFF' : `Cutout: ${activeCutout.toUpperCase()}`;
-  loadPlatform(activePlatform);
-});
-document.getElementById('btnQuickSkin').addEventListener('click', () => {
-  const keys = Object.keys(SKINS);
-  activeSkin = keys[(keys.indexOf(activeSkin) + 1) % keys.length];
-  document.getElementById('skinSelect').value = activeSkin;
+  document.getElementById('btnQuickCutout').textContent = activeCutout === 'solid' ? 'Cutaway: OFF' : (activeCutout === 'cutaway' ? 'Cutaway: INTERNALS' : 'Cutaway: X-RAY');
   applySkinAndCutout(stageGroup);
+  if (activeCutout === 'cutaway' && svdRig) frameCameraForModel(false, true);
+});
+document.getElementById('btnQuickSpeed').addEventListener('click', () => {
+  const speeds = [0.1, 0.25, 1];
+  cycleSpeed = speeds[(speeds.indexOf(cycleSpeed) + 1) % speeds.length];
+  document.getElementById('speedSelect').value = String(cycleSpeed);
+  document.getElementById('btnQuickSpeed').textContent = cycleSpeed === 1 ? '1× Speed' : `${cycleSpeed}× Slow-Mo`;
+  updateHud(boltLockedOpen ? 'BOLT HOLD-OPEN' : 'READY');
+});
+document.getElementById('btnSound').addEventListener('click', (e) => {
+  soundEnabled = !soundEnabled;
+  e.target.textContent = soundEnabled ? 'Sound: ON' : 'Sound: MUTE';
+  e.target.classList.toggle('active', soundEnabled);
+  if (soundEnabled) ensureAudio();
 });
 document.getElementById('btnNextModel').addEventListener('click', () => {
   const keys = Object.keys(MODELS);
@@ -436,7 +856,7 @@ document.getElementById('glbFile').addEventListener('change', (e) => {
     wrap.add(obj);
     wrap.scale.setScalar(2.2 / Math.max(sz.x, sz.y, sz.z, 0.001));
     document.getElementById('modelInfo').textContent = f.name;
-    mountModel(wrap, false);
+    mountModel({ wrap, kinMeta: gltf.asset?.extras?.svd_v6_kinematics || null }, false);
   });
 });
 
@@ -452,12 +872,32 @@ function animate() {
   const dt = Math.min(clock.getDelta(), 0.05);
   controls.update();
 
+  stepSvdKinematics(dt);
+
   if (autoSpin) stageGroup.rotation.y += dt * 0.7;
   if (recoilOffset > 0.001) {
-    recoilOffset = Math.max(0, recoilOffset - dt * 1.4);
+    recoilOffset = Math.max(0, recoilOffset - dt * 0.9);
     stageGroup.position.z = recoilOffset;
   } else {
     stageGroup.position.z = 0;
+  }
+
+  for (let i = ejectingShells.length - 1; i >= 0; i--) {
+    const s = ejectingShells[i];
+    const sdt = dt * Math.max(0.25, cycleSpeed);
+    s.vel.y -= 9.8 * sdt;
+    s.mesh.position.addScaledVector(s.vel, sdt);
+    s.mesh.rotation.x += s.ang.x * sdt;
+    s.mesh.rotation.y += s.ang.y * sdt;
+    s.mesh.rotation.z += s.ang.z * sdt;
+    if (s.mesh.position.y < 0.02) {
+      s.mesh.position.y = 0.02;
+      s.vel.y = Math.abs(s.vel.y) * 0.35;
+      s.vel.x *= 0.6; s.vel.z *= 0.6;
+      s.ang.multiplyScalar(0.5);
+    }
+    s.life -= dt;
+    if (s.life <= 0) { scene.remove(s.mesh); ejectingShells.splice(i, 1); }
   }
 
   for (let i = projectiles.length - 1; i >= 0; i--) {
@@ -473,10 +913,7 @@ function animate() {
         hit = true;
       }
     }
-    if (hit || p.life <= 0) {
-      scene.remove(p.mesh);
-      projectiles.splice(i, 1);
-    }
+    if (hit || p.life <= 0) { scene.remove(p.mesh); projectiles.splice(i, 1); }
   }
   for (const b of blocks) {
     if (!b.awake) continue;
