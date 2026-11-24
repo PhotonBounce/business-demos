@@ -3072,7 +3072,13 @@ const VIEWONLY = {
 const staticRigs = {}, staticLoading = {};
 function buildStaticRig(gltf, key) {
   const outer = new THREE.Group(), orient = new THREE.Group(); outer.add(orient); orient.add(gltf.scene);
-  gltf.scene.traverse((o) => { if (o.isMesh) { if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals(); const m = o.material; if (m && m.envMapIntensity !== undefined) m.envMapIntensity = Math.max(m.envMapIntensity, 1.2); o.castShadow = true; o.receiveShadow = true; } });
+  if (!window.__ak4kTex) {
+    const tl = new THREE.TextureLoader();
+    const mk = (u, srgb) => { const t = tl.load(u); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(3, 3); if (srgb) t.colorSpace = THREE.SRGBColorSpace; return t; };
+    window.__ak4kTex = { sn: mk("textures/steel_normal.webp", false), sr: mk("textures/steel_rough.webp", false), wa: mk("textures/wood_albedo_2k.webp", true), wn: mk("textures/wood_normal_2k.webp", false) };
+  }
+  const T4K = window.__ak4kTex;
+  gltf.scene.traverse((o) => { if (o.isMesh) { if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals(); const m = o.material; if (m && m.isMeshStandardMaterial) { const nm = (m.name || "").toLowerCase(); if (!m.normalMap && /steel|blued|parker|case_hardened|chrome/.test(nm)) { m.normalMap = T4K.sn; m.normalScale = new THREE.Vector2(0.45, 0.45); m.roughnessMap = T4K.sr; m.metalness = Math.max(m.metalness || 0, 0.88); m.roughness = Math.min(m.roughness || 0.4, 0.32); m.envMapIntensity = 1.6; m.needsUpdate = true; } else if (!m.map && /walnut|wood/.test(nm)) { m.map = T4K.wa; m.normalMap = T4K.wn; m.normalScale = new THREE.Vector2(0.4, 0.4); m.roughness = 0.42; m.envMapIntensity = 1.25; m.needsUpdate = true; } else if (m.envMapIntensity !== undefined) { m.envMapIntensity = Math.max(m.envMapIntensity, 1.35); } } o.castShadow = true; o.receiveShadow = true; } });
   outer.updateMatrixWorld(true);
   let box = new THREE.Box3().setFromObject(gltf.scene), sz = box.getSize(new THREE.Vector3());
   const L = Math.max(sz.x, sz.z), sc = VIEWONLY[key].lenM / L; if (Math.abs(sc - 1) > 0.15) gltf.scene.scale.multiplyScalar(sc);   // a vehicle is metres long; the arena exports are not always
