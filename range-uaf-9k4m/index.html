@@ -476,15 +476,15 @@ const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n
 const arrow = (s) => String(s).replace(/ -> /g, " → ");
 
 const GUNS = {
-  AK: { name: "AK Claude", modes: [["safe", "SAFE"], ["auto", "AUTO"], ["semi", "SEMI"]], dists: [25, 100, 300],   // real AK selector order, top to bottom
+  AK: { name: "AK Claude", modes: [["safe", "SAFE"], ["auto", "AUTO"], ["semi", "SEMI"]], dists: [1.5, 25, 100, 300],   // 5 ft (1.5 m) close paper target default + long range
         models: { asm: "models/ak-claude.glb.gz.b64.txt", cut: "models/ak-claude-cutaway.glb.gz.b64.txt" }, cip: 355, ext: EXT.AK,
-        tgtW: { 25: 30, 100: 50, 300: 100 }, cal: 7.92 },
-  MAK: { name: "Makarov Claude", modes: [["semi", "SEMI (first pull double action)"]], dists: [10, 25, 50],
+        tgtW: { 1.5: 45, 25: 30, 100: 50, 300: 100 }, cal: 7.92 },
+  MAK: { name: "Makarov Claude", modes: [["semi", "SEMI (first pull double action)"]], dists: [1.5, 10, 25, 50],
         models: { asm: "models/makarov-claude.glb.gz.b64.txt", cut: "models/makarov-claude-cutaway.glb.gz.b64.txt" }, cip: 160, ext: EXT.MAK,
-        tgtW: { 10: 30, 25: 40, 50: 60 }, cal: 9.27 },
-  GAT: { get name() { return typeof S !== "undefined" && S.gat7 ? "Tempest-7 Gatling" : "Tempest-6 Gatling"; }, modes: [["low", "LOW (1,200 rpm)"], ["med", "MED (2,000 rpm)"], ["high", "HIGH (3,000 rpm)"]], dists: [25, 100, 300],
+        tgtW: { 1.5: 40, 10: 30, 25: 40, 50: 60 }, cal: 9.27 },
+  GAT: { get name() { return typeof S !== "undefined" && S.gat7 ? "Tempest-7 Gatling" : "Tempest-6 Gatling"; }, modes: [["low", "LOW (1,200 rpm)"], ["med", "MED (2,000 rpm)"], ["high", "HIGH (3,000 rpm)"]], dists: [1.5, 25, 100, 300],
         models: { asm: "models/gatling.glb.gz.b64.txt", cut: "models/gatling-cutaway.glb.gz.b64.txt" }, cip: 430, ext: EXT.GAT,
-        tgtW: { 25: 30, 100: 50, 300: 100 }, cal: 5.56 },
+        tgtW: { 1.5: 55, 25: 30, 100: 50, 300: 100 }, cal: 5.56 },
 };
 // TEMPEST-7 (owner 20 Nov, thread 07934cef "have both in shooting range and board"): the Vykhor-7 GLB (vykhor7-gun, 824 KB, no textures, mudel-master
 // exacto-sim/vykhor7/glb), driven by the same rotary-gun sim as the Tempest-6; its nodes are mapped at load (spin_pivot spins, barrel_<r1..l1> are the bores).
@@ -492,7 +492,7 @@ const GAT7_URL = "models/tempest7.glb.gz.b64.txt";
 const CAPS = { AK: [30, 75], MAK: [8, 12], GAT: [120, 1000] };   // standard, extended (the Tempest-6's extended feed is the 1,000-round backpack)
 const VIEW_IDS = { AK: ["gl", "view-ak47"], MAK: ["gl-makarov", "view-makarov"], GAT: ["gl-gatling", "view-gatling"], VEH: ["gl-vehicle", "view-vehicle"] };
 let GAME = prefs.game === true;   // game controls (click-to-fire): OFF by default again (owner, 18 Nov): left-drag orbits, wheel/pinch zooms, right-drag/two-finger pans, a click never fires
-const S = { cam: "gun", contactLog: [], casingLog: [], jamRate: 0, clearing: false, gun: "AK", vehicle: null, mode: { AK: "auto", MAK: "semi", GAT: "med" }, dist: { AK: 100, MAK: 25, GAT: 100 }, cond: "clean", lot: "surplus",
+const S = { cam: "gun", contactLog: [], casingLog: [], jamRate: 0, clearing: false, gun: "AK", vehicle: null, mode: { AK: "auto", MAK: "semi", GAT: "med" }, dist: { AK: 1.5, MAK: 1.5, GAT: 1.5 }, cond: "clean", lot: "surplus",
   speed: 1, seed: 0, reloading: false, reloadToken: 0, autoToken: 0, autoNext: 0, shotLog: [], autoRotate: !!prefs.autorot, animTrace: null, session: null, cut: false, impacts: [], shotNo: 0, lastShotAt: 0, busy: false, holding: false,
   stats: null, lastEv: null, zero: {} };
 const BW = { role: null, fires: 0, remoteFires: 0, elQ: [], seedQ: [], replaying: false, live: false, tx: () => {} };   // Blackwell stream (see the end of this script)
@@ -1087,7 +1087,7 @@ function paperTexture(W) {
 function muzzleWorld() { const r = activeRig; return r ? r.muzzle.clone().add(new THREE.Vector3(0, 0, 0)) : new THREE.Vector3(0.4, 0, 0); }
 function placeRange() {
   const G = GUNS[S.gun], d = S.dist[S.gun], W = G.tgtW[d] / 100, m = muzzleWorld(), sight = G.ext.sight_h;
-  const groundY = S.vehicle && activeRig ? -activeRig.box.y / 2 : -AUDIO_GUNS[S.gun].eject.h0;
+  const groundY = S.vehicle && activeRig ? -activeRig.box.y / 2 : -0.48;  // shooting bench height: crisp immediate brass clink (~0.3s)
   floor.set($("surface").value, groundY);
   if (S.vehicle && activeRig) m.y = groundY + 1.6 - sight;   // the vehicle fires down at a target on the ground
   const grp = tgt3.group; grp.clear(); tgt3.holes = [];
@@ -1110,10 +1110,15 @@ function placeRange() {
 }
 function addHole3D(im) {
   if (!tgt3.paper) return;
-  const r = GUNS[S.gun].cal / 2000;
-  const hole = new THREE.Mesh(new THREE.CircleGeometry(r * ($("ttype").value === "steel" ? 2.2 : 1), 16), new THREE.MeshBasicMaterial({ color: $("ttype").value === "steel" ? 0xd9d4c7 : 0x0b0b0b }));   // a steel plate shows a bright splash, not a hole
-  hole.position.set(im.x / 100, im.y / 100, 0.0006);      // paper-local metres: +x right, +y up (as the 2D panel)
-  hole.userData.im = im; tgt3.paper.add(hole); tgt3.holes.push(hole); dirty = true;
+  const r = Math.max(0.0045, GUNS[S.gun].cal / 1600);
+  const steel = $("ttype").value === "steel";
+  const grpH = new THREE.Group();
+  const tear = new THREE.Mesh(new THREE.CircleGeometry(r * (steel ? 2.6 : 1.65), 18), new THREE.MeshBasicMaterial({ color: steel ? 0xc8c2b2 : 0x3b352c }));
+  const core = new THREE.Mesh(new THREE.CircleGeometry(r * (steel ? 1.5 : 1.0), 18), new THREE.MeshBasicMaterial({ color: steel ? 0xeef0f4 : 0x070707 }));
+  core.position.z = 0.0004;
+  grpH.add(tear, core);
+  grpH.position.set(im.x / 100, im.y / 100, 0.0012);      // paper-local metres: +x right, +y up
+  grpH.userData.im = im; tgt3.paper.add(grpH); tgt3.holes.push(grpH); dirty = true;
 }
 function stepTracers(t) {
   for (let i = tgt3.tracers.length - 1; i >= 0; i--) {
