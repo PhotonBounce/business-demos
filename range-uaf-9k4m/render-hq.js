@@ -84,16 +84,15 @@ function boxUV(mesh, scale) {
   g.setAttribute("uv", new THREE.BufferAttribute(uv, 2)); g.userData.boxUV = true;
 }
 
-// edge wear: a curvature-like mask from the screen-space change of the normal; bright, smoother bare steel on edges
+// edge wear: subtle satin bare-steel sheen on machined edges (anti-aliased, no harsh 1px fwidth stair-stepping)
 function edgeWear(mat, amount = 1) {
   mat.onBeforeCompile = (sh) => {
     sh.uniforms.uWear = { value: amount };
     sh.fragmentShader = "uniform float uWear;\n" + sh.fragmentShader
-      // smoothstep keeps the voxel stair-steps of flat faces out of the mask: only real edges and corners wear
-      .replace("#include <roughnessmap_fragment>", "#include <roughnessmap_fragment>\n float curv = smoothstep(0.35, 1.2, length(fwidth(normalize(vNormal)))) * uWear;\n roughnessFactor = mix(roughnessFactor, 0.2, curv * 0.8);")
-      .replace("#include <color_fragment>", "#include <color_fragment>\n { float c2 = smoothstep(0.35, 1.2, length(fwidth(normalize(vNormal)))) * uWear; diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.6, 0.6, 0.62), c2 * 0.35); }");
+      .replace("#include <roughnessmap_fragment>", "#include <roughnessmap_fragment>\n float curv = smoothstep(0.65, 1.9, length(fwidth(normalize(vNormal)))) * uWear;\n roughnessFactor = mix(roughnessFactor, 0.34, curv * 0.45);")
+      .replace("#include <color_fragment>", "#include <color_fragment>\n { float c2 = smoothstep(0.65, 1.9, length(fwidth(normalize(vNormal)))) * uWear; diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.46, 0.48, 0.51), c2 * 0.14); }");
   };
-  mat.customProgramCacheKey = () => "wear" + amount;
+  mat.customProgramCacheKey = () => "wear2_" + amount;
   return mat;
 }
 
@@ -169,22 +168,20 @@ function akWoodMaps(N) {
   const rc = mkCanvas(M2), gr = rc.getContext("2d"); gr.fillStyle = "rgb(140,140,140)"; gr.fillRect(0, 0, M2, M2); gr.globalAlpha = 0.4; gr.drawImage(hc, 0, 0); gr.globalAlpha = 1;
   return (procCache["w" + N] = { color: canvasMap(c, true), rough: canvasMap(rc, false), normal: canvasMap(heightToNormal(hc, M2, 0.9), false) });
 }
-// signed curvature from screen-space derivatives (view space, 1/m): convex corners and high points wear to bright
-// bare steel, concave cavities collect darker grime; flat faces (and their tessellation stair-steps) stay untouched
+// signed curvature from view-space derivatives: subtle machined-steel edge sheen + cavity darkening without 1px fwidth rim pixelation
 function akWear(mat, wear = 1, grime = 1) {
   mat.onBeforeCompile = (sh) => {
     sh.uniforms.uWear = { value: wear }; sh.uniforms.uGrime = { value: grime };
     const curv = ` vec3 cN = normalize(vNormal), cP = -vViewPosition; vec3 cdpx = dFdx(cP), cdpy = dFdy(cP);
  float cK = dot(dFdx(cN), cdpx) / max(dot(cdpx, cdpx), 1e-14) + dot(dFdy(cN), cdpy) / max(dot(cdpy, cdpy), 1e-14);
- float cEdge = smoothstep(0.5, 1.4, length(fwidth(cN)));
- float cFace = smoothstep(0.18, 0.5, abs(dot(cN, normalize(cP))));   // silhouette pixels: the screen-space derivatives blow up there and light the rim with white specks
- cEdge *= cFace; cK *= cFace;
- float cWear = max(smoothstep(400.0, 1500.0, cK), cEdge * 0.6) * uWear, cGrime = smoothstep(300.0, 1200.0, -cK) * uGrime;`;
+ float cFace = smoothstep(0.30, 0.68, abs(dot(cN, normalize(cP))));
+ cK *= cFace;
+ float cWear = smoothstep(850.0, 2600.0, cK) * uWear * 0.28, cGrime = smoothstep(420.0, 1500.0, -cK) * uGrime * 0.45;`;
     sh.fragmentShader = "uniform float uWear; uniform float uGrime;\n" + sh.fragmentShader
-      .replace("#include <color_fragment>", `#include <color_fragment>\n {${curv}\n diffuseColor.rgb *= 1.0 - 0.22 * (1.0 - clamp(cWear * 2.0, 0.0, 1.0)); diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.80, 0.81, 0.84), clamp(cWear * 0.85, 0.0, 1.0)); diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.05, 0.045, 0.04), cGrime * 0.75); }`)
-      .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>\n {${curv}\n roughnessFactor = mix(roughnessFactor, 0.1, cWear * 0.95); roughnessFactor = mix(roughnessFactor, min(1.0, roughnessFactor * 1.15 + 0.08), (1.0 - clamp(cWear * 2.0, 0.0, 1.0)) * 0.5); roughnessFactor = mix(roughnessFactor, 1.0, cGrime * 0.8); }`);
+      .replace("#include <color_fragment>", `#include <color_fragment>\n {${curv}\n diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.50, 0.52, 0.56), clamp(cWear * 0.42, 0.0, 0.30)); diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.05, 0.045, 0.04), cGrime * 0.55); }`)
+      .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>\n {${curv}\n roughnessFactor = mix(roughnessFactor, 0.28, clamp(cWear * 0.55, 0.0, 0.5)); roughnessFactor = mix(roughnessFactor, 0.96, cGrime * 0.6); }`);
   };
-  mat.customProgramCacheKey = () => "akwear3" + wear + "_" + grime;
+  mat.customProgramCacheKey = () => "akwear4_" + wear + "_" + grime;
   return mat;
 }
 const AK_CARRIER = /^(bolt_carrier|piston|bolt$)/;
@@ -206,19 +203,20 @@ function makeMaterials(quality) {
   M.gilding = new THREE.MeshStandardMaterial({ color: 0xc07a45, metalness: 1, roughness: 0.22 });
   M.lead = new THREE.MeshStandardMaterial({ color: 0x55575a, metalness: 0.4, roughness: 0.7 });
   M.bakelite = new THREE.MeshPhysicalMaterial({ color: 0x2c1a10, metalness: 0, roughness: 0.5, clearcoat: 0.5, clearcoatRoughness: 0.35, sheen: 0.2, sheenColor: new THREE.Color(0x5a3a26) });
-  // the AK's own finishes (the Makarov keeps the set above): 4K on Ultra desktop, 2K on High desktop, 1K on phones
+  // AK-47 finishes: wired directly to Blackwell 4K (4096x4096) WebP PBR maps (zero low-res canvas noise)
   if (typeof document !== "undefined") {
-    const N = COARSE || quality === "medium" || quality === "low" ? 1024 : quality === "ultra" ? 4096 : 2048, st = akSteelMaps(N), wd = akWoodMaps(N);
-    // AKM receiver: phosphated, then black enamel -> dark satin with the steel showing through on worn edges
-    M.akPark = akWear(new THREE.MeshStandardMaterial({ color: 0x1c1e21, map: st.color, metalness: 0.4, roughness: 0.97, roughnessMap: st.rough, normalMap: st.normal, envMapIntensity: 0.78 }), 1.5, 1);   // dark parkerized flats, bright worn edges
-    M.akPark.normalScale.set(0.55, 0.55);
-    M.akBlued = akWear(new THREE.MeshPhysicalMaterial({ color: 0x1d2e47, map: st.color, metalness: 1, roughness: 0.5, roughnessMap: st.rough, normalMap: st.normal, envMapIntensity: 1.04, clearcoat: 0.25, clearcoatRoughness: 0.35, anisotropy: 0.75, anisotropyRotation: 0 }), 1.2, 1);   // barrel: a slight blued hue and a lengthwise anisotropic sheen
-    M.akBlued.normalScale.set(0.5, 0.5);
-    M.akCarrier = akWear(new THREE.MeshPhysicalMaterial({ color: 0x6d7076, map: st.color, metalness: 1, roughness: 0.42, roughnessMap: st.rough, normalMap: st.normal, envMapIntensity: 0.975, anisotropy: 0.85, anisotropyRotation: 0 }), 0.8, 0.9);   // bolt carrier: bright machined steel, brushed sheen
-    M.akCarrier.normalScale.set(0.5, 0.5);
-    M.akWood = akWear(new THREE.MeshPhysicalMaterial({ map: wd.color, roughnessMap: wd.rough, normalMap: wd.normal, roughness: 0.75, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.12, envMapIntensity: 0.715 }), 0.35, 0.8);
-    M.akWood.normalScale.set(0.35, 0.35);
-    M.akPhos = akWear(new THREE.MeshStandardMaterial({ color: 0x8a8a80, map: st.color, metalness: 0.7, roughness: 1, roughnessMap: tex("textures/phosphate_rough.webp") }), 0.6, 1);
+    const stRough = tex("textures/steel_rough.webp"), stNorm = tex("textures/steel_normal.webp"), phRough = tex("textures/phosphate_rough.webp");
+    const wdCol = tex("textures/wood_albedo_2k.webp", true), wdNorm = tex("textures/wood_normal_2k.webp"), wdRough = tex("textures/wood_rough_2k.webp");
+    M.akPark = akWear(new THREE.MeshStandardMaterial({ color: 0x222529, metalness: 0.62, roughness: 0.88, roughnessMap: stRough, normalMap: stNorm, envMapIntensity: 0.85 }), 0.75, 0.8);
+    M.akPark.normalScale.set(0.38, 0.38);
+    M.akBlued = akWear(new THREE.MeshPhysicalMaterial({ color: 0x1d2e47, metalness: 0.96, roughness: 0.46, roughnessMap: stRough, normalMap: stNorm, envMapIntensity: 1.04, clearcoat: 0.25, clearcoatRoughness: 0.32, anisotropy: 0.75, anisotropyRotation: 0 }), 0.65, 0.8);
+    M.akBlued.normalScale.set(0.35, 0.35);
+    M.akCarrier = akWear(new THREE.MeshPhysicalMaterial({ color: 0x7a7e86, metalness: 0.98, roughness: 0.36, roughnessMap: stRough, normalMap: stNorm, envMapIntensity: 0.975, anisotropy: 0.85, anisotropyRotation: 0 }), 0.5, 0.7);
+    M.akCarrier.normalScale.set(0.32, 0.32);
+    M.akWood = akWear(new THREE.MeshPhysicalMaterial({ map: wdCol, roughnessMap: wdRough, normalMap: wdNorm, color: 0xe6b58f, roughness: 0.72, metalness: 0, clearcoat: 0.9, clearcoatRoughness: 0.14, envMapIntensity: 0.75 }), 0.2, 0.5);
+    M.akWood.normalScale.set(0.45, 0.45);
+    M.akPhos = akWear(new THREE.MeshStandardMaterial({ color: 0x7e7e76, metalness: 0.72, roughness: 0.95, roughnessMap: phRough, normalMap: stNorm }), 0.4, 0.7);
+    M.akPhos.normalScale.set(0.28, 0.28);
   }
   return M;
 }

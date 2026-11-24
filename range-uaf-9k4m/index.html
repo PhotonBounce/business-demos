@@ -593,7 +593,7 @@ function buildAkMagSlots(rig, container, byName) {
   if (centers.length < 10) return;
   // the model's stack may show fewer rounds than the 30-round magazine holds (one is drawn in the chamber): extend the
   // stack downwards in the same stagger so a full magazine shows all 30
-  rig.followerRef = centers.length;   // the model's follower sits under this many rounds
+  rig.followerRef = 30;   // full 30-round magazine rest position so follower stays strictly inside the magazine on load
   // the curved magazine: the primers lie on one arc (the rear wall's curve) whose centre the rounds point at, because the
   // tapered cases fan out about it. Fit that circle to the model's own primers (Kasa least squares, side plane x-y).
   // (in doubles, about the centroid: THREE's matrices are float32)
@@ -801,7 +801,7 @@ function buildRig(gltf, gun) {
     rig.bulletNodes = save(["round_powder", "round_jacket", "round_lead", "round_core"].map(byName).filter(Boolean));
     rig.magRounds = [nodes((n) => n.startsWith("mag_rounds_"))];
     buildAkMagSlots(rig, container, byName);
-    rig.magNodes = save(nodes((n) => n.startsWith("magazine_") || n.startsWith("magslot_")));
+    rig.magNodes = save(nodes((n) => (n.startsWith("magazine_") && n !== "magazine_catch") || n.startsWith("magslot_")));
     const sel = byName("selector"); if (sel) rig.selector = { n: sel, z0: sel.rotation.z };   // fixed AK: lever turns about +Z, SAFE 0 / AUTO 23 / SEMI 46 deg
     addTrigger(rig, byName("trigger"), "z");
     rig.X = { free: AK.G.x_free, unlocked: AK.G.x_unlocked, eject: AK.G.x_eject, rim: AK.G.x_rim_contact, cock0: 0.015, cock1: 0.06, stroke: AK.G.x_stroke };
@@ -2921,8 +2921,7 @@ const VEH_MODELS = { tractor: "models/tractor-ua.glb.gz.b64.txt" };
 // VIEW-ONLY vehicles (orbit / inspect / Reset view / Maximize; the tractor's roof Tempest-6 is the only vehicle gun wired to the sim).
 // Sources: T-64BV = projects/ok-arena-k7x9/models (origin/main); BMP-3 and BM-21 = the v5 hero exports (origin/mudel-master shows/gpu/production/inputs/*-v5-hero.glb.gz.b64.part*).
 // Their pivots: BMP-3 turret -> gun (+ spin_* road wheels, rollers, idlers, sprockets); BM-21 launcher_traverse -> launcher_elevation (+ spin_* wheels).
-const MODEL_AGE = { t64bv: "old textures",   // v4 hero model since 20 Nov (was the old tiny model)
-  tractor: "old textures", bmp3: "old textures", bm21: "old textures", AK: "old textures \u00b7 8K ready soon", MAK: "old textures", GAT: "old textures" };
+const MODEL_AGE = { tractor: "old textures" }; // AK/MAK/GAT/T-64BV/BMP-3/BM-21 upgraded to Blackwell 4K / HD-4K textures
 function updateAgeWarn() {
   try {
     const el = $("agewarn"); if (!el) return;
