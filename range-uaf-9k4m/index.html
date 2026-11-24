@@ -232,111 +232,47 @@ button.fire.safe{filter:grayscale(.7)}
   <section class="controls" aria-label="Range settings">
     <div class="ctl wide"><span>Gun</span>
             <div id="modelPickerWrap">
-        <select id="modelPicker" aria-label="Select Model (36 models)">
-        <optgroup label="Live Firing Small Arms (Working Internals + AI Audio)">
-          <option value="gun:AK">AK-47 Claude (+ Cutaway) [LIVE FIRING]</option>
-          <option value="gun:MAK">Makarov PM Claude (+ Cutaway) [LIVE FIRING]</option>
-          <option value="gun:GAT6">Tempest-6 Gatling (+ Cutaway) [LIVE FIRING]</option>
-          <option value="gun:GAT7">Tempest-7 Gatling [LIVE FIRING]</option>
+        <select id="modelPicker" aria-label="Select Model (26 audited blueprint models)">
+        <optgroup label="Live Firing Small Arms (Working Internals + Cutaway + Skins + AI Audio)">
+          <option value="gun:AK">AK-47 Claude (+ Cutaway) [1.12M tris · LIVE]</option>
+          <option value="gun:MAK">Makarov PM Claude (+ Cutaway) [901K tris · LIVE]</option>
+          <option value="gun:GAT6">Tempest-6 Gatling (+ Cutaway) [171K tris · LIVE]</option>
+          <option value="gun:GAT7">Tempest-7 Gatling (+ Cutaway + Skins) [43K tris · LIVE]</option>
         </optgroup>
         <optgroup label="Live Firing Vehicles">
-          <option value="veh:t64bv">T-64BV Main Battle Tank [LIVE FIRING]</option>
-          <option value="veh:bmp3">BMP-3 IFV [LIVE FIRING]</option>
-          <option value="veh:bm21">BM-21 Grad MLRS [LIVE FIRING]</option>
-          <option value="veh:tractor">Tractor UA + Roof Tempest-6 [LIVE FIRING]</option>
+          <option value="veh:t64bv">T-64BV Main Battle Tank [867K tris · LIVE]</option>
+          <option value="veh:bmp3">BMP-3 IFV [887K tris · LIVE]</option>
+          <option value="veh:bm21">BM-21 Grad MLRS [558K tris · LIVE]</option>
+          <option value="veh:tractor">Tractor UA + Roof Tempest-6 [188K tris · LIVE]</option>
         </optgroup>
-        <optgroup label="Ukrainian Armory & Blueprints (NEW / WIP)">
-          <option value="veh:fort12-wip">RPC Fort-12 (9x18mm Ukraine) [WIP]</option>
-          <option value="veh:fort12-cutaway-wip">RPC Fort-12 Cutaway Internals [WIP / CUTAWAY]</option>
-          <option value="veh:svd-v6-ria">SVD Dragunov v6 RIA + PSO-1 (7.62x54mmR) [NEW]</option>
-          <option value="veh:svd-v6-cutaway">SVD Dragunov v6 RIA Cutaway [NEW / CUTAWAY]</option>
-          <option value="veh:svd-glass-pso1">SVD Dragunov Full Glass + PSO-1 [GLASS]</option>
-          <option value="veh:pkm-8k">PKM GPMG 8K (Quality Benchmark) [NEW]</option>
+        <optgroup label="Tier 1 Hero Blueprint Armory (860K - 1.26M tris)">
+          <option value="veh:pkm-8k">PKM GPMG 8K Benchmark [1.26M tris]</option>
+          <option value="veh:svd-glass-pso1">SVD Dragunov + PSO-1 [861K tris · GLASS]</option>
+          <option value="veh:t64bv-cutaway-32k">T-64BV 32K Cutaway Interior [883K tris · CUTAWAY]</option>
         </optgroup>
-        <optgroup label="Drones — All 6 Completed">
-          <option value="veh:drone-vampire-v5">Vampire v5 Heavy Hexacopter [DONE]</option>
-          <option value="veh:drone-fpv10-v5">FPV-10 Fiber-Optic Drone v5 [DONE]</option>
-          <option value="veh:drone-shahed136">Shahed-136 Loitering Munition [DONE]</option>
-          <option value="veh:drone-loiterx-v5">Loiter-X v5 Tactical Loitering Drone [DONE]</option>
-          <option value="veh:drone-reconquad-v5">ReconQuad v5 ISR Quadcopter [DONE]</option>
-          <option value="veh:drone-vykhor7">Vykhor-7 Gun-Drone [DONE]</option>
-          <option value="veh:drone-vykhor7-cut">Vykhor-7 Gun-Drone Cutaway [CUTAWAY]</option>
+        <optgroup label="Tier 2 High-Detail Armored Vehicles (349K - 528K tris)">
+          <option value="veh:bmp2-hd">BMP-2 IFV [528K tris]</option>
+          <option value="veh:mtlb-hd">MT-LB APC [476K tris]</option>
+          <option value="veh:leopard2a4-hd">Leopard 2A4 Main Battle Tank [475K tris]</option>
+          <option value="veh:t72b3-hd">T-72B3 Main Battle Tank [447K tris]</option>
+          <option value="veh:m113-hd">M113 APC [349K tris]</option>
         </optgroup>
-        <optgroup label="Armored Vehicles, Artillery & Cutaways">
-          <option value="veh:t64bv-cutaway-32k">T-64BV 32K Sculpted Cutaway Interior [CUTAWAY]</option>
-          <option value="veh:pzh2000-ext">PzH-2000 155mm Self-Propelled Howitzer [DONE]</option>
-          <option value="veh:pzh2000-cutaway">PzH-2000 Cutaway Interior [CUTAWAY]</option>
-          <option value="veh:gepard-ext">Gepard 35mm SPAAG [DONE]</option>
-          <option value="veh:gepard-cutaway">Gepard Cutaway Interior [CUTAWAY]</option>
-          <option value="veh:t72b3-hd">T-72B3 Main Battle Tank [DONE]</option>
-          <option value="veh:leopard2a4-hd">Leopard 2A4 Main Battle Tank [DONE]</option>
-          <option value="veh:bmp2-hd">BMP-2 Infantry Fighting Vehicle [DONE]</option>
-          <option value="veh:m113-hd">M113 Armored Personnel Carrier [DONE]</option>
-          <option value="veh:mtlb-hd">MT-LB Multipurpose Armored Tractor [DONE]</option>
+        <optgroup label="Completed Drone Fleet (All 6)">
+          <option value="veh:drone-vampire-v5">Vampire v5 Heavy Hexacopter [82K tris]</option>
+          <option value="veh:drone-fpv10-v5">FPV-10 Fiber-Optic Drone v5 [50K tris]</option>
+          <option value="veh:drone-vykhor7">Vykhor-7 Gun-Drone [40K tris]</option>
+          <option value="veh:drone-loiterx-v5">Loiter-X v5 Tactical Loitering Drone [30K tris]</option>
+          <option value="veh:drone-reconquad-v5">ReconQuad v5 ISR Quadcopter [19K tris]</option>
+          <option value="veh:drone-shahed136">Shahed-136 Loitering Munition [17K tris]</option>
         </optgroup>
-        <optgroup label="Heavy Weapons & Engines">
-          <option value="veh:javelin-hd">FGM-148 Javelin ATGM [DONE]</option>
-          <option value="veh:rpg7-hd">RPG-7 Anti-Tank Launcher [DONE]</option>
-          <option value="veh:vortex-v12">Vortex V12 Engine [DONE]</option>
-          <option value="veh:vortex-v12-glass">Vortex V12 Full Glass Cutaway [GLASS]</option>
-        </optgroup>
-        <optgroup label="Ukrainian Wave 1 Blueprints (NEW — Regular / Cutaway / Glass)">
-          <option value="veh:fort14tp-reg">RPC Fort-14TP (9x18mm Ukraine) [NEW]</option>
-          <option value="veh:fort14tp-cut">RPC Fort-14TP Cutaway Internals [CUTAWAY]</option>
-          <option value="veh:fort14tp-glass">RPC Fort-14TP Full Glass Skin [GLASS]</option>
-          <option value="veh:malyuk-reg">IPI Malyuk / Vulcan-M (5.45mm Bullpup) [NEW]</option>
-          <option value="veh:malyuk-cut">IPI Malyuk Cutaway Internals [CUTAWAY]</option>
-          <option value="veh:malyuk-glass">IPI Malyuk Full Glass Skin [GLASS]</option>
-          <option value="veh:uar15-reg">Zbroyar UAR-15 (5.56mm NATO) [NEW]</option>
-          <option value="veh:uar15-cut">Zbroyar UAR-15 Cutaway Internals [CUTAWAY]</option>
-          <option value="veh:uar15-glass">Zbroyar UAR-15 Full Glass Skin [GLASS]</option>
-          <option value="veh:uar10-reg">Zbroyar UAR-10 (7.62x51mm DMR) [NEW]</option>
-          <option value="veh:uar10-cut">Zbroyar UAR-10 Cutaway Internals [CUTAWAY]</option>
-          <option value="veh:uar10-glass">Zbroyar UAR-10 Full Glass Skin [GLASS]</option>
-          <option value="veh:alligator-reg">Snipex Alligator (14.5x114mm AMR) [NEW]</option>
-          <option value="veh:alligator-cut">Snipex Alligator Cutaway [CUTAWAY]</option>
-          <option value="veh:alligator-glass">Snipex Alligator Full Glass Skin [GLASS]</option>
-          <option value="veh:km762-reg">Mayak KM-7.62 (7.62x54mmR GPMG) [NEW]</option>
-          <option value="veh:km762-cut">Mayak KM-7.62 Cutaway Internals [CUTAWAY]</option>
-          <option value="veh:km762-glass">Mayak KM-7.62 Full Glass Skin [GLASS]</option>
-        </optgroup>
-        <optgroup label="SVD Family Blueprint Variants (All 6)">
-          <option value="veh:svds-reg">SVDS Paratrooper (7.62x54mmR) [NEW]</option>
-          <option value="veh:svds-cut">SVDS Cutaway [CUTAWAY]</option>
-          <option value="veh:svdk-reg">SVDK Heavy (9.3x64mm Brenneke) [NEW]</option>
-          <option value="veh:svdk-cut">SVDK Cutaway [CUTAWAY]</option>
-          <option value="veh:svdsm-reg">SVDSM Heavy Barrel [NEW]</option>
-          <option value="veh:svd-sm-sup-reg">SVD SM w. Suppressor [NEW]</option>
-          <option value="veh:svd-6x49-reg">SVD 6x49mm Experimental [NEW]</option>
-        </optgroup>
-        <optgroup label="Elephant Rifle & WWII Anti-Tank Rifles (NEW)">
-          <option value="veh:elephant-700ne-reg">H&H Royal .700 Nitro Express Elephant Rifle [NEW]</option>
-          <option value="veh:elephant-700ne-cut">Elephant Rifle .700 NE Cutaway [CUTAWAY]</option>
-          <option value="veh:elephant-700ne-gls">Elephant Rifle .700 NE Glass Skin [GLASS]</option>
-          <option value="veh:ptrd41-reg">PTRD-41 WWII Anti-Tank Rifle (14.5mm) [NEW]</option>
-          <option value="veh:ptrd41-cut">PTRD-41 Cutaway Internals [CUTAWAY]</option>
-          <option value="veh:ptrs41-reg">PTRS-41 WWII Semi-Auto ATR (14.5mm) [NEW]</option>
-          <option value="veh:ptrs41-cut">PTRS-41 Cutaway Internals [CUTAWAY]</option>
-        </optgroup>
-        <optgroup label="Ukrainian Wave 1B + Swiss 20mm ATR (NEW)">
-          <option value="veh:fort17-reg">RPC Fort-17 (9x18mm Ukraine) [NEW]</option>
-          <option value="veh:fort17-cut">RPC Fort-17 Cutaway [CUTAWAY]</option>
-          <option value="veh:fort17-gls">RPC Fort-17 Full Glass Skin [GLASS]</option>
-          <option value="veh:fort221-reg">RPC Fort-221 / Tavor (5.56mm Bullpup) [NEW]</option>
-          <option value="veh:fort221-cut">RPC Fort-221 Cutaway [CUTAWAY]</option>
-          <option value="veh:fort221-gls">RPC Fort-221 Full Glass Skin [GLASS]</option>
-          <option value="veh:fort500-reg">RPC Fort-500 (12-Gauge Shotgun) [NEW]</option>
-          <option value="veh:fort500-cut">RPC Fort-500 Cutaway [CUTAWAY]</option>
-          <option value="veh:fort500-gls">RPC Fort-500 Full Glass Skin [GLASS]</option>
-          <option value="veh:horizons-lord-reg">Horizon's Lord (12.7x114mm HL AMR) [NEW]</option>
-          <option value="veh:horizons-lord-cut">Horizon's Lord Cutaway [CUTAWAY]</option>
-          <option value="veh:horizons-lord-gls">Horizon's Lord Full Glass Skin [GLASS]</option>
-          <option value="veh:solothurn-s18-reg">Swiss Solothurn S-18/1000 (20mm WWII ATR) [NEW]</option>
-          <option value="veh:solothurn-s18-cut">Swiss Solothurn S-18/1000 Cutaway [CUTAWAY]</option>
-          <option value="veh:solothurn-s18-gls">Swiss Solothurn S-18/1000 Full Glass Skin [GLASS]</option>
+        <optgroup label="Support Weapons & Engines">
+          <option value="veh:javelin-hd">FGM-148 Javelin ATGM [22K tris]</option>
+          <option value="veh:rpg7-hd">RPG-7 Anti-Tank Launcher [17K tris]</option>
+          <option value="veh:vortex-v12">Vortex V12 Engine [21K tris]</option>
+          <option value="veh:vortex-v12-glass">Vortex V12 Glass Cutaway [21K tris · GLASS]</option>
         </optgroup>
         </select>
-        <span class="mp-badge" id="modelCountBadge">82 models · Live + Drones + Wave 1A/B + ATR</span>
+        <span class="mp-badge" id="modelCountBadge">26 audited models · Zero prototypes</span>
       </div>
       <div class="seg mp-hidden" id="gunSeg" role="group" aria-label="Gun">
         <button type="button" data-gun="AK" aria-pressed="true">AK Claude</button>
@@ -542,7 +478,7 @@ const GUNS = {
 };
 // TEMPEST-7 (owner 20 Nov, thread 07934cef "have both in shooting range and board"): the Vykhor-7 GLB (vykhor7-gun, 824 KB, no textures, mudel-master
 // exacto-sim/vykhor7/glb), driven by the same rotary-gun sim as the Tempest-6; its nodes are mapped at load (spin_pivot spins, barrel_<r1..l1> are the bores).
-const GAT7_URL = "models/tempest7.glb.gz.b64.txt";
+const GAT7_URL = "models/tempest7.glb.gz.b64.txt", GAT7_CUT_URL = "models/drone-vykhor7-cut.glb";
 const CAPS = { AK: [30, 75], MAK: [8, 12], GAT: [120, 1000] };   // standard, extended (the Tempest-6's extended feed is the 1,000-round backpack)
 const VIEW_IDS = { AK: ["gl", "view-ak47"], MAK: ["gl-makarov", "view-makarov"], GAT: ["gl-gatling", "view-gatling"], VEH: ["gl-vehicle", "view-vehicle"] };
 let GAME = prefs.game === true;   // game controls (click-to-fire): OFF by default again (owner, 18 Nov): left-drag orbits, wheel/pinch zooms, right-drag/two-finger pans, a click never fires
@@ -668,8 +604,19 @@ function buildAkMagSlots(rig, container, byName) {
   rig.arcC = new THREE.Vector2(mx + (r1 * svv - r2 * suv) / det, my + (r2 * suu - r1 * suv) / det);
   const ang = (c) => Math.atan2(c.y - rig.arcC.y, c.x - rig.arcC.x);
   const rotAbout = (c, d) => { const v = new THREE.Vector2(c.x, c.y).rotateAround(rig.arcC, d); return new THREE.Vector3(v.x, v.y, c.z); };
-  // a full magazine holds 30: continue the stack down the same arc, same stagger
-  while (centers.length < 30) { const n = centers.length; centers.push(rotAbout(centers[n - 2], ang(centers[n - 2]) - ang(centers[n - 4]))); }
+  // Fit all 30 rounds strictly INSIDE the magazine body arc (prevent bottom floorplate overflow)
+  if (centers.length >= 4 && centers.length < 30) {
+    const a0 = ang(centers[0]), aLast = ang(centers[centers.length - 1]);
+    const rMean = centers.reduce((s, c) => s + Math.hypot(c.x - rig.arcC.x, c.y - rig.arcC.y), 0) / centers.length;
+    const zMin = Math.min(...centers.map((c) => c.z)), zMax = Math.max(...centers.map((c) => c.z));
+    const fitted = [];
+    for (let i = 0; i < 30; i++) {
+      const t = i / 29;
+      const ai = a0 + (aLast - a0) * t * 0.96;   // 4% bottom floorplate clearance margin
+      fitted.push(new THREE.Vector3(rig.arcC.x + Math.cos(ai) * rMean, rig.arcC.y + Math.sin(ai) * rMean, i % 2 === 0 ? zMin : zMax));
+    }
+    centers.length = 0; centers.push(...fitted);
+  }
   const chBox = new THREE.Box3(); chP.updateMatrix(); chP.geometry.computeBoundingBox(); chBox.copy(chP.geometry.boundingBox).applyMatrix4(chP.matrix);
   const chC = chBox.getCenter(new THREE.Vector3());
   // exterior parts only (case, primer, jacket): the powder / lead / core are inside and would only cost draw calls
@@ -1054,7 +1001,7 @@ async function showModel() {
   if (!models[keyName]) {
     $("loading").hidden = false;
     try {
-      let url = g7 ? GAT7_URL : GUNS[gun].models[variant];
+      let url = g7 ? (variant === "cut" ? GAT7_CUT_URL : GAT7_URL) : GUNS[gun].models[variant];
       if (S.hd && !g7) { const hd = url.replace(".glb.gz.b64.txt", "-hd.glb.gz.b64.txt"); try { const h = await fetch(hd, { method: "HEAD" }); if (h.ok && !/text\/html/.test(h.headers.get("content-type") || "")) url = hd; } catch {} }   // Blackwell HD: the HD model when the cockpit bundle has one, else the normal one
       const gltf = await fetchGLB(url, `${GUNS[gun].name}${variant === "cut" ? " cutaway" : ""}`);
       models[keyName] = buildRig(gltf, gun); if (g7) models[keyName].v7 = true;

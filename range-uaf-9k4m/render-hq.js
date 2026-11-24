@@ -396,7 +396,7 @@ export class Look {
         }
         if (gun === "AK" && !isCase && M.akPark) m = cls === "wood" ? M.akWood : cls === "steel" ? (AK_BLUED.test(name) ? M.akBlued : AK_CARRIER.test(name) ? M.akCarrier : M.akPark) : cls === "phosphate" ? M.akPhos : m;
         if (rig.skin === "glass") m = glassPartMat(name, !["steel", "wood", "bakelite"].includes(cls));
-        else if (rig.skin && rig.skin !== "factory" && (cls === "steel" || cls === "wood" || cls === "bakelite")) { const sm = skinMaterial(rig.skin); if (sm) { m = sm; if (sm.map) boxUV(o, 6); } }
+        else if (rig.skin && rig.skin !== "factory" && (cls === "steel" || cls === "wood" || cls === "bakelite" || (gun === "GAT" && !isCase && !/brass|copper|bullet|case|round|primer|belt/i.test(name)))) { const sm = skinMaterial(rig.skin); if (sm) { m = sm; if (sm.map) boxUV(o, 6); } }
         if (cond !== "clean" && condSet[cond] && condSet[cond].includes(name)) {
           const key = m.uuid + cond; if (!this.condCache.has(key)) this.condCache.set(key, condMaterial(m, cond)); m = this.condCache.get(key);
         }
