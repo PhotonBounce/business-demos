@@ -1,0 +1,1457 @@
+{
+ "files": {
+  "ak_bolt": "ai-ak.bundle.json#ak_bolt.mp3",
+  "ak_mag_in": "ai-ak.bundle.json#ak_mag_in.mp3",
+  "ak_mag_out": "ai-ak.bundle.json#ak_mag_out.mp3",
+  "ak_shot_1": "ai-ak.bundle.json#ak_shot_1.mp3",
+  "ak_shot_10": "ai-ak.bundle.json#ak_shot_10.mp3",
+  "ak_shot_100": "ai-ak.bundle.json#ak_shot_100.mp3",
+  "ak_shot_101": "ai-ak.bundle.json#ak_shot_101.mp3",
+  "ak_shot_102": "ai-ak.bundle.json#ak_shot_102.mp3",
+  "ak_shot_103": "ai-ak.bundle.json#ak_shot_103.mp3",
+  "ak_shot_104": "ai-ak.bundle.json#ak_shot_104.mp3",
+  "ak_shot_105": "ai-ak.bundle.json#ak_shot_105.mp3",
+  "ak_shot_106": "ai-ak.bundle.json#ak_shot_106.mp3",
+  "ak_shot_107": "ai-ak.bundle.json#ak_shot_107.mp3",
+  "ak_shot_108": "ai-ak.bundle.json#ak_shot_108.mp3",
+  "ak_shot_109": "ai-ak.bundle.json#ak_shot_109.mp3",
+  "ak_shot_11": "ai-ak.bundle.json#ak_shot_11.mp3",
+  "ak_shot_110": "ai-ak.bundle.json#ak_shot_110.mp3",
+  "ak_shot_111": "ai-ak.bundle.json#ak_shot_111.mp3",
+  "ak_shot_112": "ai-ak.bundle.json#ak_shot_112.mp3",
+  "ak_shot_113": "ai-ak.bundle.json#ak_shot_113.mp3",
+  "ak_shot_114": "ai-ak.bundle.json#ak_shot_114.mp3",
+  "ak_shot_115": "ai-ak.bundle.json#ak_shot_115.mp3",
+  "ak_shot_116": "ai-ak.bundle.json#ak_shot_116.mp3",
+  "ak_shot_117": "ai-ak.bundle.json#ak_shot_117.mp3",
+  "ak_shot_118": "ai-ak.bundle.json#ak_shot_118.mp3",
+  "ak_shot_119": "ai-ak.bundle.json#ak_shot_119.mp3",
+  "ak_shot_12": "ai-ak.bundle.json#ak_shot_12.mp3",
+  "ak_shot_120": "ai-ak.bundle.json#ak_shot_120.mp3",
+  "ak_shot_121": "ai-ak.bundle.json#ak_shot_121.mp3",
+  "ak_shot_122": "ai-ak.bundle.json#ak_shot_122.mp3",
+  "ak_shot_123": "ai-ak.bundle.json#ak_shot_123.mp3",
+  "ak_shot_124": "ai-ak.bundle.json#ak_shot_124.mp3",
+  "ak_shot_125": "ai-ak.bundle.json#ak_shot_125.mp3",
+  "ak_shot_126": "ai-ak.bundle.json#ak_shot_126.mp3",
+  "ak_shot_127": "ai-ak.bundle.json#ak_shot_127.mp3",
+  "ak_shot_128": "ai-ak.bundle.json#ak_shot_128.mp3",
+  "ak_shot_129": "ai-ak.bundle.json#ak_shot_129.mp3",
+  "ak_shot_13": "ai-ak.bundle.json#ak_shot_13.mp3",
+  "ak_shot_130": "ai-ak.bundle.json#ak_shot_130.mp3",
+  "ak_shot_131": "ai-ak.bundle.json#ak_shot_131.mp3",
+  "ak_shot_132": "ai-ak.bundle.json#ak_shot_132.mp3",
+  "ak_shot_133": "ai-ak.bundle.json#ak_shot_133.mp3",
+  "ak_shot_134": "ai-ak.bundle.json#ak_shot_134.mp3",
+  "ak_shot_135": "ai-ak.bundle.json#ak_shot_135.mp3",
+  "ak_shot_136": "ai-ak.bundle.json#ak_shot_136.mp3",
+  "ak_shot_137": "ai-ak.bundle.json#ak_shot_137.mp3",
+  "ak_shot_138": "ai-ak.bundle.json#ak_shot_138.mp3",
+  "ak_shot_139": "ai-ak.bundle.json#ak_shot_139.mp3",
+  "ak_shot_14": "ai-ak.bundle.json#ak_shot_14.mp3",
+  "ak_shot_140": "ai-ak.bundle.json#ak_shot_140.mp3",
+  "ak_shot_141": "ai-ak.bundle.json#ak_shot_141.mp3",
+  "ak_shot_142": "ai-ak.bundle.json#ak_shot_142.mp3",
+  "ak_shot_143": "ai-ak.bundle.json#ak_shot_143.mp3",
+  "ak_shot_144": "ai-ak.bundle.json#ak_shot_144.mp3",
+  "ak_shot_145": "ai-ak.bundle.json#ak_shot_145.mp3",
+  "ak_shot_146": "ai-ak.bundle.json#ak_shot_146.mp3",
+  "ak_shot_147": "ai-ak.bundle.json#ak_shot_147.mp3",
+  "ak_shot_148": "ai-ak.bundle.json#ak_shot_148.mp3",
+  "ak_shot_149": "ai-ak.bundle.json#ak_shot_149.mp3",
+  "ak_shot_15": "ai-ak.bundle.json#ak_shot_15.mp3",
+  "ak_shot_150": "ai-ak.bundle.json#ak_shot_150.mp3",
+  "ak_shot_151": "ai-ak.bundle.json#ak_shot_151.mp3",
+  "ak_shot_152": "ai-ak.bundle.json#ak_shot_152.mp3",
+  "ak_shot_153": "ai-ak.bundle.json#ak_shot_153.mp3",
+  "ak_shot_154": "ai-ak.bundle.json#ak_shot_154.mp3",
+  "ak_shot_155": "ai-ak.bundle.json#ak_shot_155.mp3",
+  "ak_shot_156": "ai-ak.bundle.json#ak_shot_156.mp3",
+  "ak_shot_157": "ai-ak.bundle.json#ak_shot_157.mp3",
+  "ak_shot_158": "ai-ak.bundle.json#ak_shot_158.mp3",
+  "ak_shot_159": "ai-ak.bundle.json#ak_shot_159.mp3",
+  "ak_shot_16": "ai-ak.bundle.json#ak_shot_16.mp3",
+  "ak_shot_160": "ai-ak.bundle.json#ak_shot_160.mp3",
+  "ak_shot_161": "ai-ak.bundle.json#ak_shot_161.mp3",
+  "ak_shot_162": "ai-ak.bundle.json#ak_shot_162.mp3",
+  "ak_shot_163": "ai-ak.bundle.json#ak_shot_163.mp3",
+  "ak_shot_164": "ai-ak.bundle.json#ak_shot_164.mp3",
+  "ak_shot_165": "ai-ak.bundle.json#ak_shot_165.mp3",
+  "ak_shot_166": "ai-ak.bundle.json#ak_shot_166.mp3",
+  "ak_shot_167": "ai-ak.bundle.json#ak_shot_167.mp3",
+  "ak_shot_168": "ai-ak.bundle.json#ak_shot_168.mp3",
+  "ak_shot_169": "ai-ak.bundle.json#ak_shot_169.mp3",
+  "ak_shot_17": "ai-ak.bundle.json#ak_shot_17.mp3",
+  "ak_shot_170": "ai-ak.bundle.json#ak_shot_170.mp3",
+  "ak_shot_171": "ai-ak.bundle.json#ak_shot_171.mp3",
+  "ak_shot_172": "ai-ak.bundle.json#ak_shot_172.mp3",
+  "ak_shot_173": "ai-ak.bundle.json#ak_shot_173.mp3",
+  "ak_shot_174": "ai-ak.bundle.json#ak_shot_174.mp3",
+  "ak_shot_175": "ai-ak.bundle.json#ak_shot_175.mp3",
+  "ak_shot_176": "ai-ak.bundle.json#ak_shot_176.mp3",
+  "ak_shot_177": "ai-ak.bundle.json#ak_shot_177.mp3",
+  "ak_shot_178": "ai-ak.bundle.json#ak_shot_178.mp3",
+  "ak_shot_179": "ai-ak.bundle.json#ak_shot_179.mp3",
+  "ak_shot_18": "ai-ak.bundle.json#ak_shot_18.mp3",
+  "ak_shot_180": "ai-ak.bundle.json#ak_shot_180.mp3",
+  "ak_shot_181": "ai-ak.bundle.json#ak_shot_181.mp3",
+  "ak_shot_182": "ai-ak.bundle.json#ak_shot_182.mp3",
+  "ak_shot_183": "ai-ak.bundle.json#ak_shot_183.mp3",
+  "ak_shot_184": "ai-ak.bundle.json#ak_shot_184.mp3",
+  "ak_shot_185": "ai-ak.bundle.json#ak_shot_185.mp3",
+  "ak_shot_186": "ai-ak.bundle.json#ak_shot_186.mp3",
+  "ak_shot_187": "ai-ak.bundle.json#ak_shot_187.mp3",
+  "ak_shot_188": "ai-ak.bundle.json#ak_shot_188.mp3",
+  "ak_shot_189": "ai-ak.bundle.json#ak_shot_189.mp3",
+  "ak_shot_19": "ai-ak.bundle.json#ak_shot_19.mp3",
+  "ak_shot_190": "ai-ak.bundle.json#ak_shot_190.mp3",
+  "ak_shot_191": "ai-ak.bundle.json#ak_shot_191.mp3",
+  "ak_shot_192": "ai-ak.bundle.json#ak_shot_192.mp3",
+  "ak_shot_193": "ai-ak.bundle.json#ak_shot_193.mp3",
+  "ak_shot_194": "ai-ak.bundle.json#ak_shot_194.mp3",
+  "ak_shot_195": "ai-ak.bundle.json#ak_shot_195.mp3",
+  "ak_shot_196": "ai-ak.bundle.json#ak_shot_196.mp3",
+  "ak_shot_197": "ai-ak.bundle.json#ak_shot_197.mp3",
+  "ak_shot_198": "ai-ak.bundle.json#ak_shot_198.mp3",
+  "ak_shot_199": "ai-ak.bundle.json#ak_shot_199.mp3",
+  "ak_shot_2": "ai-ak.bundle.json#ak_shot_2.mp3",
+  "ak_shot_20": "ai-ak.bundle.json#ak_shot_20.mp3",
+  "ak_shot_200": "ai-ak.bundle.json#ak_shot_200.mp3",
+  "ak_shot_21": "ai-ak.bundle.json#ak_shot_21.mp3",
+  "ak_shot_22": "ai-ak.bundle.json#ak_shot_22.mp3",
+  "ak_shot_23": "ai-ak.bundle.json#ak_shot_23.mp3",
+  "ak_shot_24": "ai-ak.bundle.json#ak_shot_24.mp3",
+  "ak_shot_25": "ai-ak.bundle.json#ak_shot_25.mp3",
+  "ak_shot_26": "ai-ak.bundle.json#ak_shot_26.mp3",
+  "ak_shot_27": "ai-ak.bundle.json#ak_shot_27.mp3",
+  "ak_shot_28": "ai-ak.bundle.json#ak_shot_28.mp3",
+  "ak_shot_29": "ai-ak.bundle.json#ak_shot_29.mp3",
+  "ak_shot_3": "ai-ak.bundle.json#ak_shot_3.mp3",
+  "ak_shot_30": "ai-ak.bundle.json#ak_shot_30.mp3",
+  "ak_shot_31": "ai-ak.bundle.json#ak_shot_31.mp3",
+  "ak_shot_32": "ai-ak.bundle.json#ak_shot_32.mp3",
+  "ak_shot_33": "ai-ak.bundle.json#ak_shot_33.mp3",
+  "ak_shot_34": "ai-ak.bundle.json#ak_shot_34.mp3",
+  "ak_shot_35": "ai-ak.bundle.json#ak_shot_35.mp3",
+  "ak_shot_36": "ai-ak.bundle.json#ak_shot_36.mp3",
+  "ak_shot_37": "ai-ak.bundle.json#ak_shot_37.mp3",
+  "ak_shot_38": "ai-ak.bundle.json#ak_shot_38.mp3",
+  "ak_shot_39": "ai-ak.bundle.json#ak_shot_39.mp3",
+  "ak_shot_4": "ai-ak.bundle.json#ak_shot_4.mp3",
+  "ak_shot_40": "ai-ak.bundle.json#ak_shot_40.mp3",
+  "ak_shot_41": "ai-ak.bundle.json#ak_shot_41.mp3",
+  "ak_shot_42": "ai-ak.bundle.json#ak_shot_42.mp3",
+  "ak_shot_43": "ai-ak.bundle.json#ak_shot_43.mp3",
+  "ak_shot_44": "ai-ak.bundle.json#ak_shot_44.mp3",
+  "ak_shot_45": "ai-ak.bundle.json#ak_shot_45.mp3",
+  "ak_shot_46": "ai-ak.bundle.json#ak_shot_46.mp3",
+  "ak_shot_47": "ai-ak.bundle.json#ak_shot_47.mp3",
+  "ak_shot_48": "ai-ak.bundle.json#ak_shot_48.mp3",
+  "ak_shot_49": "ai-ak.bundle.json#ak_shot_49.mp3",
+  "ak_shot_5": "ai-ak.bundle.json#ak_shot_5.mp3",
+  "ak_shot_50": "ai-ak.bundle.json#ak_shot_50.mp3",
+  "ak_shot_51": "ai-ak.bundle.json#ak_shot_51.mp3",
+  "ak_shot_52": "ai-ak.bundle.json#ak_shot_52.mp3",
+  "ak_shot_53": "ai-ak.bundle.json#ak_shot_53.mp3",
+  "ak_shot_54": "ai-ak.bundle.json#ak_shot_54.mp3",
+  "ak_shot_55": "ai-ak.bundle.json#ak_shot_55.mp3",
+  "ak_shot_56": "ai-ak.bundle.json#ak_shot_56.mp3",
+  "ak_shot_57": "ai-ak.bundle.json#ak_shot_57.mp3",
+  "ak_shot_58": "ai-ak.bundle.json#ak_shot_58.mp3",
+  "ak_shot_59": "ai-ak.bundle.json#ak_shot_59.mp3",
+  "ak_shot_6": "ai-ak.bundle.json#ak_shot_6.mp3",
+  "ak_shot_60": "ai-ak.bundle.json#ak_shot_60.mp3",
+  "ak_shot_61": "ai-ak.bundle.json#ak_shot_61.mp3",
+  "ak_shot_62": "ai-ak.bundle.json#ak_shot_62.mp3",
+  "ak_shot_63": "ai-ak.bundle.json#ak_shot_63.mp3",
+  "ak_shot_64": "ai-ak.bundle.json#ak_shot_64.mp3",
+  "ak_shot_65": "ai-ak.bundle.json#ak_shot_65.mp3",
+  "ak_shot_66": "ai-ak.bundle.json#ak_shot_66.mp3",
+  "ak_shot_67": "ai-ak.bundle.json#ak_shot_67.mp3",
+  "ak_shot_68": "ai-ak.bundle.json#ak_shot_68.mp3",
+  "ak_shot_69": "ai-ak.bundle.json#ak_shot_69.mp3",
+  "ak_shot_7": "ai-ak.bundle.json#ak_shot_7.mp3",
+  "ak_shot_70": "ai-ak.bundle.json#ak_shot_70.mp3",
+  "ak_shot_71": "ai-ak.bundle.json#ak_shot_71.mp3",
+  "ak_shot_72": "ai-ak.bundle.json#ak_shot_72.mp3",
+  "ak_shot_73": "ai-ak.bundle.json#ak_shot_73.mp3",
+  "ak_shot_74": "ai-ak.bundle.json#ak_shot_74.mp3",
+  "ak_shot_75": "ai-ak.bundle.json#ak_shot_75.mp3",
+  "ak_shot_76": "ai-ak.bundle.json#ak_shot_76.mp3",
+  "ak_shot_77": "ai-ak.bundle.json#ak_shot_77.mp3",
+  "ak_shot_78": "ai-ak.bundle.json#ak_shot_78.mp3",
+  "ak_shot_79": "ai-ak.bundle.json#ak_shot_79.mp3",
+  "ak_shot_8": "ai-ak.bundle.json#ak_shot_8.mp3",
+  "ak_shot_80": "ai-ak.bundle.json#ak_shot_80.mp3",
+  "ak_shot_81": "ai-ak.bundle.json#ak_shot_81.mp3",
+  "ak_shot_82": "ai-ak.bundle.json#ak_shot_82.mp3",
+  "ak_shot_83": "ai-ak.bundle.json#ak_shot_83.mp3",
+  "ak_shot_84": "ai-ak.bundle.json#ak_shot_84.mp3",
+  "ak_shot_85": "ai-ak.bundle.json#ak_shot_85.mp3",
+  "ak_shot_86": "ai-ak.bundle.json#ak_shot_86.mp3",
+  "ak_shot_87": "ai-ak.bundle.json#ak_shot_87.mp3",
+  "ak_shot_88": "ai-ak.bundle.json#ak_shot_88.mp3",
+  "ak_shot_89": "ai-ak.bundle.json#ak_shot_89.mp3",
+  "ak_shot_9": "ai-ak.bundle.json#ak_shot_9.mp3",
+  "ak_shot_90": "ai-ak.bundle.json#ak_shot_90.mp3",
+  "ak_shot_91": "ai-ak.bundle.json#ak_shot_91.mp3",
+  "ak_shot_92": "ai-ak.bundle.json#ak_shot_92.mp3",
+  "ak_shot_93": "ai-ak.bundle.json#ak_shot_93.mp3",
+  "ak_shot_94": "ai-ak.bundle.json#ak_shot_94.mp3",
+  "ak_shot_95": "ai-ak.bundle.json#ak_shot_95.mp3",
+  "ak_shot_96": "ai-ak.bundle.json#ak_shot_96.mp3",
+  "ak_shot_97": "ai-ak.bundle.json#ak_shot_97.mp3",
+  "ak_shot_98": "ai-ak.bundle.json#ak_shot_98.mp3",
+  "ak_shot_99": "ai-ak.bundle.json#ak_shot_99.mp3",
+  "muffled_ak_1": "ai-ak.bundle.json#muffled_ak_1.mp3",
+  "muffled_ak_2": "ai-ak.bundle.json#muffled_ak_2.mp3",
+  "muffled_ak_3": "ai-ak.bundle.json#muffled_ak_3.mp3",
+  "muffled_ak_4": "ai-ak.bundle.json#muffled_ak_4.mp3",
+  "muffled_ak_5": "ai-ak.bundle.json#muffled_ak_5.mp3",
+  "brass_7.62x39_concrete": "ai-core.bundle.json#brass_7.62x39_concrete.mp3",
+  "brass_7.62x39_dirt": "ai-core.bundle.json#brass_7.62x39_dirt.mp3",
+  "brass_7.62x39_grass_1": "ai-core.bundle.json#brass_7.62x39_grass_1.mp3",
+  "brass_7.62x39_grass_2": "ai-core.bundle.json#brass_7.62x39_grass_2.mp3",
+  "brass_7.62x39_grass_3": "ai-core.bundle.json#brass_7.62x39_grass_3.mp3",
+  "brass_7.62x39_gravel_1": "ai-core.bundle.json#brass_7.62x39_gravel_1.mp3",
+  "brass_7.62x39_gravel_2": "ai-core.bundle.json#brass_7.62x39_gravel_2.mp3",
+  "brass_7.62x39_gravel_3": "ai-core.bundle.json#brass_7.62x39_gravel_3.mp3",
+  "brass_7.62x39_metal": "ai-core.bundle.json#brass_7.62x39_metal.mp3",
+  "brass_7.62x39_puddle_1": "ai-core.bundle.json#brass_7.62x39_puddle_1.mp3",
+  "brass_7.62x39_puddle_2": "ai-core.bundle.json#brass_7.62x39_puddle_2.mp3",
+  "brass_7.62x39_puddle_3": "ai-core.bundle.json#brass_7.62x39_puddle_3.mp3",
+  "brass_7.62x39_wood": "ai-core.bundle.json#brass_7.62x39_wood.mp3",
+  "brass_9x18_concrete": "ai-core.bundle.json#brass_9x18_concrete.mp3",
+  "brass_9x18_dirt": "ai-core.bundle.json#brass_9x18_dirt.mp3",
+  "brass_9x18_grass_1": "ai-core.bundle.json#brass_9x18_grass_1.mp3",
+  "brass_9x18_grass_2": "ai-core.bundle.json#brass_9x18_grass_2.mp3",
+  "brass_9x18_grass_3": "ai-core.bundle.json#brass_9x18_grass_3.mp3",
+  "brass_9x18_gravel_1": "ai-core.bundle.json#brass_9x18_gravel_1.mp3",
+  "brass_9x18_gravel_2": "ai-core.bundle.json#brass_9x18_gravel_2.mp3",
+  "brass_9x18_gravel_3": "ai-core.bundle.json#brass_9x18_gravel_3.mp3",
+  "brass_9x18_metal": "ai-core.bundle.json#brass_9x18_metal.mp3",
+  "brass_9x18_puddle_1": "ai-core.bundle.json#brass_9x18_puddle_1.mp3",
+  "brass_9x18_puddle_2": "ai-core.bundle.json#brass_9x18_puddle_2.mp3",
+  "brass_9x18_puddle_3": "ai-core.bundle.json#brass_9x18_puddle_3.mp3",
+  "brass_9x18_wood": "ai-core.bundle.json#brass_9x18_wood.mp3",
+  "brass_steel_7.62x39_concrete_1": "ai-core.bundle.json#brass_steel_7.62x39_concrete_1.mp3",
+  "brass_steel_7.62x39_concrete_2": "ai-core.bundle.json#brass_steel_7.62x39_concrete_2.mp3",
+  "brass_steel_7.62x39_dirt_1": "ai-core.bundle.json#brass_steel_7.62x39_dirt_1.mp3",
+  "brass_steel_7.62x39_dirt_2": "ai-core.bundle.json#brass_steel_7.62x39_dirt_2.mp3",
+  "brass_steel_7.62x39_grass_1": "ai-core.bundle.json#brass_steel_7.62x39_grass_1.mp3",
+  "brass_steel_7.62x39_grass_2": "ai-core.bundle.json#brass_steel_7.62x39_grass_2.mp3",
+  "brass_steel_7.62x39_gravel_1": "ai-core.bundle.json#brass_steel_7.62x39_gravel_1.mp3",
+  "brass_steel_7.62x39_gravel_2": "ai-core.bundle.json#brass_steel_7.62x39_gravel_2.mp3",
+  "brass_steel_7.62x39_metal_1": "ai-core.bundle.json#brass_steel_7.62x39_metal_1.mp3",
+  "brass_steel_7.62x39_metal_2": "ai-core.bundle.json#brass_steel_7.62x39_metal_2.mp3",
+  "brass_steel_7.62x39_puddle_1": "ai-core.bundle.json#brass_steel_7.62x39_puddle_1.mp3",
+  "brass_steel_7.62x39_puddle_2": "ai-core.bundle.json#brass_steel_7.62x39_puddle_2.mp3",
+  "brass_steel_7.62x39_wood_1": "ai-core.bundle.json#brass_steel_7.62x39_wood_1.mp3",
+  "brass_steel_7.62x39_wood_2": "ai-core.bundle.json#brass_steel_7.62x39_wood_2.mp3",
+  "brass_steel_9x18_concrete_1": "ai-core.bundle.json#brass_steel_9x18_concrete_1.mp3",
+  "brass_steel_9x18_concrete_2": "ai-core.bundle.json#brass_steel_9x18_concrete_2.mp3",
+  "brass_steel_9x18_dirt_1": "ai-core.bundle.json#brass_steel_9x18_dirt_1.mp3",
+  "brass_steel_9x18_dirt_2": "ai-core.bundle.json#brass_steel_9x18_dirt_2.mp3",
+  "brass_steel_9x18_grass_1": "ai-core.bundle.json#brass_steel_9x18_grass_1.mp3",
+  "brass_steel_9x18_grass_2": "ai-core.bundle.json#brass_steel_9x18_grass_2.mp3",
+  "brass_steel_9x18_gravel_1": "ai-core.bundle.json#brass_steel_9x18_gravel_1.mp3",
+  "brass_steel_9x18_gravel_2": "ai-core.bundle.json#brass_steel_9x18_gravel_2.mp3",
+  "brass_steel_9x18_metal_1": "ai-core.bundle.json#brass_steel_9x18_metal_1.mp3",
+  "brass_steel_9x18_metal_2": "ai-core.bundle.json#brass_steel_9x18_metal_2.mp3",
+  "brass_steel_9x18_puddle_1": "ai-core.bundle.json#brass_steel_9x18_puddle_1.mp3",
+  "brass_steel_9x18_puddle_2": "ai-core.bundle.json#brass_steel_9x18_puddle_2.mp3",
+  "brass_steel_9x18_wood_1": "ai-core.bundle.json#brass_steel_9x18_wood_1.mp3",
+  "brass_steel_9x18_wood_2": "ai-core.bundle.json#brass_steel_9x18_wood_2.mp3",
+  "clear_mag_strip_1": "ai-core.bundle.json#clear_mag_strip_1.mp3",
+  "clear_mag_strip_2": "ai-core.bundle.json#clear_mag_strip_2.mp3",
+  "clear_mag_strip_3": "ai-core.bundle.json#clear_mag_strip_3.mp3",
+  "clear_mag_strip_4": "ai-core.bundle.json#clear_mag_strip_4.mp3",
+  "clear_rack_ak_1": "ai-core.bundle.json#clear_rack_ak_1.mp3",
+  "clear_rack_ak_2": "ai-core.bundle.json#clear_rack_ak_2.mp3",
+  "clear_rack_ak_3": "ai-core.bundle.json#clear_rack_ak_3.mp3",
+  "clear_rack_ak_4": "ai-core.bundle.json#clear_rack_ak_4.mp3",
+  "clear_rack_ak_5": "ai-core.bundle.json#clear_rack_ak_5.mp3",
+  "clear_slide_mak_1": "ai-core.bundle.json#clear_slide_mak_1.mp3",
+  "clear_slide_mak_2": "ai-core.bundle.json#clear_slide_mak_2.mp3",
+  "clear_slide_mak_3": "ai-core.bundle.json#clear_slide_mak_3.mp3",
+  "clear_slide_mak_4": "ai-core.bundle.json#clear_slide_mak_4.mp3",
+  "clear_tap_1": "ai-core.bundle.json#clear_tap_1.mp3",
+  "clear_tap_2": "ai-core.bundle.json#clear_tap_2.mp3",
+  "clear_tap_3": "ai-core.bundle.json#clear_tap_3.mp3",
+  "clear_tap_4": "ai-core.bundle.json#clear_tap_4.mp3",
+  "dry_click": "ai-core.bundle.json#dry_click.mp3",
+  "flyby_1": "ai-core.bundle.json#flyby_1.mp3",
+  "flyby_2": "ai-core.bundle.json#flyby_2.mp3",
+  "flyby_3": "ai-core.bundle.json#flyby_3.mp3",
+  "flyby_4": "ai-core.bundle.json#flyby_4.mp3",
+  "impact_dirt_1": "ai-core.bundle.json#impact_dirt_1.mp3",
+  "impact_dirt_2": "ai-core.bundle.json#impact_dirt_2.mp3",
+  "impact_dirt_3": "ai-core.bundle.json#impact_dirt_3.mp3",
+  "impact_dirt_4": "ai-core.bundle.json#impact_dirt_4.mp3",
+  "impact_paper_1": "ai-core.bundle.json#impact_paper_1.mp3",
+  "impact_paper_2": "ai-core.bundle.json#impact_paper_2.mp3",
+  "impact_paper_3": "ai-core.bundle.json#impact_paper_3.mp3",
+  "impact_paper_4": "ai-core.bundle.json#impact_paper_4.mp3",
+  "impact_steel_1": "ai-core.bundle.json#impact_steel_1.mp3",
+  "impact_steel_2": "ai-core.bundle.json#impact_steel_2.mp3",
+  "impact_steel_3": "ai-core.bundle.json#impact_steel_3.mp3",
+  "impact_steel_4": "ai-core.bundle.json#impact_steel_4.mp3",
+  "impact_steel_5": "ai-core.bundle.json#impact_steel_5.mp3",
+  "impact_wood_1": "ai-core.bundle.json#impact_wood_1.mp3",
+  "impact_wood_2": "ai-core.bundle.json#impact_wood_2.mp3",
+  "impact_wood_3": "ai-core.bundle.json#impact_wood_3.mp3",
+  "impact_wood_4": "ai-core.bundle.json#impact_wood_4.mp3",
+  "jam_click_1": "ai-core.bundle.json#jam_click_1.mp3",
+  "jam_click_2": "ai-core.bundle.json#jam_click_2.mp3",
+  "jam_click_3": "ai-core.bundle.json#jam_click_3.mp3",
+  "jam_click_4": "ai-core.bundle.json#jam_click_4.mp3",
+  "jam_click_5": "ai-core.bundle.json#jam_click_5.mp3",
+  "jam_dbl_feed_1": "ai-core.bundle.json#jam_dbl_feed_1.mp3",
+  "jam_dbl_feed_2": "ai-core.bundle.json#jam_dbl_feed_2.mp3",
+  "jam_dbl_feed_3": "ai-core.bundle.json#jam_dbl_feed_3.mp3",
+  "jam_dbl_feed_4": "ai-core.bundle.json#jam_dbl_feed_4.mp3",
+  "jam_stovepipe_1": "ai-core.bundle.json#jam_stovepipe_1.mp3",
+  "jam_stovepipe_2": "ai-core.bundle.json#jam_stovepipe_2.mp3",
+  "jam_stovepipe_3": "ai-core.bundle.json#jam_stovepipe_3.mp3",
+  "jam_stovepipe_4": "ai-core.bundle.json#jam_stovepipe_4.mp3",
+  "ricochet_1": "ai-core.bundle.json#ricochet_1.mp3",
+  "ricochet_2": "ai-core.bundle.json#ricochet_2.mp3",
+  "ricochet_3": "ai-core.bundle.json#ricochet_3.mp3",
+  "ricochet_4": "ai-core.bundle.json#ricochet_4.mp3",
+  "ricochet_5": "ai-core.bundle.json#ricochet_5.mp3",
+  "mak_mag_in": "ai-mak.bundle.json#mak_mag_in.mp3",
+  "mak_mag_out": "ai-mak.bundle.json#mak_mag_out.mp3",
+  "mak_shot_1": "ai-mak.bundle.json#mak_shot_1.mp3",
+  "mak_shot_10": "ai-mak.bundle.json#mak_shot_10.mp3",
+  "mak_shot_100": "ai-mak.bundle.json#mak_shot_100.mp3",
+  "mak_shot_101": "ai-mak.bundle.json#mak_shot_101.mp3",
+  "mak_shot_102": "ai-mak.bundle.json#mak_shot_102.mp3",
+  "mak_shot_103": "ai-mak.bundle.json#mak_shot_103.mp3",
+  "mak_shot_104": "ai-mak.bundle.json#mak_shot_104.mp3",
+  "mak_shot_105": "ai-mak.bundle.json#mak_shot_105.mp3",
+  "mak_shot_106": "ai-mak.bundle.json#mak_shot_106.mp3",
+  "mak_shot_107": "ai-mak.bundle.json#mak_shot_107.mp3",
+  "mak_shot_108": "ai-mak.bundle.json#mak_shot_108.mp3",
+  "mak_shot_109": "ai-mak.bundle.json#mak_shot_109.mp3",
+  "mak_shot_11": "ai-mak.bundle.json#mak_shot_11.mp3",
+  "mak_shot_110": "ai-mak.bundle.json#mak_shot_110.mp3",
+  "mak_shot_111": "ai-mak.bundle.json#mak_shot_111.mp3",
+  "mak_shot_112": "ai-mak.bundle.json#mak_shot_112.mp3",
+  "mak_shot_113": "ai-mak.bundle.json#mak_shot_113.mp3",
+  "mak_shot_114": "ai-mak.bundle.json#mak_shot_114.mp3",
+  "mak_shot_115": "ai-mak.bundle.json#mak_shot_115.mp3",
+  "mak_shot_116": "ai-mak.bundle.json#mak_shot_116.mp3",
+  "mak_shot_117": "ai-mak.bundle.json#mak_shot_117.mp3",
+  "mak_shot_118": "ai-mak.bundle.json#mak_shot_118.mp3",
+  "mak_shot_119": "ai-mak.bundle.json#mak_shot_119.mp3",
+  "mak_shot_12": "ai-mak.bundle.json#mak_shot_12.mp3",
+  "mak_shot_120": "ai-mak.bundle.json#mak_shot_120.mp3",
+  "mak_shot_13": "ai-mak.bundle.json#mak_shot_13.mp3",
+  "mak_shot_14": "ai-mak.bundle.json#mak_shot_14.mp3",
+  "mak_shot_15": "ai-mak.bundle.json#mak_shot_15.mp3",
+  "mak_shot_16": "ai-mak.bundle.json#mak_shot_16.mp3",
+  "mak_shot_17": "ai-mak.bundle.json#mak_shot_17.mp3",
+  "mak_shot_18": "ai-mak.bundle.json#mak_shot_18.mp3",
+  "mak_shot_19": "ai-mak.bundle.json#mak_shot_19.mp3",
+  "mak_shot_2": "ai-mak.bundle.json#mak_shot_2.mp3",
+  "mak_shot_20": "ai-mak.bundle.json#mak_shot_20.mp3",
+  "mak_shot_21": "ai-mak.bundle.json#mak_shot_21.mp3",
+  "mak_shot_22": "ai-mak.bundle.json#mak_shot_22.mp3",
+  "mak_shot_23": "ai-mak.bundle.json#mak_shot_23.mp3",
+  "mak_shot_24": "ai-mak.bundle.json#mak_shot_24.mp3",
+  "mak_shot_25": "ai-mak.bundle.json#mak_shot_25.mp3",
+  "mak_shot_26": "ai-mak.bundle.json#mak_shot_26.mp3",
+  "mak_shot_27": "ai-mak.bundle.json#mak_shot_27.mp3",
+  "mak_shot_28": "ai-mak.bundle.json#mak_shot_28.mp3",
+  "mak_shot_29": "ai-mak.bundle.json#mak_shot_29.mp3",
+  "mak_shot_3": "ai-mak.bundle.json#mak_shot_3.mp3",
+  "mak_shot_30": "ai-mak.bundle.json#mak_shot_30.mp3",
+  "mak_shot_31": "ai-mak.bundle.json#mak_shot_31.mp3",
+  "mak_shot_32": "ai-mak.bundle.json#mak_shot_32.mp3",
+  "mak_shot_33": "ai-mak.bundle.json#mak_shot_33.mp3",
+  "mak_shot_34": "ai-mak.bundle.json#mak_shot_34.mp3",
+  "mak_shot_35": "ai-mak.bundle.json#mak_shot_35.mp3",
+  "mak_shot_36": "ai-mak.bundle.json#mak_shot_36.mp3",
+  "mak_shot_37": "ai-mak.bundle.json#mak_shot_37.mp3",
+  "mak_shot_38": "ai-mak.bundle.json#mak_shot_38.mp3",
+  "mak_shot_39": "ai-mak.bundle.json#mak_shot_39.mp3",
+  "mak_shot_4": "ai-mak.bundle.json#mak_shot_4.mp3",
+  "mak_shot_40": "ai-mak.bundle.json#mak_shot_40.mp3",
+  "mak_shot_41": "ai-mak.bundle.json#mak_shot_41.mp3",
+  "mak_shot_42": "ai-mak.bundle.json#mak_shot_42.mp3",
+  "mak_shot_43": "ai-mak.bundle.json#mak_shot_43.mp3",
+  "mak_shot_44": "ai-mak.bundle.json#mak_shot_44.mp3",
+  "mak_shot_45": "ai-mak.bundle.json#mak_shot_45.mp3",
+  "mak_shot_46": "ai-mak.bundle.json#mak_shot_46.mp3",
+  "mak_shot_47": "ai-mak.bundle.json#mak_shot_47.mp3",
+  "mak_shot_48": "ai-mak.bundle.json#mak_shot_48.mp3",
+  "mak_shot_49": "ai-mak.bundle.json#mak_shot_49.mp3",
+  "mak_shot_5": "ai-mak.bundle.json#mak_shot_5.mp3",
+  "mak_shot_50": "ai-mak.bundle.json#mak_shot_50.mp3",
+  "mak_shot_51": "ai-mak.bundle.json#mak_shot_51.mp3",
+  "mak_shot_52": "ai-mak.bundle.json#mak_shot_52.mp3",
+  "mak_shot_53": "ai-mak.bundle.json#mak_shot_53.mp3",
+  "mak_shot_54": "ai-mak.bundle.json#mak_shot_54.mp3",
+  "mak_shot_55": "ai-mak.bundle.json#mak_shot_55.mp3",
+  "mak_shot_56": "ai-mak.bundle.json#mak_shot_56.mp3",
+  "mak_shot_57": "ai-mak.bundle.json#mak_shot_57.mp3",
+  "mak_shot_58": "ai-mak.bundle.json#mak_shot_58.mp3",
+  "mak_shot_59": "ai-mak.bundle.json#mak_shot_59.mp3",
+  "mak_shot_6": "ai-mak.bundle.json#mak_shot_6.mp3",
+  "mak_shot_60": "ai-mak.bundle.json#mak_shot_60.mp3",
+  "mak_shot_61": "ai-mak.bundle.json#mak_shot_61.mp3",
+  "mak_shot_62": "ai-mak.bundle.json#mak_shot_62.mp3",
+  "mak_shot_63": "ai-mak.bundle.json#mak_shot_63.mp3",
+  "mak_shot_64": "ai-mak.bundle.json#mak_shot_64.mp3",
+  "mak_shot_65": "ai-mak.bundle.json#mak_shot_65.mp3",
+  "mak_shot_66": "ai-mak.bundle.json#mak_shot_66.mp3",
+  "mak_shot_67": "ai-mak.bundle.json#mak_shot_67.mp3",
+  "mak_shot_68": "ai-mak.bundle.json#mak_shot_68.mp3",
+  "mak_shot_69": "ai-mak.bundle.json#mak_shot_69.mp3",
+  "mak_shot_7": "ai-mak.bundle.json#mak_shot_7.mp3",
+  "mak_shot_70": "ai-mak.bundle.json#mak_shot_70.mp3",
+  "mak_shot_71": "ai-mak.bundle.json#mak_shot_71.mp3",
+  "mak_shot_72": "ai-mak.bundle.json#mak_shot_72.mp3",
+  "mak_shot_73": "ai-mak.bundle.json#mak_shot_73.mp3",
+  "mak_shot_74": "ai-mak.bundle.json#mak_shot_74.mp3",
+  "mak_shot_75": "ai-mak.bundle.json#mak_shot_75.mp3",
+  "mak_shot_76": "ai-mak.bundle.json#mak_shot_76.mp3",
+  "mak_shot_77": "ai-mak.bundle.json#mak_shot_77.mp3",
+  "mak_shot_78": "ai-mak.bundle.json#mak_shot_78.mp3",
+  "mak_shot_79": "ai-mak.bundle.json#mak_shot_79.mp3",
+  "mak_shot_8": "ai-mak.bundle.json#mak_shot_8.mp3",
+  "mak_shot_80": "ai-mak.bundle.json#mak_shot_80.mp3",
+  "mak_shot_81": "ai-mak.bundle.json#mak_shot_81.mp3",
+  "mak_shot_82": "ai-mak.bundle.json#mak_shot_82.mp3",
+  "mak_shot_83": "ai-mak.bundle.json#mak_shot_83.mp3",
+  "mak_shot_84": "ai-mak.bundle.json#mak_shot_84.mp3",
+  "mak_shot_85": "ai-mak.bundle.json#mak_shot_85.mp3",
+  "mak_shot_86": "ai-mak.bundle.json#mak_shot_86.mp3",
+  "mak_shot_87": "ai-mak.bundle.json#mak_shot_87.mp3",
+  "mak_shot_88": "ai-mak.bundle.json#mak_shot_88.mp3",
+  "mak_shot_89": "ai-mak.bundle.json#mak_shot_89.mp3",
+  "mak_shot_9": "ai-mak.bundle.json#mak_shot_9.mp3",
+  "mak_shot_90": "ai-mak.bundle.json#mak_shot_90.mp3",
+  "mak_shot_91": "ai-mak.bundle.json#mak_shot_91.mp3",
+  "mak_shot_92": "ai-mak.bundle.json#mak_shot_92.mp3",
+  "mak_shot_93": "ai-mak.bundle.json#mak_shot_93.mp3",
+  "mak_shot_94": "ai-mak.bundle.json#mak_shot_94.mp3",
+  "mak_shot_95": "ai-mak.bundle.json#mak_shot_95.mp3",
+  "mak_shot_96": "ai-mak.bundle.json#mak_shot_96.mp3",
+  "mak_shot_97": "ai-mak.bundle.json#mak_shot_97.mp3",
+  "mak_shot_98": "ai-mak.bundle.json#mak_shot_98.mp3",
+  "mak_shot_99": "ai-mak.bundle.json#mak_shot_99.mp3",
+  "mak_slide": "ai-mak.bundle.json#mak_slide.mp3",
+  "muffled_mak_1": "ai-mak.bundle.json#muffled_mak_1.mp3",
+  "muffled_mak_2": "ai-mak.bundle.json#muffled_mak_2.mp3",
+  "muffled_mak_3": "ai-mak.bundle.json#muffled_mak_3.mp3",
+  "muffled_mak_4": "ai-mak.bundle.json#muffled_mak_4.mp3",
+  "ambience_wind_1": "ai-outdoor.bundle.json#ambience_wind_1.mp3",
+  "ambience_wind_2": "ai-outdoor.bundle.json#ambience_wind_2.mp3",
+  "ambience_wind_3": "ai-outdoor.bundle.json#ambience_wind_3.mp3",
+  "barrel_tick_1": "ai-outdoor.bundle.json#barrel_tick_1.mp3",
+  "barrel_tick_2": "ai-outdoor.bundle.json#barrel_tick_2.mp3",
+  "barrel_tick_3": "ai-outdoor.bundle.json#barrel_tick_3.mp3",
+  "barrel_tick_4": "ai-outdoor.bundle.json#barrel_tick_4.mp3",
+  "echo_roll_1": "ai-outdoor.bundle.json#echo_roll_1.mp3",
+  "echo_roll_2": "ai-outdoor.bundle.json#echo_roll_2.mp3",
+  "echo_roll_3": "ai-outdoor.bundle.json#echo_roll_3.mp3",
+  "echo_roll_4": "ai-outdoor.bundle.json#echo_roll_4.mp3",
+  "outdoor_ak_shot_1": "ai-outdoor.bundle.json#outdoor_ak_shot_1.mp3",
+  "outdoor_ak_shot_10": "ai-outdoor.bundle.json#outdoor_ak_shot_10.mp3",
+  "outdoor_ak_shot_11": "ai-outdoor.bundle.json#outdoor_ak_shot_11.mp3",
+  "outdoor_ak_shot_12": "ai-outdoor.bundle.json#outdoor_ak_shot_12.mp3",
+  "outdoor_ak_shot_13": "ai-outdoor.bundle.json#outdoor_ak_shot_13.mp3",
+  "outdoor_ak_shot_14": "ai-outdoor.bundle.json#outdoor_ak_shot_14.mp3",
+  "outdoor_ak_shot_15": "ai-outdoor.bundle.json#outdoor_ak_shot_15.mp3",
+  "outdoor_ak_shot_16": "ai-outdoor.bundle.json#outdoor_ak_shot_16.mp3",
+  "outdoor_ak_shot_17": "ai-outdoor.bundle.json#outdoor_ak_shot_17.mp3",
+  "outdoor_ak_shot_18": "ai-outdoor.bundle.json#outdoor_ak_shot_18.mp3",
+  "outdoor_ak_shot_19": "ai-outdoor.bundle.json#outdoor_ak_shot_19.mp3",
+  "outdoor_ak_shot_2": "ai-outdoor.bundle.json#outdoor_ak_shot_2.mp3",
+  "outdoor_ak_shot_20": "ai-outdoor.bundle.json#outdoor_ak_shot_20.mp3",
+  "outdoor_ak_shot_21": "ai-outdoor.bundle.json#outdoor_ak_shot_21.mp3",
+  "outdoor_ak_shot_22": "ai-outdoor.bundle.json#outdoor_ak_shot_22.mp3",
+  "outdoor_ak_shot_23": "ai-outdoor.bundle.json#outdoor_ak_shot_23.mp3",
+  "outdoor_ak_shot_24": "ai-outdoor.bundle.json#outdoor_ak_shot_24.mp3",
+  "outdoor_ak_shot_25": "ai-outdoor.bundle.json#outdoor_ak_shot_25.mp3",
+  "outdoor_ak_shot_26": "ai-outdoor.bundle.json#outdoor_ak_shot_26.mp3",
+  "outdoor_ak_shot_27": "ai-outdoor.bundle.json#outdoor_ak_shot_27.mp3",
+  "outdoor_ak_shot_28": "ai-outdoor.bundle.json#outdoor_ak_shot_28.mp3",
+  "outdoor_ak_shot_29": "ai-outdoor.bundle.json#outdoor_ak_shot_29.mp3",
+  "outdoor_ak_shot_3": "ai-outdoor.bundle.json#outdoor_ak_shot_3.mp3",
+  "outdoor_ak_shot_30": "ai-outdoor.bundle.json#outdoor_ak_shot_30.mp3",
+  "outdoor_ak_shot_31": "ai-outdoor.bundle.json#outdoor_ak_shot_31.mp3",
+  "outdoor_ak_shot_32": "ai-outdoor.bundle.json#outdoor_ak_shot_32.mp3",
+  "outdoor_ak_shot_33": "ai-outdoor.bundle.json#outdoor_ak_shot_33.mp3",
+  "outdoor_ak_shot_34": "ai-outdoor.bundle.json#outdoor_ak_shot_34.mp3",
+  "outdoor_ak_shot_35": "ai-outdoor.bundle.json#outdoor_ak_shot_35.mp3",
+  "outdoor_ak_shot_36": "ai-outdoor.bundle.json#outdoor_ak_shot_36.mp3",
+  "outdoor_ak_shot_37": "ai-outdoor.bundle.json#outdoor_ak_shot_37.mp3",
+  "outdoor_ak_shot_38": "ai-outdoor.bundle.json#outdoor_ak_shot_38.mp3",
+  "outdoor_ak_shot_39": "ai-outdoor.bundle.json#outdoor_ak_shot_39.mp3",
+  "outdoor_ak_shot_4": "ai-outdoor.bundle.json#outdoor_ak_shot_4.mp3",
+  "outdoor_ak_shot_40": "ai-outdoor.bundle.json#outdoor_ak_shot_40.mp3",
+  "outdoor_ak_shot_5": "ai-outdoor.bundle.json#outdoor_ak_shot_5.mp3",
+  "outdoor_ak_shot_6": "ai-outdoor.bundle.json#outdoor_ak_shot_6.mp3",
+  "outdoor_ak_shot_7": "ai-outdoor.bundle.json#outdoor_ak_shot_7.mp3",
+  "outdoor_ak_shot_8": "ai-outdoor.bundle.json#outdoor_ak_shot_8.mp3",
+  "outdoor_ak_shot_9": "ai-outdoor.bundle.json#outdoor_ak_shot_9.mp3",
+  "outdoor_mak_shot_1": "ai-outdoor.bundle.json#outdoor_mak_shot_1.mp3",
+  "outdoor_mak_shot_10": "ai-outdoor.bundle.json#outdoor_mak_shot_10.mp3",
+  "outdoor_mak_shot_11": "ai-outdoor.bundle.json#outdoor_mak_shot_11.mp3",
+  "outdoor_mak_shot_12": "ai-outdoor.bundle.json#outdoor_mak_shot_12.mp3",
+  "outdoor_mak_shot_13": "ai-outdoor.bundle.json#outdoor_mak_shot_13.mp3",
+  "outdoor_mak_shot_14": "ai-outdoor.bundle.json#outdoor_mak_shot_14.mp3",
+  "outdoor_mak_shot_15": "ai-outdoor.bundle.json#outdoor_mak_shot_15.mp3",
+  "outdoor_mak_shot_16": "ai-outdoor.bundle.json#outdoor_mak_shot_16.mp3",
+  "outdoor_mak_shot_17": "ai-outdoor.bundle.json#outdoor_mak_shot_17.mp3",
+  "outdoor_mak_shot_18": "ai-outdoor.bundle.json#outdoor_mak_shot_18.mp3",
+  "outdoor_mak_shot_19": "ai-outdoor.bundle.json#outdoor_mak_shot_19.mp3",
+  "outdoor_mak_shot_2": "ai-outdoor.bundle.json#outdoor_mak_shot_2.mp3",
+  "outdoor_mak_shot_20": "ai-outdoor.bundle.json#outdoor_mak_shot_20.mp3",
+  "outdoor_mak_shot_21": "ai-outdoor.bundle.json#outdoor_mak_shot_21.mp3",
+  "outdoor_mak_shot_22": "ai-outdoor.bundle.json#outdoor_mak_shot_22.mp3",
+  "outdoor_mak_shot_23": "ai-outdoor.bundle.json#outdoor_mak_shot_23.mp3",
+  "outdoor_mak_shot_24": "ai-outdoor.bundle.json#outdoor_mak_shot_24.mp3",
+  "outdoor_mak_shot_25": "ai-outdoor.bundle.json#outdoor_mak_shot_25.mp3",
+  "outdoor_mak_shot_26": "ai-outdoor.bundle.json#outdoor_mak_shot_26.mp3",
+  "outdoor_mak_shot_27": "ai-outdoor.bundle.json#outdoor_mak_shot_27.mp3",
+  "outdoor_mak_shot_28": "ai-outdoor.bundle.json#outdoor_mak_shot_28.mp3",
+  "outdoor_mak_shot_29": "ai-outdoor.bundle.json#outdoor_mak_shot_29.mp3",
+  "outdoor_mak_shot_3": "ai-outdoor.bundle.json#outdoor_mak_shot_3.mp3",
+  "outdoor_mak_shot_30": "ai-outdoor.bundle.json#outdoor_mak_shot_30.mp3",
+  "outdoor_mak_shot_4": "ai-outdoor.bundle.json#outdoor_mak_shot_4.mp3",
+  "outdoor_mak_shot_5": "ai-outdoor.bundle.json#outdoor_mak_shot_5.mp3",
+  "outdoor_mak_shot_6": "ai-outdoor.bundle.json#outdoor_mak_shot_6.mp3",
+  "outdoor_mak_shot_7": "ai-outdoor.bundle.json#outdoor_mak_shot_7.mp3",
+  "outdoor_mak_shot_8": "ai-outdoor.bundle.json#outdoor_mak_shot_8.mp3",
+  "outdoor_mak_shot_9": "ai-outdoor.bundle.json#outdoor_mak_shot_9.mp3",
+  "room/vase_ceramic_puncture_1": "ai-room.bundle.json#room/vase_ceramic_puncture_1.mp3",
+  "room/vase_ceramic_puncture_2": "ai-room.bundle.json#room/vase_ceramic_puncture_2.mp3",
+  "room/vase_ceramic_puncture_3": "ai-room.bundle.json#room/vase_ceramic_puncture_3.mp3",
+  "room/vase_ceramic_puncture_4": "ai-room.bundle.json#room/vase_ceramic_puncture_4.mp3",
+  "room/vase_ceramic_fall_1": "ai-room.bundle.json#room/vase_ceramic_fall_1.mp3",
+  "room/vase_ceramic_fall_2": "ai-room.bundle.json#room/vase_ceramic_fall_2.mp3",
+  "room/vase_ceramic_fall_3": "ai-room.bundle.json#room/vase_ceramic_fall_3.mp3",
+  "room/vase_ceramic_fall_wood_1": "ai-room.bundle.json#room/vase_ceramic_fall_wood_1.mp3",
+  "room/vase_ceramic_fall_wood_2": "ai-room.bundle.json#room/vase_ceramic_fall_wood_2.mp3",
+  "room/vase_ceramic_collapse_1": "ai-room.bundle.json#room/vase_ceramic_collapse_1.mp3",
+  "room/vase_ceramic_collapse_2": "ai-room.bundle.json#room/vase_ceramic_collapse_2.mp3",
+  "room/vase_ceramic_collapse_3": "ai-room.bundle.json#room/vase_ceramic_collapse_3.mp3",
+  "room/vase_ceramic_collapse_4": "ai-room.bundle.json#room/vase_ceramic_collapse_4.mp3",
+  "room/bottle_glass_puncture_1": "ai-room.bundle.json#room/bottle_glass_puncture_1.mp3",
+  "room/bottle_glass_puncture_2": "ai-room.bundle.json#room/bottle_glass_puncture_2.mp3",
+  "room/bottle_glass_puncture_3": "ai-room.bundle.json#room/bottle_glass_puncture_3.mp3",
+  "room/bottle_glass_puncture_4": "ai-room.bundle.json#room/bottle_glass_puncture_4.mp3",
+  "room/bottle_glass_fall_1": "ai-room.bundle.json#room/bottle_glass_fall_1.mp3",
+  "room/bottle_glass_fall_2": "ai-room.bundle.json#room/bottle_glass_fall_2.mp3",
+  "room/bottle_glass_fall_3": "ai-room.bundle.json#room/bottle_glass_fall_3.mp3",
+  "room/bottle_glass_fall_wood_1": "ai-room.bundle.json#room/bottle_glass_fall_wood_1.mp3",
+  "room/bottle_glass_fall_wood_2": "ai-room.bundle.json#room/bottle_glass_fall_wood_2.mp3",
+  "room/bottle_glass_collapse_1": "ai-room.bundle.json#room/bottle_glass_collapse_1.mp3",
+  "room/bottle_glass_collapse_2": "ai-room.bundle.json#room/bottle_glass_collapse_2.mp3",
+  "room/bottle_glass_collapse_3": "ai-room.bundle.json#room/bottle_glass_collapse_3.mp3",
+  "room/bottle_glass_collapse_4": "ai-room.bundle.json#room/bottle_glass_collapse_4.mp3",
+  "room/jar_glass_puncture_1": "ai-room.bundle.json#room/jar_glass_puncture_1.mp3",
+  "room/jar_glass_puncture_2": "ai-room.bundle.json#room/jar_glass_puncture_2.mp3",
+  "room/jar_glass_puncture_3": "ai-room.bundle.json#room/jar_glass_puncture_3.mp3",
+  "room/jar_glass_fall_1": "ai-room.bundle.json#room/jar_glass_fall_1.mp3",
+  "room/jar_glass_fall_2": "ai-room.bundle.json#room/jar_glass_fall_2.mp3",
+  "room/jar_glass_fall_3": "ai-room.bundle.json#room/jar_glass_fall_3.mp3",
+  "room/jar_glass_fall_wood_1": "ai-room.bundle.json#room/jar_glass_fall_wood_1.mp3",
+  "room/jar_glass_fall_wood_2": "ai-room.bundle.json#room/jar_glass_fall_wood_2.mp3",
+  "room/jar_glass_collapse_1": "ai-room.bundle.json#room/jar_glass_collapse_1.mp3",
+  "room/jar_glass_collapse_2": "ai-room.bundle.json#room/jar_glass_collapse_2.mp3",
+  "room/jar_glass_collapse_3": "ai-room.bundle.json#room/jar_glass_collapse_3.mp3",
+  "room/plate_ceramic_puncture_1": "ai-room.bundle.json#room/plate_ceramic_puncture_1.mp3",
+  "room/plate_ceramic_puncture_2": "ai-room.bundle.json#room/plate_ceramic_puncture_2.mp3",
+  "room/plate_ceramic_puncture_3": "ai-room.bundle.json#room/plate_ceramic_puncture_3.mp3",
+  "room/plate_ceramic_fall_1": "ai-room.bundle.json#room/plate_ceramic_fall_1.mp3",
+  "room/plate_ceramic_fall_2": "ai-room.bundle.json#room/plate_ceramic_fall_2.mp3",
+  "room/plate_ceramic_fall_3": "ai-room.bundle.json#room/plate_ceramic_fall_3.mp3",
+  "room/plate_ceramic_fall_wood_1": "ai-room.bundle.json#room/plate_ceramic_fall_wood_1.mp3",
+  "room/plate_ceramic_fall_wood_2": "ai-room.bundle.json#room/plate_ceramic_fall_wood_2.mp3",
+  "room/plate_ceramic_collapse_1": "ai-room.bundle.json#room/plate_ceramic_collapse_1.mp3",
+  "room/plate_ceramic_collapse_2": "ai-room.bundle.json#room/plate_ceramic_collapse_2.mp3",
+  "room/plate_ceramic_collapse_3": "ai-room.bundle.json#room/plate_ceramic_collapse_3.mp3",
+  "room/can_tin_puncture_1": "ai-room.bundle.json#room/can_tin_puncture_1.mp3",
+  "room/can_tin_puncture_2": "ai-room.bundle.json#room/can_tin_puncture_2.mp3",
+  "room/can_tin_puncture_3": "ai-room.bundle.json#room/can_tin_puncture_3.mp3",
+  "room/can_tin_fall_1": "ai-room.bundle.json#room/can_tin_fall_1.mp3",
+  "room/can_tin_fall_2": "ai-room.bundle.json#room/can_tin_fall_2.mp3",
+  "room/can_tin_fall_3": "ai-room.bundle.json#room/can_tin_fall_3.mp3",
+  "room/can_tin_fall_wood_1": "ai-room.bundle.json#room/can_tin_fall_wood_1.mp3",
+  "room/can_tin_fall_wood_2": "ai-room.bundle.json#room/can_tin_fall_wood_2.mp3",
+  "room/can_tin_collapse_1": "ai-room.bundle.json#room/can_tin_collapse_1.mp3",
+  "room/can_tin_collapse_2": "ai-room.bundle.json#room/can_tin_collapse_2.mp3",
+  "room/can_tin_collapse_3": "ai-room.bundle.json#room/can_tin_collapse_3.mp3",
+  "room/book_puncture_1": "ai-room.bundle.json#room/book_puncture_1.mp3",
+  "room/book_puncture_2": "ai-room.bundle.json#room/book_puncture_2.mp3",
+  "room/book_puncture_3": "ai-room.bundle.json#room/book_puncture_3.mp3",
+  "room/book_fall_1": "ai-room.bundle.json#room/book_fall_1.mp3",
+  "room/book_fall_2": "ai-room.bundle.json#room/book_fall_2.mp3",
+  "room/book_fall_3": "ai-room.bundle.json#room/book_fall_3.mp3",
+  "room/book_collapse_1": "ai-room.bundle.json#room/book_collapse_1.mp3",
+  "room/book_collapse_2": "ai-room.bundle.json#room/book_collapse_2.mp3",
+  "room/book_collapse_3": "ai-room.bundle.json#room/book_collapse_3.mp3",
+  "room/melon_puncture_1": "ai-room.bundle.json#room/melon_puncture_1.mp3",
+  "room/melon_puncture_2": "ai-room.bundle.json#room/melon_puncture_2.mp3",
+  "room/melon_puncture_3": "ai-room.bundle.json#room/melon_puncture_3.mp3",
+  "room/melon_fall_1": "ai-room.bundle.json#room/melon_fall_1.mp3",
+  "room/melon_fall_2": "ai-room.bundle.json#room/melon_fall_2.mp3",
+  "room/melon_fall_3": "ai-room.bundle.json#room/melon_fall_3.mp3",
+  "room/melon_collapse_1": "ai-room.bundle.json#room/melon_collapse_1.mp3",
+  "room/melon_collapse_2": "ai-room.bundle.json#room/melon_collapse_2.mp3",
+  "room/melon_collapse_3": "ai-room.bundle.json#room/melon_collapse_3.mp3",
+  "room/wood_block_puncture_1": "ai-room.bundle.json#room/wood_block_puncture_1.mp3",
+  "room/wood_block_puncture_2": "ai-room.bundle.json#room/wood_block_puncture_2.mp3",
+  "room/wood_block_puncture_3": "ai-room.bundle.json#room/wood_block_puncture_3.mp3",
+  "room/wood_block_fall_1": "ai-room.bundle.json#room/wood_block_fall_1.mp3",
+  "room/wood_block_fall_2": "ai-room.bundle.json#room/wood_block_fall_2.mp3",
+  "room/wood_block_fall_3": "ai-room.bundle.json#room/wood_block_fall_3.mp3",
+  "room/wood_block_fall_wood_1": "ai-room.bundle.json#room/wood_block_fall_wood_1.mp3",
+  "room/wood_block_fall_wood_2": "ai-room.bundle.json#room/wood_block_fall_wood_2.mp3",
+  "room/wood_block_collapse_1": "ai-room.bundle.json#room/wood_block_collapse_1.mp3",
+  "room/wood_block_collapse_2": "ai-room.bundle.json#room/wood_block_collapse_2.mp3",
+  "room/wood_block_collapse_3": "ai-room.bundle.json#room/wood_block_collapse_3.mp3",
+  "room/cinder_block_puncture_1": "ai-room.bundle.json#room/cinder_block_puncture_1.mp3",
+  "room/cinder_block_puncture_2": "ai-room.bundle.json#room/cinder_block_puncture_2.mp3",
+  "room/cinder_block_puncture_3": "ai-room.bundle.json#room/cinder_block_puncture_3.mp3",
+  "room/cinder_block_fall_1": "ai-room.bundle.json#room/cinder_block_fall_1.mp3",
+  "room/cinder_block_fall_2": "ai-room.bundle.json#room/cinder_block_fall_2.mp3",
+  "room/cinder_block_fall_3": "ai-room.bundle.json#room/cinder_block_fall_3.mp3",
+  "room/cinder_block_fall_wood_1": "ai-room.bundle.json#room/cinder_block_fall_wood_1.mp3",
+  "room/cinder_block_fall_wood_2": "ai-room.bundle.json#room/cinder_block_fall_wood_2.mp3",
+  "room/cinder_block_collapse_1": "ai-room.bundle.json#room/cinder_block_collapse_1.mp3",
+  "room/cinder_block_collapse_2": "ai-room.bundle.json#room/cinder_block_collapse_2.mp3",
+  "room/cinder_block_collapse_3": "ai-room.bundle.json#room/cinder_block_collapse_3.mp3",
+  "room/steel_plate_puncture_1": "ai-room.bundle.json#room/steel_plate_puncture_1.mp3",
+  "room/steel_plate_puncture_2": "ai-room.bundle.json#room/steel_plate_puncture_2.mp3",
+  "room/steel_plate_puncture_3": "ai-room.bundle.json#room/steel_plate_puncture_3.mp3",
+  "room/steel_plate_fall_1": "ai-room.bundle.json#room/steel_plate_fall_1.mp3",
+  "room/steel_plate_fall_2": "ai-room.bundle.json#room/steel_plate_fall_2.mp3",
+  "room/steel_plate_fall_3": "ai-room.bundle.json#room/steel_plate_fall_3.mp3",
+  "room/steel_plate_fall_wood_1": "ai-room.bundle.json#room/steel_plate_fall_wood_1.mp3",
+  "room/steel_plate_fall_wood_2": "ai-room.bundle.json#room/steel_plate_fall_wood_2.mp3",
+  "room/steel_plate_collapse_1": "ai-room.bundle.json#room/steel_plate_collapse_1.mp3",
+  "room/steel_plate_collapse_2": "ai-room.bundle.json#room/steel_plate_collapse_2.mp3",
+  "room/steel_plate_collapse_3": "ai-room.bundle.json#room/steel_plate_collapse_3.mp3",
+  "room/sandbag_puncture_1": "ai-room.bundle.json#room/sandbag_puncture_1.mp3",
+  "room/sandbag_puncture_2": "ai-room.bundle.json#room/sandbag_puncture_2.mp3",
+  "room/sandbag_puncture_3": "ai-room.bundle.json#room/sandbag_puncture_3.mp3",
+  "room/sandbag_fall_1": "ai-room.bundle.json#room/sandbag_fall_1.mp3",
+  "room/sandbag_fall_2": "ai-room.bundle.json#room/sandbag_fall_2.mp3",
+  "room/sandbag_fall_3": "ai-room.bundle.json#room/sandbag_fall_3.mp3",
+  "room/sandbag_collapse_1": "ai-room.bundle.json#room/sandbag_collapse_1.mp3",
+  "room/sandbag_collapse_2": "ai-room.bundle.json#room/sandbag_collapse_2.mp3",
+  "room/sandbag_collapse_3": "ai-room.bundle.json#room/sandbag_collapse_3.mp3",
+  "room/mannequin_puncture_1": "ai-room.bundle.json#room/mannequin_puncture_1.mp3",
+  "room/mannequin_puncture_2": "ai-room.bundle.json#room/mannequin_puncture_2.mp3",
+  "room/mannequin_puncture_3": "ai-room.bundle.json#room/mannequin_puncture_3.mp3",
+  "room/mannequin_fall_1": "ai-room.bundle.json#room/mannequin_fall_1.mp3",
+  "room/mannequin_fall_2": "ai-room.bundle.json#room/mannequin_fall_2.mp3",
+  "room/mannequin_fall_3": "ai-room.bundle.json#room/mannequin_fall_3.mp3",
+  "room/mannequin_fall_wood_1": "ai-room.bundle.json#room/mannequin_fall_wood_1.mp3",
+  "room/mannequin_fall_wood_2": "ai-room.bundle.json#room/mannequin_fall_wood_2.mp3",
+  "room/mannequin_collapse_1": "ai-room.bundle.json#room/mannequin_collapse_1.mp3",
+  "room/mannequin_collapse_2": "ai-room.bundle.json#room/mannequin_collapse_2.mp3",
+  "room/mannequin_collapse_3": "ai-room.bundle.json#room/mannequin_collapse_3.mp3",
+  "room/tv_crt_puncture_1": "ai-room.bundle.json#room/tv_crt_puncture_1.mp3",
+  "room/tv_crt_puncture_2": "ai-room.bundle.json#room/tv_crt_puncture_2.mp3",
+  "room/tv_crt_puncture_3": "ai-room.bundle.json#room/tv_crt_puncture_3.mp3",
+  "room/tv_crt_puncture_4": "ai-room.bundle.json#room/tv_crt_puncture_4.mp3",
+  "room/tv_crt_fall_1": "ai-room.bundle.json#room/tv_crt_fall_1.mp3",
+  "room/tv_crt_fall_2": "ai-room.bundle.json#room/tv_crt_fall_2.mp3",
+  "room/tv_crt_fall_3": "ai-room.bundle.json#room/tv_crt_fall_3.mp3",
+  "room/tv_crt_fall_wood_1": "ai-room.bundle.json#room/tv_crt_fall_wood_1.mp3",
+  "room/tv_crt_fall_wood_2": "ai-room.bundle.json#room/tv_crt_fall_wood_2.mp3",
+  "room/tv_crt_collapse_1": "ai-room.bundle.json#room/tv_crt_collapse_1.mp3",
+  "room/tv_crt_collapse_2": "ai-room.bundle.json#room/tv_crt_collapse_2.mp3",
+  "room/tv_crt_collapse_3": "ai-room.bundle.json#room/tv_crt_collapse_3.mp3",
+  "room/tv_crt_collapse_4": "ai-room.bundle.json#room/tv_crt_collapse_4.mp3",
+  "room/tv_lcd_puncture_1": "ai-room.bundle.json#room/tv_lcd_puncture_1.mp3",
+  "room/tv_lcd_puncture_2": "ai-room.bundle.json#room/tv_lcd_puncture_2.mp3",
+  "room/tv_lcd_puncture_3": "ai-room.bundle.json#room/tv_lcd_puncture_3.mp3",
+  "room/tv_lcd_fall_1": "ai-room.bundle.json#room/tv_lcd_fall_1.mp3",
+  "room/tv_lcd_fall_2": "ai-room.bundle.json#room/tv_lcd_fall_2.mp3",
+  "room/tv_lcd_fall_3": "ai-room.bundle.json#room/tv_lcd_fall_3.mp3",
+  "room/tv_lcd_fall_wood_1": "ai-room.bundle.json#room/tv_lcd_fall_wood_1.mp3",
+  "room/tv_lcd_fall_wood_2": "ai-room.bundle.json#room/tv_lcd_fall_wood_2.mp3",
+  "room/tv_lcd_collapse_1": "ai-room.bundle.json#room/tv_lcd_collapse_1.mp3",
+  "room/tv_lcd_collapse_2": "ai-room.bundle.json#room/tv_lcd_collapse_2.mp3",
+  "room/tv_lcd_collapse_3": "ai-room.bundle.json#room/tv_lcd_collapse_3.mp3",
+  "room/pedestal_wood_puncture_1": "ai-room.bundle.json#room/pedestal_wood_puncture_1.mp3",
+  "room/pedestal_wood_puncture_2": "ai-room.bundle.json#room/pedestal_wood_puncture_2.mp3",
+  "room/pedestal_wood_puncture_3": "ai-room.bundle.json#room/pedestal_wood_puncture_3.mp3",
+  "room/pedestal_wood_fall_1": "ai-room.bundle.json#room/pedestal_wood_fall_1.mp3",
+  "room/pedestal_wood_fall_2": "ai-room.bundle.json#room/pedestal_wood_fall_2.mp3",
+  "room/pedestal_wood_fall_3": "ai-room.bundle.json#room/pedestal_wood_fall_3.mp3",
+  "room/pedestal_wood_fall_wood_1": "ai-room.bundle.json#room/pedestal_wood_fall_wood_1.mp3",
+  "room/pedestal_wood_fall_wood_2": "ai-room.bundle.json#room/pedestal_wood_fall_wood_2.mp3",
+  "room/pedestal_wood_collapse_1": "ai-room.bundle.json#room/pedestal_wood_collapse_1.mp3",
+  "room/pedestal_wood_collapse_2": "ai-room.bundle.json#room/pedestal_wood_collapse_2.mp3",
+  "room/pedestal_wood_collapse_3": "ai-room.bundle.json#room/pedestal_wood_collapse_3.mp3",
+  "room/shelf_wood_puncture_1": "ai-room.bundle.json#room/shelf_wood_puncture_1.mp3",
+  "room/shelf_wood_puncture_2": "ai-room.bundle.json#room/shelf_wood_puncture_2.mp3",
+  "room/shelf_wood_puncture_3": "ai-room.bundle.json#room/shelf_wood_puncture_3.mp3",
+  "room/shelf_wood_fall_1": "ai-room.bundle.json#room/shelf_wood_fall_1.mp3",
+  "room/shelf_wood_fall_2": "ai-room.bundle.json#room/shelf_wood_fall_2.mp3",
+  "room/shelf_wood_fall_3": "ai-room.bundle.json#room/shelf_wood_fall_3.mp3",
+  "room/shelf_wood_fall_wood_1": "ai-room.bundle.json#room/shelf_wood_fall_wood_1.mp3",
+  "room/shelf_wood_fall_wood_2": "ai-room.bundle.json#room/shelf_wood_fall_wood_2.mp3",
+  "room/shelf_wood_collapse_1": "ai-room.bundle.json#room/shelf_wood_collapse_1.mp3",
+  "room/shelf_wood_collapse_2": "ai-room.bundle.json#room/shelf_wood_collapse_2.mp3",
+  "room/shelf_wood_collapse_3": "ai-room.bundle.json#room/shelf_wood_collapse_3.mp3",
+  "room/wall_drywall_puncture_1": "ai-room.bundle.json#room/wall_drywall_puncture_1.mp3",
+  "room/wall_drywall_puncture_2": "ai-room.bundle.json#room/wall_drywall_puncture_2.mp3",
+  "room/wall_drywall_puncture_3": "ai-room.bundle.json#room/wall_drywall_puncture_3.mp3",
+  "room/wall_drywall_fall_1": "ai-room.bundle.json#room/wall_drywall_fall_1.mp3",
+  "room/wall_drywall_fall_2": "ai-room.bundle.json#room/wall_drywall_fall_2.mp3",
+  "room/wall_drywall_fall_3": "ai-room.bundle.json#room/wall_drywall_fall_3.mp3",
+  "room/wall_drywall_fall_wood_1": "ai-room.bundle.json#room/wall_drywall_fall_wood_1.mp3",
+  "room/wall_drywall_fall_wood_2": "ai-room.bundle.json#room/wall_drywall_fall_wood_2.mp3",
+  "room/wall_drywall_collapse_1": "ai-room.bundle.json#room/wall_drywall_collapse_1.mp3",
+  "room/wall_drywall_collapse_2": "ai-room.bundle.json#room/wall_drywall_collapse_2.mp3",
+  "room/wall_drywall_collapse_3": "ai-room.bundle.json#room/wall_drywall_collapse_3.mp3",
+  "room/wall_concrete_puncture_1": "ai-room.bundle.json#room/wall_concrete_puncture_1.mp3",
+  "room/wall_concrete_puncture_2": "ai-room.bundle.json#room/wall_concrete_puncture_2.mp3",
+  "room/wall_concrete_puncture_3": "ai-room.bundle.json#room/wall_concrete_puncture_3.mp3",
+  "room/wall_concrete_fall_1": "ai-room.bundle.json#room/wall_concrete_fall_1.mp3",
+  "room/wall_concrete_fall_2": "ai-room.bundle.json#room/wall_concrete_fall_2.mp3",
+  "room/wall_concrete_fall_3": "ai-room.bundle.json#room/wall_concrete_fall_3.mp3",
+  "room/wall_concrete_fall_wood_1": "ai-room.bundle.json#room/wall_concrete_fall_wood_1.mp3",
+  "room/wall_concrete_fall_wood_2": "ai-room.bundle.json#room/wall_concrete_fall_wood_2.mp3",
+  "room/wall_concrete_collapse_1": "ai-room.bundle.json#room/wall_concrete_collapse_1.mp3",
+  "room/wall_concrete_collapse_2": "ai-room.bundle.json#room/wall_concrete_collapse_2.mp3",
+  "room/wall_concrete_collapse_3": "ai-room.bundle.json#room/wall_concrete_collapse_3.mp3",
+  "room/wall_brick_puncture_1": "ai-room.bundle.json#room/wall_brick_puncture_1.mp3",
+  "room/wall_brick_puncture_2": "ai-room.bundle.json#room/wall_brick_puncture_2.mp3",
+  "room/wall_brick_puncture_3": "ai-room.bundle.json#room/wall_brick_puncture_3.mp3",
+  "room/wall_brick_fall_1": "ai-room.bundle.json#room/wall_brick_fall_1.mp3",
+  "room/wall_brick_fall_2": "ai-room.bundle.json#room/wall_brick_fall_2.mp3",
+  "room/wall_brick_fall_3": "ai-room.bundle.json#room/wall_brick_fall_3.mp3",
+  "room/wall_brick_fall_wood_1": "ai-room.bundle.json#room/wall_brick_fall_wood_1.mp3",
+  "room/wall_brick_fall_wood_2": "ai-room.bundle.json#room/wall_brick_fall_wood_2.mp3",
+  "room/wall_brick_collapse_1": "ai-room.bundle.json#room/wall_brick_collapse_1.mp3",
+  "room/wall_brick_collapse_2": "ai-room.bundle.json#room/wall_brick_collapse_2.mp3",
+  "room/wall_brick_collapse_3": "ai-room.bundle.json#room/wall_brick_collapse_3.mp3",
+  "room/wall_wood_puncture_1": "ai-room.bundle.json#room/wall_wood_puncture_1.mp3",
+  "room/wall_wood_puncture_2": "ai-room.bundle.json#room/wall_wood_puncture_2.mp3",
+  "room/wall_wood_puncture_3": "ai-room.bundle.json#room/wall_wood_puncture_3.mp3",
+  "room/wall_wood_fall_1": "ai-room.bundle.json#room/wall_wood_fall_1.mp3",
+  "room/wall_wood_fall_2": "ai-room.bundle.json#room/wall_wood_fall_2.mp3",
+  "room/wall_wood_fall_3": "ai-room.bundle.json#room/wall_wood_fall_3.mp3",
+  "room/wall_wood_fall_wood_1": "ai-room.bundle.json#room/wall_wood_fall_wood_1.mp3",
+  "room/wall_wood_fall_wood_2": "ai-room.bundle.json#room/wall_wood_fall_wood_2.mp3",
+  "room/wall_wood_collapse_1": "ai-room.bundle.json#room/wall_wood_collapse_1.mp3",
+  "room/wall_wood_collapse_2": "ai-room.bundle.json#room/wall_wood_collapse_2.mp3",
+  "room/wall_wood_collapse_3": "ai-room.bundle.json#room/wall_wood_collapse_3.mp3",
+  "room/ricochet_steel_1": "ai-room.bundle.json#room/ricochet_steel_1.mp3",
+  "room/ricochet_steel_2": "ai-room.bundle.json#room/ricochet_steel_2.mp3",
+  "room/ricochet_steel_3": "ai-room.bundle.json#room/ricochet_steel_3.mp3",
+  "room/ricochet_steel_4": "ai-room.bundle.json#room/ricochet_steel_4.mp3",
+  "room/ricochet_concrete_1": "ai-room.bundle.json#room/ricochet_concrete_1.mp3",
+  "room/ricochet_concrete_2": "ai-room.bundle.json#room/ricochet_concrete_2.mp3",
+  "room/ricochet_concrete_3": "ai-room.bundle.json#room/ricochet_concrete_3.mp3",
+  "room/ricochet_concrete_4": "ai-room.bundle.json#room/ricochet_concrete_4.mp3",
+  "room/ricochet_brick_1": "ai-room.bundle.json#room/ricochet_brick_1.mp3",
+  "room/ricochet_brick_2": "ai-room.bundle.json#room/ricochet_brick_2.mp3",
+  "room/ricochet_brick_3": "ai-room.bundle.json#room/ricochet_brick_3.mp3",
+  "room/ricochet_brick_4": "ai-room.bundle.json#room/ricochet_brick_4.mp3"
+ },
+ "room_events": {
+  "book_collapse": {
+   "all": [
+    "room/book_collapse_1",
+    "room/book_collapse_2",
+    "room/book_collapse_3"
+   ]
+  },
+  "book_fall": {
+   "all": [
+    "room/book_fall_1",
+    "room/book_fall_2",
+    "room/book_fall_3"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/book_fall_1",
+     "room/book_fall_2",
+     "room/book_fall_3"
+    ]
+   }
+  },
+  "book_puncture": {
+   "all": [
+    "room/book_puncture_1",
+    "room/book_puncture_2",
+    "room/book_puncture_3"
+   ]
+  },
+  "bottle_glass_collapse": {
+   "all": [
+    "room/bottle_glass_collapse_1",
+    "room/bottle_glass_collapse_2",
+    "room/bottle_glass_collapse_3",
+    "room/bottle_glass_collapse_4"
+   ]
+  },
+  "bottle_glass_fall": {
+   "all": [
+    "room/bottle_glass_fall_1",
+    "room/bottle_glass_fall_2",
+    "room/bottle_glass_fall_3",
+    "room/bottle_glass_fall_wood_1",
+    "room/bottle_glass_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/bottle_glass_fall_1",
+     "room/bottle_glass_fall_2",
+     "room/bottle_glass_fall_3"
+    ],
+    "wood": [
+     "room/bottle_glass_fall_wood_1",
+     "room/bottle_glass_fall_wood_2"
+    ]
+   }
+  },
+  "bottle_glass_puncture": {
+   "all": [
+    "room/bottle_glass_puncture_1",
+    "room/bottle_glass_puncture_2",
+    "room/bottle_glass_puncture_3",
+    "room/bottle_glass_puncture_4"
+   ]
+  },
+  "can_tin_collapse": {
+   "all": [
+    "room/can_tin_collapse_1",
+    "room/can_tin_collapse_2",
+    "room/can_tin_collapse_3"
+   ]
+  },
+  "can_tin_fall": {
+   "all": [
+    "room/can_tin_fall_1",
+    "room/can_tin_fall_2",
+    "room/can_tin_fall_3",
+    "room/can_tin_fall_wood_1",
+    "room/can_tin_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/can_tin_fall_1",
+     "room/can_tin_fall_2",
+     "room/can_tin_fall_3"
+    ],
+    "wood": [
+     "room/can_tin_fall_wood_1",
+     "room/can_tin_fall_wood_2"
+    ]
+   }
+  },
+  "can_tin_puncture": {
+   "all": [
+    "room/can_tin_puncture_1",
+    "room/can_tin_puncture_2",
+    "room/can_tin_puncture_3"
+   ]
+  },
+  "cinder_block_collapse": {
+   "all": [
+    "room/cinder_block_collapse_1",
+    "room/cinder_block_collapse_2",
+    "room/cinder_block_collapse_3"
+   ]
+  },
+  "cinder_block_fall": {
+   "all": [
+    "room/cinder_block_fall_1",
+    "room/cinder_block_fall_2",
+    "room/cinder_block_fall_3",
+    "room/cinder_block_fall_wood_1",
+    "room/cinder_block_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/cinder_block_fall_1",
+     "room/cinder_block_fall_2",
+     "room/cinder_block_fall_3"
+    ],
+    "wood": [
+     "room/cinder_block_fall_wood_1",
+     "room/cinder_block_fall_wood_2"
+    ]
+   }
+  },
+  "cinder_block_puncture": {
+   "all": [
+    "room/cinder_block_puncture_1",
+    "room/cinder_block_puncture_2",
+    "room/cinder_block_puncture_3"
+   ]
+  },
+  "jar_glass_collapse": {
+   "all": [
+    "room/jar_glass_collapse_1",
+    "room/jar_glass_collapse_2",
+    "room/jar_glass_collapse_3"
+   ]
+  },
+  "jar_glass_fall": {
+   "all": [
+    "room/jar_glass_fall_1",
+    "room/jar_glass_fall_2",
+    "room/jar_glass_fall_3",
+    "room/jar_glass_fall_wood_1",
+    "room/jar_glass_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/jar_glass_fall_1",
+     "room/jar_glass_fall_2",
+     "room/jar_glass_fall_3"
+    ],
+    "wood": [
+     "room/jar_glass_fall_wood_1",
+     "room/jar_glass_fall_wood_2"
+    ]
+   }
+  },
+  "jar_glass_puncture": {
+   "all": [
+    "room/jar_glass_puncture_1",
+    "room/jar_glass_puncture_2",
+    "room/jar_glass_puncture_3"
+   ]
+  },
+  "mannequin_collapse": {
+   "all": [
+    "room/mannequin_collapse_1",
+    "room/mannequin_collapse_2",
+    "room/mannequin_collapse_3"
+   ]
+  },
+  "mannequin_fall": {
+   "all": [
+    "room/mannequin_fall_1",
+    "room/mannequin_fall_2",
+    "room/mannequin_fall_3",
+    "room/mannequin_fall_wood_1",
+    "room/mannequin_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/mannequin_fall_1",
+     "room/mannequin_fall_2",
+     "room/mannequin_fall_3"
+    ],
+    "wood": [
+     "room/mannequin_fall_wood_1",
+     "room/mannequin_fall_wood_2"
+    ]
+   }
+  },
+  "mannequin_puncture": {
+   "all": [
+    "room/mannequin_puncture_1",
+    "room/mannequin_puncture_2",
+    "room/mannequin_puncture_3"
+   ]
+  },
+  "melon_collapse": {
+   "all": [
+    "room/melon_collapse_1",
+    "room/melon_collapse_2",
+    "room/melon_collapse_3"
+   ]
+  },
+  "melon_fall": {
+   "all": [
+    "room/melon_fall_1",
+    "room/melon_fall_2",
+    "room/melon_fall_3"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/melon_fall_1",
+     "room/melon_fall_2",
+     "room/melon_fall_3"
+    ]
+   }
+  },
+  "melon_puncture": {
+   "all": [
+    "room/melon_puncture_1",
+    "room/melon_puncture_2",
+    "room/melon_puncture_3"
+   ]
+  },
+  "pedestal_wood_collapse": {
+   "all": [
+    "room/pedestal_wood_collapse_1",
+    "room/pedestal_wood_collapse_2",
+    "room/pedestal_wood_collapse_3"
+   ]
+  },
+  "pedestal_wood_fall": {
+   "all": [
+    "room/pedestal_wood_fall_1",
+    "room/pedestal_wood_fall_2",
+    "room/pedestal_wood_fall_3",
+    "room/pedestal_wood_fall_wood_1",
+    "room/pedestal_wood_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/pedestal_wood_fall_1",
+     "room/pedestal_wood_fall_2",
+     "room/pedestal_wood_fall_3"
+    ],
+    "wood": [
+     "room/pedestal_wood_fall_wood_1",
+     "room/pedestal_wood_fall_wood_2"
+    ]
+   }
+  },
+  "pedestal_wood_puncture": {
+   "all": [
+    "room/pedestal_wood_puncture_1",
+    "room/pedestal_wood_puncture_2",
+    "room/pedestal_wood_puncture_3"
+   ]
+  },
+  "plate_ceramic_collapse": {
+   "all": [
+    "room/plate_ceramic_collapse_1",
+    "room/plate_ceramic_collapse_2",
+    "room/plate_ceramic_collapse_3"
+   ]
+  },
+  "plate_ceramic_fall": {
+   "all": [
+    "room/plate_ceramic_fall_1",
+    "room/plate_ceramic_fall_2",
+    "room/plate_ceramic_fall_3",
+    "room/plate_ceramic_fall_wood_1",
+    "room/plate_ceramic_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/plate_ceramic_fall_1",
+     "room/plate_ceramic_fall_2",
+     "room/plate_ceramic_fall_3"
+    ],
+    "wood": [
+     "room/plate_ceramic_fall_wood_1",
+     "room/plate_ceramic_fall_wood_2"
+    ]
+   }
+  },
+  "plate_ceramic_puncture": {
+   "all": [
+    "room/plate_ceramic_puncture_1",
+    "room/plate_ceramic_puncture_2",
+    "room/plate_ceramic_puncture_3"
+   ]
+  },
+  "ricochet_brick": {
+   "all": [
+    "room/ricochet_brick_1",
+    "room/ricochet_brick_2",
+    "room/ricochet_brick_3",
+    "room/ricochet_brick_4"
+   ]
+  },
+  "ricochet_concrete": {
+   "all": [
+    "room/ricochet_concrete_1",
+    "room/ricochet_concrete_2",
+    "room/ricochet_concrete_3",
+    "room/ricochet_concrete_4"
+   ]
+  },
+  "ricochet_steel": {
+   "all": [
+    "room/ricochet_steel_1",
+    "room/ricochet_steel_2",
+    "room/ricochet_steel_3",
+    "room/ricochet_steel_4"
+   ]
+  },
+  "sandbag_collapse": {
+   "all": [
+    "room/sandbag_collapse_1",
+    "room/sandbag_collapse_2",
+    "room/sandbag_collapse_3"
+   ]
+  },
+  "sandbag_fall": {
+   "all": [
+    "room/sandbag_fall_1",
+    "room/sandbag_fall_2",
+    "room/sandbag_fall_3"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/sandbag_fall_1",
+     "room/sandbag_fall_2",
+     "room/sandbag_fall_3"
+    ]
+   }
+  },
+  "sandbag_puncture": {
+   "all": [
+    "room/sandbag_puncture_1",
+    "room/sandbag_puncture_2",
+    "room/sandbag_puncture_3"
+   ]
+  },
+  "shelf_wood_collapse": {
+   "all": [
+    "room/shelf_wood_collapse_1",
+    "room/shelf_wood_collapse_2",
+    "room/shelf_wood_collapse_3"
+   ]
+  },
+  "shelf_wood_fall": {
+   "all": [
+    "room/shelf_wood_fall_1",
+    "room/shelf_wood_fall_2",
+    "room/shelf_wood_fall_3",
+    "room/shelf_wood_fall_wood_1",
+    "room/shelf_wood_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/shelf_wood_fall_1",
+     "room/shelf_wood_fall_2",
+     "room/shelf_wood_fall_3"
+    ],
+    "wood": [
+     "room/shelf_wood_fall_wood_1",
+     "room/shelf_wood_fall_wood_2"
+    ]
+   }
+  },
+  "shelf_wood_puncture": {
+   "all": [
+    "room/shelf_wood_puncture_1",
+    "room/shelf_wood_puncture_2",
+    "room/shelf_wood_puncture_3"
+   ]
+  },
+  "steel_plate_collapse": {
+   "all": [
+    "room/steel_plate_collapse_1",
+    "room/steel_plate_collapse_2",
+    "room/steel_plate_collapse_3"
+   ]
+  },
+  "steel_plate_fall": {
+   "all": [
+    "room/steel_plate_fall_1",
+    "room/steel_plate_fall_2",
+    "room/steel_plate_fall_3",
+    "room/steel_plate_fall_wood_1",
+    "room/steel_plate_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/steel_plate_fall_1",
+     "room/steel_plate_fall_2",
+     "room/steel_plate_fall_3"
+    ],
+    "wood": [
+     "room/steel_plate_fall_wood_1",
+     "room/steel_plate_fall_wood_2"
+    ]
+   }
+  },
+  "steel_plate_puncture": {
+   "all": [
+    "room/steel_plate_puncture_1",
+    "room/steel_plate_puncture_2",
+    "room/steel_plate_puncture_3"
+   ]
+  },
+  "tv_crt_collapse": {
+   "all": [
+    "room/tv_crt_collapse_1",
+    "room/tv_crt_collapse_2",
+    "room/tv_crt_collapse_3",
+    "room/tv_crt_collapse_4"
+   ]
+  },
+  "tv_crt_fall": {
+   "all": [
+    "room/tv_crt_fall_1",
+    "room/tv_crt_fall_2",
+    "room/tv_crt_fall_3",
+    "room/tv_crt_fall_wood_1",
+    "room/tv_crt_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/tv_crt_fall_1",
+     "room/tv_crt_fall_2",
+     "room/tv_crt_fall_3"
+    ],
+    "wood": [
+     "room/tv_crt_fall_wood_1",
+     "room/tv_crt_fall_wood_2"
+    ]
+   }
+  },
+  "tv_crt_puncture": {
+   "all": [
+    "room/tv_crt_puncture_1",
+    "room/tv_crt_puncture_2",
+    "room/tv_crt_puncture_3",
+    "room/tv_crt_puncture_4"
+   ]
+  },
+  "tv_lcd_collapse": {
+   "all": [
+    "room/tv_lcd_collapse_1",
+    "room/tv_lcd_collapse_2",
+    "room/tv_lcd_collapse_3"
+   ]
+  },
+  "tv_lcd_fall": {
+   "all": [
+    "room/tv_lcd_fall_1",
+    "room/tv_lcd_fall_2",
+    "room/tv_lcd_fall_3",
+    "room/tv_lcd_fall_wood_1",
+    "room/tv_lcd_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/tv_lcd_fall_1",
+     "room/tv_lcd_fall_2",
+     "room/tv_lcd_fall_3"
+    ],
+    "wood": [
+     "room/tv_lcd_fall_wood_1",
+     "room/tv_lcd_fall_wood_2"
+    ]
+   }
+  },
+  "tv_lcd_puncture": {
+   "all": [
+    "room/tv_lcd_puncture_1",
+    "room/tv_lcd_puncture_2",
+    "room/tv_lcd_puncture_3"
+   ]
+  },
+  "vase_ceramic_collapse": {
+   "all": [
+    "room/vase_ceramic_collapse_1",
+    "room/vase_ceramic_collapse_2",
+    "room/vase_ceramic_collapse_3",
+    "room/vase_ceramic_collapse_4"
+   ]
+  },
+  "vase_ceramic_fall": {
+   "all": [
+    "room/vase_ceramic_fall_1",
+    "room/vase_ceramic_fall_2",
+    "room/vase_ceramic_fall_3",
+    "room/vase_ceramic_fall_wood_1",
+    "room/vase_ceramic_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/vase_ceramic_fall_1",
+     "room/vase_ceramic_fall_2",
+     "room/vase_ceramic_fall_3"
+    ],
+    "wood": [
+     "room/vase_ceramic_fall_wood_1",
+     "room/vase_ceramic_fall_wood_2"
+    ]
+   }
+  },
+  "vase_ceramic_puncture": {
+   "all": [
+    "room/vase_ceramic_puncture_1",
+    "room/vase_ceramic_puncture_2",
+    "room/vase_ceramic_puncture_3",
+    "room/vase_ceramic_puncture_4"
+   ]
+  },
+  "wall_brick_collapse": {
+   "all": [
+    "room/wall_brick_collapse_1",
+    "room/wall_brick_collapse_2",
+    "room/wall_brick_collapse_3"
+   ]
+  },
+  "wall_brick_fall": {
+   "all": [
+    "room/wall_brick_fall_1",
+    "room/wall_brick_fall_2",
+    "room/wall_brick_fall_3",
+    "room/wall_brick_fall_wood_1",
+    "room/wall_brick_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/wall_brick_fall_1",
+     "room/wall_brick_fall_2",
+     "room/wall_brick_fall_3"
+    ],
+    "wood": [
+     "room/wall_brick_fall_wood_1",
+     "room/wall_brick_fall_wood_2"
+    ]
+   }
+  },
+  "wall_brick_puncture": {
+   "all": [
+    "room/wall_brick_puncture_1",
+    "room/wall_brick_puncture_2",
+    "room/wall_brick_puncture_3"
+   ]
+  },
+  "wall_concrete_collapse": {
+   "all": [
+    "room/wall_concrete_collapse_1",
+    "room/wall_concrete_collapse_2",
+    "room/wall_concrete_collapse_3"
+   ]
+  },
+  "wall_concrete_fall": {
+   "all": [
+    "room/wall_concrete_fall_1",
+    "room/wall_concrete_fall_2",
+    "room/wall_concrete_fall_3",
+    "room/wall_concrete_fall_wood_1",
+    "room/wall_concrete_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/wall_concrete_fall_1",
+     "room/wall_concrete_fall_2",
+     "room/wall_concrete_fall_3"
+    ],
+    "wood": [
+     "room/wall_concrete_fall_wood_1",
+     "room/wall_concrete_fall_wood_2"
+    ]
+   }
+  },
+  "wall_concrete_puncture": {
+   "all": [
+    "room/wall_concrete_puncture_1",
+    "room/wall_concrete_puncture_2",
+    "room/wall_concrete_puncture_3"
+   ]
+  },
+  "wall_drywall_collapse": {
+   "all": [
+    "room/wall_drywall_collapse_1",
+    "room/wall_drywall_collapse_2",
+    "room/wall_drywall_collapse_3"
+   ]
+  },
+  "wall_drywall_fall": {
+   "all": [
+    "room/wall_drywall_fall_1",
+    "room/wall_drywall_fall_2",
+    "room/wall_drywall_fall_3",
+    "room/wall_drywall_fall_wood_1",
+    "room/wall_drywall_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/wall_drywall_fall_1",
+     "room/wall_drywall_fall_2",
+     "room/wall_drywall_fall_3"
+    ],
+    "wood": [
+     "room/wall_drywall_fall_wood_1",
+     "room/wall_drywall_fall_wood_2"
+    ]
+   }
+  },
+  "wall_drywall_puncture": {
+   "all": [
+    "room/wall_drywall_puncture_1",
+    "room/wall_drywall_puncture_2",
+    "room/wall_drywall_puncture_3"
+   ]
+  },
+  "wall_wood_collapse": {
+   "all": [
+    "room/wall_wood_collapse_1",
+    "room/wall_wood_collapse_2",
+    "room/wall_wood_collapse_3"
+   ]
+  },
+  "wall_wood_fall": {
+   "all": [
+    "room/wall_wood_fall_1",
+    "room/wall_wood_fall_2",
+    "room/wall_wood_fall_3",
+    "room/wall_wood_fall_wood_1",
+    "room/wall_wood_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/wall_wood_fall_1",
+     "room/wall_wood_fall_2",
+     "room/wall_wood_fall_3"
+    ],
+    "wood": [
+     "room/wall_wood_fall_wood_1",
+     "room/wall_wood_fall_wood_2"
+    ]
+   }
+  },
+  "wall_wood_puncture": {
+   "all": [
+    "room/wall_wood_puncture_1",
+    "room/wall_wood_puncture_2",
+    "room/wall_wood_puncture_3"
+   ]
+  },
+  "wood_block_collapse": {
+   "all": [
+    "room/wood_block_collapse_1",
+    "room/wood_block_collapse_2",
+    "room/wood_block_collapse_3"
+   ]
+  },
+  "wood_block_fall": {
+   "all": [
+    "room/wood_block_fall_1",
+    "room/wood_block_fall_2",
+    "room/wood_block_fall_3",
+    "room/wood_block_fall_wood_1",
+    "room/wood_block_fall_wood_2"
+   ],
+   "by_floor": {
+    "concrete": [
+     "room/wood_block_fall_1",
+     "room/wood_block_fall_2",
+     "room/wood_block_fall_3"
+    ],
+    "wood": [
+     "room/wood_block_fall_wood_1",
+     "room/wood_block_fall_wood_2"
+    ]
+   }
+  },
+  "wood_block_puncture": {
+   "all": [
+    "room/wood_block_puncture_1",
+    "room/wood_block_puncture_2",
+    "room/wood_block_puncture_3"
+   ]
+  }
+ }
+}

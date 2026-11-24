@@ -1,0 +1,27 @@
+{
+ "files": {
+  "ak_bolt": "recorded.bundle.json#ak_bolt.mp3",
+  "ak_mag_in": "recorded.bundle.json#ak_mag_in.mp3",
+  "ak_mag_out": "recorded.bundle.json#ak_mag_out.mp3",
+  "ak_shot_1": "recorded.bundle.json#ak_shot_1.mp3",
+  "ak_shot_2": "recorded.bundle.json#ak_shot_2.mp3",
+  "ak_shot_3": "recorded.bundle.json#ak_shot_3.mp3",
+  "ak_shot_4": "recorded.bundle.json#ak_shot_4.mp3",
+  "brass_7.62x39_concrete": "recorded.bundle.json#brass_7.62x39_concrete.mp3",
+  "brass_7.62x39_dirt": "recorded.bundle.json#brass_7.62x39_dirt.mp3",
+  "brass_7.62x39_metal": "recorded.bundle.json#brass_7.62x39_metal.mp3",
+  "brass_7.62x39_wood": "recorded.bundle.json#brass_7.62x39_wood.mp3",
+  "brass_9x18_concrete": "recorded.bundle.json#brass_9x18_concrete.mp3",
+  "brass_9x18_dirt": "recorded.bundle.json#brass_9x18_dirt.mp3",
+  "brass_9x18_metal": "recorded.bundle.json#brass_9x18_metal.mp3",
+  "brass_9x18_wood": "recorded.bundle.json#brass_9x18_wood.mp3",
+  "dry_click": "recorded.bundle.json#dry_click.mp3",
+  "mak_mag_in": "recorded.bundle.json#mak_mag_in.mp3",
+  "mak_mag_out": "recorded.bundle.json#mak_mag_out.mp3",
+  "mak_shot_1": "recorded.bundle.json#mak_shot_1.mp3",
+  "mak_shot_2": "recorded.bundle.json#mak_shot_2.mp3",
+  "mak_shot_3": "recorded.bundle.json#mak_shot_3.mp3",
+  "mak_shot_4": "recorded.bundle.json#mak_shot_4.mp3",
+  "mak_slide": "recorded.bundle.json#mak_slide.mp3"
+ }
+}
