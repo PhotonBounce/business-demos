@@ -1876,7 +1876,11 @@ function doFire(inBurst = false) {
 // Timings are a practised shooter's (AK ~2.5 s, Makarov ~2 s), scaled by the time scale.
 function reloadTimes(gun, rack) { if (gun === "GAT") return { insert: 2.0, rack: 2.6, done: rack ? 3.2 : 2.4 }; return gun === "AK" ? { insert: 1.35, rack: 1.85, done: rack ? 2.5 : 1.7 } : { insert: 1.05, rack: 1.55, done: rack ? 2.0 : 1.4 }; }
 function startReload(auto = false) {
-  if (VF && S.vehicle && VIEWONLY[S.vehicle]) return VF.reload();   // VEHICLE FIRE hook
+  if (S.vehicle && VIEWONLY[S.vehicle]) {
+    if (VF && window.__vf && window.__vf.W && window.__vf.key === S.vehicle) return VF.reload();
+    if (window.__staticReloadNow) return window.__staticReloadNow(S.vehicle);
+    return VF ? VF.reload() : false;
+  }
   if (S.reloading) return false;
   releaseFire();
   const gun = S.gun, st0 = S.session.status(), token = ++S.reloadToken, f = S.speed;
@@ -3740,6 +3744,45 @@ if (DEBUG) {
   tracerMesh.visible = false;
   scene.add(tracerMesh);
   let flashOffAt = 0, recoilV = 0, tracerT = -1, tracerStart = new THREE.Vector3(), tracerEnd = new THREE.Vector3();
+  const staticAmmo = {};
+  let reloadAnimEnd = 0, reloadAnimStart = 0;
+  function staticCapFor(key) {
+    if (/svd/i.test(key)) return 10;
+    if (/fort12|fort14|fort17/i.test(key)) return 12;
+    if (/pkm|km762/i.test(key)) return 100;
+    if (/elephant/i.test(key)) return 2;
+    if (/ptrd/i.test(key)) return 1;
+    if (/ptrs|alligator|horizons|solothurn/i.test(key)) return 5;
+    if (/fort500/i.test(key)) return 6;
+    return 30;
+  }
+  window.__staticReloadNow = (key) => {
+    if (!vehRig || !vehRig.outer || /^drone-|^vortex/.test(key)) return false;
+    const cap = staticCapFor(key);
+    if (staticAmmo[key] == null) staticAmmo[key] = cap;
+    if (performance.now() < reloadAnimEnd) { msg(`${VIEWONLY[key]?.label || key}: Reloading...`); return; }
+    if (staticAmmo[key] <= 0) { window.__staticReloadNow(key); return; }
+    staticAmmo[key]--;
+    const isPistol = /fort12|fort14|fort17|mak/i.test(key);
+    const g = isPistol ? "MAK" : "AK";
+    const cap = staticCapFor(key);
+    reloadAnimStart = performance.now();
+    reloadAnimEnd = reloadAnimStart + 1650;
+    try { audio.magOut(g); } catch {}
+    msg(`${VIEWONLY[key]?.label || key}: Reloading — mag out...`);
+    setTimeout(() => {
+      try { audio.magIn(g); } catch {}
+      msg(`${VIEWONLY[key]?.label || key}: Fresh magazine seated...`);
+    }, 700);
+    setTimeout(() => {
+      try { if (audio.bolt) audio.bolt(g); else audio.event("bolt", g); } catch {}
+      staticAmmo[key] = cap;
+      msg(`${VIEWONLY[key]?.label || key}: Reloaded & chambered (${cap}/${cap})`);
+      dirty = true;
+    }, 1350);
+    dirty = true;
+    return true;
+  };
 
   window.__staticFireNow = (key) => {
     const rig = (S.vehicle ? activeRig : null) || vehRig;
@@ -3798,6 +3841,19 @@ if (DEBUG) {
       dirty = true;
     }
     const rig = (S.vehicle ? activeRig : null) || vehRig;
+    if (now < reloadAnimEnd && rig && rig.outer && !/drone-/.test(S.vehicle || "")) {
+      const p = (now - reloadAnimStart) / (reloadAnimEnd - reloadAnimStart);
+      const tilt = Math.sin(p * Math.PI) * 0.28;
+      const dip = Math.sin(p * Math.PI * 2) * 0.035;
+      rig.outer.rotation.z = tilt;
+      rig.outer.position.y = dip;
+      dirty = true;
+    } else if (reloadAnimEnd > 0 && now >= reloadAnimEnd && rig && rig.outer && !/drone-/.test(S.vehicle || "")) {
+      rig.outer.rotation.z = 0;
+      rig.outer.position.y = 0;
+      reloadAnimEnd = 0;
+      dirty = true;
+    }
     if (recoilV > 0.0005 && rig && rig.outer && !/drone-/.test(S.vehicle || "")) {
       rig.outer.position.x = -recoilV;
       recoilV *= Math.pow(0.002, dt);
