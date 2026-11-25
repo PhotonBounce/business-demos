@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="icon" href="data:,"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
   #modelPickerWrap { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
   #modelPicker {
     background:#141a26; color:#eef3ff; border:1px solid #3c5478; border-radius:8px;
@@ -2167,9 +2167,9 @@ $("jams").addEventListener("change", () => { S.jamRate = +$("jams").value; jamRn
 $("ambience").checked = !!prefs.ambience;
 $("ambience").addEventListener("change", () => { savePref("ambience", $("ambience").checked); audio.setAmbience($("ambience").checked); });
 // skin per gun, remembered per viewer
-const skinFor = (g) => (["factory", "glass", "gold", "chrome", "black", "pink", "camo", "damascus"].includes(prefs["skin_" + g]) ? prefs["skin_" + g] : "factory");
+const skinFor = (g) => (["factory", "worn", "glass", "gold", "chrome", "black", "pink", "camo", "damascus"].includes(prefs["skin_" + g]) ? prefs["skin_" + g] : "factory");
 $("skin").value = skinFor(S.gun);
-$("skin").addEventListener("change", () => { const sk = $("skin").value; savePref("skin_" + S.gun, sk); for (const [k, r] of Object.entries(models)) if (k.startsWith(S.gun + ":")) { look.setSkin(r, sk); if (k.endsWith(":cut")) cutCartridges(r); } if (vehRig && vehRig.outer && look.setStaticSkin) look.setStaticSkin(vehRig.outer, sk); applySelector3D(); dirty = true; });
+$("skin").addEventListener("change", () => { const sk = $("skin").value; savePref("skin_" + S.gun, sk); for (const [k, r] of Object.entries(models)) if (k.startsWith(S.gun + ":")) { look.setSkin(r, sk); if (k.endsWith(":cut")) cutCartridges(r); } const vRig = (S.vehicle ? activeRig : null) || vehRig; if (vRig && vRig.outer && look.setStaticSkin) look.setStaticSkin(vRig.outer, sk); applySelector3D(); dirty = true; });
 // Voxel is its own toggle now (owner, 18 Nov), saved apart from the skin; the blocks take the chosen skin's material. (An old saved skin "voxel" turns the toggle on.)
 if (["AK", "MAK", "GAT"].some((g) => prefs["skin_" + g] === "voxel")) { savePref("voxel", true); for (const g of ["AK", "MAK", "GAT"]) if (prefs["skin_" + g] === "voxel") savePref("skin_" + g, "factory"); }
 $("voxel").checked = !!prefs.voxel; $("voxel").addEventListener("change", () => { savePref("voxel", $("voxel").checked); $("voxWrap").hidden = !$("voxel").checked; });
@@ -3742,7 +3742,8 @@ if (DEBUG) {
   let flashOffAt = 0, recoilV = 0, tracerT = -1, tracerStart = new THREE.Vector3(), tracerEnd = new THREE.Vector3();
 
   window.__staticFireNow = (key) => {
-    if (!vehRig || !vehRig.outer) return;
+    const rig = (S.vehicle ? activeRig : null) || vehRig;
+    if (!rig || !rig.outer) return;
     const isDrone = /drone-|vortex/.test(key);
     if (isDrone) {
       // Drone munition drop handled by existing drone drop listener + boost visual feedback
@@ -3755,8 +3756,8 @@ if (DEBUG) {
     try { audio.shot(isPistol ? "MAK" : "AK"); } catch {}
     setTimeout(() => { try { audio.caseHit(isPistol ? "MAK" : "AK", S.floor || "concrete"); } catch {} }, 300);
 
-    vehRig.outer.updateMatrixWorld(true);
-    const box = new THREE.Box3().setFromObject(vehRig.outer);
+    rig.outer.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(rig.outer);
     const ctr = box.getCenter(new THREE.Vector3());
     const muz = new THREE.Vector3(box.max.x, ctr.y + (box.max.y - box.min.y) * 0.12, ctr.z);
     flashMesh.position.copy(muz);
@@ -3796,15 +3797,16 @@ if (DEBUG) {
       else { tracerMesh.visible = true; tracerMesh.position.lerpVectors(tracerStart, tracerEnd, tracerT); }
       dirty = true;
     }
-    if (recoilV > 0.0005 && vehRig && vehRig.outer && !/drone-/.test(S.vehicle || "")) {
-      vehRig.outer.position.x = -recoilV;
+    const rig = (S.vehicle ? activeRig : null) || vehRig;
+    if (recoilV > 0.0005 && rig && rig.outer && !/drone-/.test(S.vehicle || "")) {
+      rig.outer.position.x = -recoilV;
       recoilV *= Math.pow(0.002, dt);
-      if (recoilV <= 0.0006) { vehRig.outer.position.x = 0; recoilV = 0; }
+      if (recoilV <= 0.0006) { rig.outer.position.x = 0; recoilV = 0; }
       dirty = true;
     }
 
     const vKey = S.vehicle || "";
-    const isDrone = /^drone-/.test(vKey) && vehRig && vehRig.outer;
+    const isDrone = /^drone-/.test(vKey) && rig && rig.outer;
     rcHud.style.display = isDrone ? "block" : "none";
     if (!isDrone) { rc.activeKey = null; return; }
     if (rc.activeKey !== vKey) {
@@ -3832,8 +3834,8 @@ if (DEBUG) {
     rc.roll  += ((-thrustSide * 0.28) - rc.roll) * Math.min(1, dt * 8);
 
     const hover = Math.sin(now * 0.004) * 0.015;
-    vehRig.outer.position.set(rc.x, rc.y + hover, rc.z);
-    vehRig.outer.rotation.set(rc.roll, rc.yaw, rc.pitch);
+    rig.outer.position.set(rc.x, rc.y + hover, rc.z);
+    rig.outer.rotation.set(rc.roll, rc.yaw, rc.pitch);
     dirty = true;
   }
   requestAnimationFrame(rcTick);
