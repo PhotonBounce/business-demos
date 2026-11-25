@@ -3760,8 +3760,8 @@ if (DEBUG) {
   }
   window.__staticReloadNow = (key) => {
     if (!vehRig || !vehRig.outer || /^drone-|^vortex/.test(key)) return false;
-    const cap = staticCapFor(key);
-    if (staticAmmo[key] == null) staticAmmo[key] = cap;
+    const sCap = staticCapFor(key);
+    if (staticAmmo[key] == null) staticAmmo[key] = sCap;
     if (performance.now() < reloadAnimEnd) { msg(`${VIEWONLY[key]?.label || key}: Reloading...`); return; }
     if (staticAmmo[key] <= 0) { window.__staticReloadNow(key); return; }
     staticAmmo[key]--;
