@@ -232,7 +232,7 @@ button.fire.safe{filter:grayscale(.7)}
   <section class="controls" aria-label="Range settings">
     <div class="ctl wide"><span>Gun</span>
             <div id="modelPickerWrap">
-        <select id="modelPicker" aria-label="Select Model (26 audited blueprint models)">
+        <select id="modelPicker" aria-label="Select Model">
         <optgroup label="Live Firing Small Arms (Working Internals + Cutaway + Skins + AI Audio)">
           <option value="gun:AK">AK-47 Claude (+ Cutaway) [1.12M tris · LIVE]</option>
           <option value="gun:MAK">Makarov PM Claude (+ Cutaway) [901K tris · LIVE]</option>
@@ -245,18 +245,18 @@ button.fire.safe{filter:grayscale(.7)}
           <option value="veh:bm21">BM-21 Grad MLRS [558K tris · LIVE]</option>
           <option value="veh:tractor">Tractor UA + Roof Tempest-6 [188K tris · LIVE]</option>
         </optgroup>
-        <optgroup label="Tier 1 Hero Blueprint Armory (860K - 1.26M tris)">
-          <option value="veh:pkm-8k">PKM GPMG 8K Benchmark [1.26M tris]</option>
+        <optgroup label="Armory Showcase & WIP Prototypes">
+          <option value="veh:pkm-8k">PKM GPMG</option>
           <option value="veh:svd-1m-hero">SVD Dragunov WIP Prototype (+ Internals) [WIP · LIVE FIRE + RELOAD]</option>
           <option value="veh:svd-1m-hero-cutaway">SVD Dragunov Cutaway WIP Prototype (+ Internals) [WIP · LIVE FIRE + RELOAD]</option>
           <option value="veh:fort12-1m-hero">Fort-12 9x18mm WIP Prototype (+ Internals) [WIP · LIVE FIRE + RELOAD]</option>
           <option value="veh:fort12-1m-hero-cutaway">Fort-12 9x18mm Cutaway WIP Prototype (+ Internals) [WIP · LIVE FIRE + RELOAD]</option>
           <option value="veh:malyuk-1m-hero">Malyuk (Vulcan-M) 5.45mm WIP Prototype (+ Internals) [WIP · LIVE FIRE + RELOAD]</option>
           <option value="veh:malyuk-1m-hero-cutaway">Malyuk (Vulcan-M) Cutaway WIP Prototype (+ Internals) [WIP · LIVE FIRE + RELOAD]</option>
-          <option value="veh:svd-glass-pso1">SVD Dragunov + PSO-1 [861K tris · GLASS]</option>
-          <option value="veh:t64bv-cutaway-32k">T-64BV 32K Cutaway Interior [883K tris · CUTAWAY]</option>
+          <option value="veh:svd-glass-pso1">SVD Dragunov + PSO-1 [GLASS]</option>
+          <option value="veh:t64bv-cutaway-32k">T-64BV Cutaway Interior [CUTAWAY]</option>
         </optgroup>
-        <optgroup label="Tier 2 High-Detail Armored Vehicles (349K - 528K tris)">
+        <optgroup label="Armored Vehicles">
           <option value="veh:bmp2-hd">BMP-2 IFV [528K tris]</option>
           <option value="veh:mtlb-hd">MT-LB APC [476K tris]</option>
           <option value="veh:leopard2a4-hd">Leopard 2A4 Main Battle Tank [475K tris]</option>
@@ -3018,7 +3018,7 @@ const VIEWONLY = {
   "svd-1m-hero": { label: "SVD Dragunov WIP Prototype", file: "models/svd-1m-hero.glb" }, "svd-1m-hero-cutaway": { label: "SVD Dragunov Cutaway WIP Prototype", file: "models/svd-1m-hero-cutaway.glb" }, "fort12-1m-hero": { label: "Fort-12 WIP Prototype", file: "models/fort12-1m-hero.glb", lenM: 1.55 }, "fort12-1m-hero-cutaway": { label: "Fort-12 Cutaway WIP Prototype", file: "models/fort12-1m-hero-cutaway.glb", lenM: 1.55 }, "malyuk-1m-hero": { label: "Malyuk (Vulcan-M) WIP Prototype", file: "models/malyuk-1m-hero.glb", lenM: 2.1 }, "malyuk-1m-hero-cutaway": { label: "Malyuk (Vulcan-M) Cutaway WIP Prototype", file: "models/malyuk-1m-hero-cutaway.glb", lenM: 2.1 }, "svd-glass-pso1": { file: "models/svd-glass-pso1.glb.gz.b64.txt", label: "SVD Dragunov Glass + PSO-1", lenM: 2.6 },
   "pkm-8k": { file: "models/pkm-8k.glb.gz.b64.txt", label: "PKM GPMG 8K Benchmark", lenM: 2.55 },
   "ak-v8src": { file: "models/ak-v8src.glb.gz.b64.txt", label: "AK-47 Sculpted v8 Benchmark", lenM: 2.15 },
-  "t64bv-cutaway-32k": { file: "models/t64bv-cutaway-32k.glb.gz.b64.txt", label: "T-64BV 32K Cutaway Interior", lenM: 9.225 },
+  "t64bv-cutaway-32k": { file: "models/t64bv-cutaway-32k.glb.gz.b64.txt", label: "T-64BV Cutaway Interior", lenM: 9.225 },
   "t72b3-hd": { file: "models/t72b3-hd.glb", label: "T-72B3 Main Battle Tank", lenM: 9.53 },
   "leopard2a4-hd": { file: "models/leopard2a4-hd.glb", label: "Leopard 2A4 Main Battle Tank", lenM: 9.67 },
   "bmp2-hd": { file: "models/bmp2-hd.glb.gz.b64.txt", label: "BMP-2 IFV", lenM: 6.72 },
