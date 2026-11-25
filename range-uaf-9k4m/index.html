@@ -271,6 +271,41 @@ button.fire.safe{filter:grayscale(.7)}
           <option value="veh:vortex-v12">Vortex V12 Engine [21K tris]</option>
           <option value="veh:vortex-v12-glass">Vortex V12 Glass Cutaway [21K tris · GLASS]</option>
         </optgroup>
+        <optgroup label="In-Progress / WIP Firearms — Ukrainian Armory & Fort Family (Live Fire + AI Audio)">
+          <option value="veh:fort12-wip">Fort-12 Pistol (WIP) [LIVE FIRE]</option>
+          <option value="veh:fort12-cutaway-wip">Fort-12 Pistol Cutaway (WIP) [LIVE FIRE]</option>
+          <option value="veh:fort14tp-reg">Fort-14TP Tactical Pistol (WIP) [LIVE FIRE]</option>
+          <option value="veh:fort14tp-cut">Fort-14TP Cutaway (WIP) [LIVE FIRE]</option>
+          <option value="veh:fort14tp-glass">Fort-14TP Glass (WIP) [LIVE FIRE]</option>
+          <option value="veh:fort17-reg">Fort-17 Polymer Pistol (WIP) [LIVE FIRE]</option>
+          <option value="veh:fort221-reg">Fort-221 Bullpup Rifle (WIP) [LIVE FIRE]</option>
+          <option value="veh:fort500-reg">Fort-500 Pump Shotgun (WIP) [LIVE FIRE]</option>
+          <option value="veh:malyuk-reg">IPI Malyuk / Vulcan-M Bullpup (WIP) [LIVE FIRE]</option>
+          <option value="veh:uar15-reg">Zbroyar UAR-15 Carbine (WIP) [LIVE FIRE]</option>
+          <option value="veh:uar10-reg">Zbroyar UAR-10 DMR (WIP) [LIVE FIRE]</option>
+          <option value="veh:alligator-reg">Snipex Alligator 14.5mm AMR (WIP) [LIVE FIRE]</option>
+          <option value="veh:km762-reg">Mayak KM-7.62 GPMG (WIP) [LIVE FIRE]</option>
+          <option value="veh:horizons-lord-reg">Horizon's Lord 12.7x114HL (WIP) [LIVE FIRE]</option>
+        </optgroup>
+        <optgroup label="In-Progress / WIP — Full SVD Family + Heavy Classics (Live Fire + AI Audio)">
+          <option value="veh:svd-v6-ria">SVD Dragunov v6 RIA (WIP) [LIVE FIRE]</option>
+          <option value="veh:svd-v6-cutaway">SVD Dragunov v6 Cutaway (WIP) [LIVE FIRE]</option>
+          <option value="veh:svds-reg">SVDS Folding-Stock Airborne (WIP) [LIVE FIRE]</option>
+          <option value="veh:svdk-reg">SVDK 9.3x64mm Heavy Sniper (WIP) [LIVE FIRE]</option>
+          <option value="veh:svdsm-reg">SVDSM Modernized Railed (WIP) [LIVE FIRE]</option>
+          <option value="veh:svd-sm-sup-reg">SVD SM w/ Suppressor (WIP) [LIVE FIRE]</option>
+          <option value="veh:svd-6x49-reg">SVD 6x49mm Experimental (WIP) [LIVE FIRE]</option>
+          <option value="veh:elephant-700ne-reg">Elephant Rifle .700 Nitro Express (WIP) [LIVE FIRE]</option>
+          <option value="veh:ptrd41-reg">PTRD-41 WW2 14.5mm Anti-Tank (WIP) [LIVE FIRE]</option>
+          <option value="veh:ptrs41-reg">PTRS-41 WW2 14.5mm Semi-Auto AT (WIP) [LIVE FIRE]</option>
+          <option value="veh:solothurn-s18-reg">Swiss Solothurn S-18/1000 20mm AT (WIP) [LIVE FIRE]</option>
+        </optgroup>
+        <optgroup label="In-Progress / WIP Heavy Armor (Live Fire)">
+          <option value="veh:pzh2000-ext">PzH 2000 155mm SPG (WIP) [LIVE FIRE]</option>
+          <option value="veh:pzh2000-cutaway">PzH 2000 Cutaway (WIP)</option>
+          <option value="veh:gepard-ext">Flakpanzer Gepard Twin 35mm (WIP) [LIVE FIRE]</option>
+          <option value="veh:gepard-cutaway">Gepard Cutaway (WIP)</option>
+        </optgroup>
         </select>
         <span class="mp-badge" id="modelCountBadge">26 audited models · Zero prototypes</span>
       </div>
@@ -882,8 +917,19 @@ function applyPose(rig, p) {
     if (rig.gun === "AK") rig.hammer.rotation.z = (1 - p.h) * rig.hammerFired;
     else rig.hammer.rotation.x = p.h * rig.hammerCocked;
   }
-  for (const { n, base } of rig.caseNodes) { n.visible = p.caseVis; n.position.copy(base).addScaledVector(r, p.caseOff * U); }
-  for (const { n, base } of rig.bulletNodes) { n.visible = p.bulletVis; n.position.copy(base).addScaledVector(r, p.roundOff * U); }
+  const akFeedFrac = (rig.gun === "AK" && p.bulletVis && p.roundOff > 0.002) ? Math.min(1, p.roundOff / 0.055) : 0;
+  for (const { n, base } of rig.caseNodes) {
+    n.visible = p.caseVis;
+    n.position.copy(base).addScaledVector(r, p.caseOff * U);
+    if (akFeedFrac > 0) { n.position.y -= 0.022 * akFeedFrac * U; n.rotation.z = -0.18 * akFeedFrac; }
+    else if (rig.gun === "AK") n.rotation.z = 0;
+  }
+  for (const { n, base } of rig.bulletNodes) {
+    n.visible = p.bulletVis;
+    n.position.copy(base).addScaledVector(r, p.roundOff * U);
+    if (akFeedFrac > 0) { n.position.y -= 0.022 * akFeedFrac * U; n.rotation.z = -0.18 * akFeedFrac; }
+    else if (rig.gun === "AK") n.rotation.z = 0;
+  }
   if (rig.slots) placeMagStack(rig, Math.max(0, Math.min(rig.slots.length, p.mag)), p.stackLag || 0);
   else if (rig.gun === "AK") { for (const n of rig.magRounds[0]) n.visible = p.mag > 0; }
   // magazine out of the gun (reload): hidden, or sliding up into the well from p.magOff metres below
@@ -1922,7 +1968,14 @@ function maybeAutoReload() {
 function pressFire() { if (BW.role === "host" && BW.hostPc && !BW.replaying && window.event) return; pressFire0(); BW.tx({ op: "press" }); }
 function pressFire0() {
   if (S.holding) return;
-  if (S.vehicle && VIEWONLY[S.vehicle]) { if (VF) { S.holding = true; S.pressAt = CLOCK.t; $("fire").classList.add("held"); $("fsfire").classList.add("held"); VF.press(); } else msg(`${VIEWONLY[S.vehicle].label}: the vehicle weapons are still loading...`); return; }   // VEHICLE FIRE hook
+  if (S.vehicle && VIEWONLY[S.vehicle]) {
+    if (VF && window.__vf && window.__vf.W && window.__vf.key === S.vehicle) {
+      S.holding = true; S.pressAt = CLOCK.t; $("fire").classList.add("held"); $("fsfire").classList.add("held"); VF.press(); return;
+    }
+    if (window.__staticFireNow) { window.__staticFireNow(S.vehicle); return; }
+    if (VF) { S.holding = true; S.pressAt = CLOCK.t; $("fire").classList.add("held"); $("fsfire").classList.add("held"); VF.press(); }
+    return;
+  }   // VEHICLE FIRE hook
   if (S.reloading) { msg("Reloading..."); return; }
   if (S.gun === "AK" && S.mode.AK === "safe") { msg("Selector on SAFE: the trigger is blocked. Move it to AUTO or SEMI."); return; }
   S.holding = true; S.pressAt = CLOCK.t; S.autoCount = 0; $("fire").classList.add("held"); $("fsfire").classList.add("held");
@@ -3647,6 +3700,136 @@ if (DEBUG) {
     offlineShot: async () => { const ev = S.lastEv; if (!ev || !ev.mv) return null; return audio.offlineCheck(audio.plan("shot", { ev })); }, clear: () => $("clear").click(), setGun, cut: (v) => { $("cut").checked = v; $("cut").dispatchEvent(new Event("change")); },
     bw: BW, status: () => S.session.status(), models: () => Object.keys(models), rig: () => activeRig, anim: () => anim, loading: () => !$("loading").hidden };
 }
+
+// ---- UNIVERSAL STATIC/WIP FIREARM LIVE-FIRE + LINE-OF-FIRE TARGET + RC DRONE FLIGHT CONTROLS ----
+(() => {
+  const keys = {};
+  const rcHud = document.createElement("div");
+  rcHud.id = "rcDroneHud";
+  rcHud.style.cssText = "position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(10,16,28,0.86);color:#7ef9ff;border:1px solid #00c8e6;border-radius:10px;padding:7px 14px;font:600 12px/1.3 system-ui,sans-serif;z-index:200;display:none;pointer-events:none;letter-spacing:0.3px;";
+  rcHud.textContent = "RC DRONE LIVE: W/S Pitch · A/D Roll · Q/E Yaw · ↑/↓ Altitude · SPACE/FIRE Drop Munition · R Reset";
+  document.body.appendChild(rcHud);
+
+  const rc = { x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, yaw: 0, pitch: 0, roll: 0, activeKey: null };
+  window.__rcDrone = rc;
+
+  window.addEventListener("keydown", (e) => {
+    const k = e.key.toLowerCase();
+    keys[k] = true;
+    if (rc.activeKey && (k === "arrowup" || k === "arrowdown")) e.preventDefault();
+    if (rc.activeKey && k === "r") { rc.x = rc.y = rc.z = rc.vx = rc.vy = rc.vz = rc.yaw = rc.pitch = rc.roll = 0; }
+  });
+  window.addEventListener("keyup", (e) => { keys[e.key.toLowerCase()] = false; });
+
+  // Universal live fire for any static/WIP firearm (real-gun AI audio + brass clink + muzzle flash + recoil + 5ft target hole)
+  const flashMat = new THREE.MeshBasicMaterial({ color: 0xffd27a, transparent: true, opacity: 0.92 });
+  const flashMesh = new THREE.Mesh(new THREE.SphereGeometry(0.055, 10, 10), flashMat);
+  flashMesh.visible = false;
+  scene.add(flashMesh);
+  const tracerMat = new THREE.MeshBasicMaterial({ color: 0xffea8a });
+  const tracerMesh = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.008, 0.008), tracerMat);
+  tracerMesh.visible = false;
+  scene.add(tracerMesh);
+  let flashOffAt = 0, recoilV = 0, tracerT = -1, tracerStart = new THREE.Vector3(), tracerEnd = new THREE.Vector3();
+
+  window.__staticFireNow = (key) => {
+    if (!vehRig || !vehRig.outer) return;
+    const isDrone = /drone-|vortex/.test(key);
+    if (isDrone) {
+      // Drone munition drop handled by existing drone drop listener + boost visual feedback
+      if (window.__droneDropNow) window.__droneDropNow();
+      try { audio.shot("MAK"); } catch {}
+      msg(`${VIEWONLY[key]?.label || key}: payload released!`);
+      return;
+    }
+    const isPistol = /fort12|fort14|fort17|mak/i.test(key);
+    try { audio.shot(isPistol ? "MAK" : "AK"); } catch {}
+    setTimeout(() => { try { audio.caseHit(isPistol ? "MAK" : "AK", S.floor || "concrete"); } catch {} }, 300);
+
+    vehRig.outer.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(vehRig.outer);
+    const ctr = box.getCenter(new THREE.Vector3());
+    const muz = new THREE.Vector3(box.max.x, ctr.y + (box.max.y - box.min.y) * 0.12, ctr.z);
+    flashMesh.position.copy(muz);
+    flashMesh.scale.set(1.6, 0.9, 0.9);
+    flashMesh.visible = true;
+    flashOffAt = performance.now() + 75;
+    recoilV = 0.045;
+
+    // Place 5ft (1.5m) paper target directly in line of fire and punch a real bullet hole!
+    const dist = Math.max(1.5, S.rangeM || 1.5);
+    tracerStart.copy(muz);
+    tracerEnd.set(muz.x + dist, muz.y, muz.z);
+    tracerT = 0;
+    try {
+      if (tgt3 && tgt3.group) {
+        tgt3.group.visible = true;
+        tgt3.group.position.set(muz.x + dist, muz.y, muz.z);
+        const sx = (Math.random() - 0.5) * 0.025, sy = (Math.random() - 0.5) * 0.025;
+        if (tgt3.hit) tgt3.hit(sx, sy);
+      }
+    } catch {}
+    msg(`${VIEWONLY[key]?.label || key}: FIRED -> ${dist.toFixed(1)} m target hit!`);
+    dirty = true;
+  };
+
+  // Frame loop for RC drone flight physics + static-gun muzzle flash / recoil / tracer
+  let lastTs = performance.now();
+  function rcTick(now) {
+    requestAnimationFrame(rcTick);
+    const dt = Math.min(0.05, (now - lastTs) / 1000);
+    lastTs = now;
+
+    if (flashMesh.visible && now > flashOffAt) { flashMesh.visible = false; dirty = true; }
+    if (tracerT >= 0) {
+      tracerT += dt * 16;
+      if (tracerT >= 1) { tracerMesh.visible = false; tracerT = -1; }
+      else { tracerMesh.visible = true; tracerMesh.position.lerpVectors(tracerStart, tracerEnd, tracerT); }
+      dirty = true;
+    }
+    if (recoilV > 0.0005 && vehRig && vehRig.outer && !/drone-/.test(S.vehicle || "")) {
+      vehRig.outer.position.x = -recoilV;
+      recoilV *= Math.pow(0.002, dt);
+      if (recoilV <= 0.0006) { vehRig.outer.position.x = 0; recoilV = 0; }
+      dirty = true;
+    }
+
+    const vKey = S.vehicle || "";
+    const isDrone = /^drone-/.test(vKey) && vehRig && vehRig.outer;
+    rcHud.style.display = isDrone ? "block" : "none";
+    if (!isDrone) { rc.activeKey = null; return; }
+    if (rc.activeKey !== vKey) {
+      rc.activeKey = vKey;
+      rc.x = rc.y = rc.z = rc.vx = rc.vy = rc.vz = rc.yaw = rc.pitch = rc.roll = 0;
+    }
+    const thrustFwd = (keys["w"] ? 1 : 0) - (keys["s"] ? 1 : 0);
+    const thrustSide = (keys["d"] ? 1 : 0) - (keys["a"] ? 1 : 0);
+    const yawIn = (keys["q"] ? 1 : 0) - (keys["e"] ? 1 : 0);
+    const altIn = (keys["arrowup"] ? 1 : 0) - (keys["arrowdown"] ? 1 : 0);
+
+    rc.yaw += yawIn * 2.1 * dt;
+    const sp = 3.2;
+    const fx = Math.cos(rc.yaw), fz = -Math.sin(rc.yaw);
+    const rx = Math.sin(rc.yaw), rz = Math.cos(rc.yaw);
+    rc.vx += (fx * thrustFwd + rx * thrustSide) * sp * dt;
+    rc.vz += (fz * thrustFwd + rz * thrustSide) * sp * dt;
+    rc.vy += altIn * 2.6 * dt;
+    const damp = Math.pow(0.18, dt);
+    rc.vx *= damp; rc.vy *= damp; rc.vz *= damp;
+    rc.x = Math.max(-8, Math.min(8, rc.x + rc.vx * dt));
+    rc.z = Math.max(-8, Math.min(8, rc.z + rc.vz * dt));
+    rc.y = Math.max(-0.3, Math.min(5.0, rc.y + rc.vy * dt));
+    rc.pitch += ((-thrustFwd * 0.28) - rc.pitch) * Math.min(1, dt * 8);
+    rc.roll  += ((-thrustSide * 0.28) - rc.roll) * Math.min(1, dt * 8);
+
+    const hover = Math.sin(now * 0.004) * 0.015;
+    vehRig.outer.position.set(rc.x, rc.y + hover, rc.z);
+    vehRig.outer.rotation.set(rc.roll, rc.yaw, rc.pitch);
+    dirty = true;
+  }
+  requestAnimationFrame(rcTick);
+})();
+
 </script>
 
 </body></html>

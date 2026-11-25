@@ -49,6 +49,32 @@ const WEAP = {
   bm21: [
     { id: "grad", name: "BM-21 Grad: 40 x 122 mm", kind: "rocket", ammo: ["grad"], cap: 40, reload: 15, snd: "whoosh", follow: true, modes: [["single", "Single rocket"], ["ripple", "Ripple: all loaded, 0.5 s apart"]] },
   ],
+  "t64bv-cutaway-32k": [
+    { id: "2a46c", name: "125 mm 2A46 main gun", kind: "cannon", ammo: ["apfsds", "heat", "he125"], load: { apfsds: 10, heat: 8, he125: 10 }, cap: 28, cycle: 7.1, reload: 20, recoil: 0.25, rock: 0.012, snd: "boom", follow: true },
+  ],
+  "t72b3-hd": [
+    { id: "2a46m5", name: "125 mm 2A46M-5 main gun", kind: "cannon", ammo: ["apfsds", "heat", "he125"], load: { apfsds: 10, heat: 8, he125: 10 }, cap: 28, cycle: 7.1, reload: 20, recoil: 0.25, rock: 0.012, snd: "boom", follow: true },
+    { id: "pkt72", name: "7.62 mm PKTM coax", kind: "mg", ammo: ["pkt"], cap: 250, rpm: 750, reload: 6, snd: "mg" },
+  ],
+  "leopard2a4-hd": [
+    { id: "rh120", name: "120 mm Rh-120 L/44 main gun", kind: "cannon", ammo: ["apfsds", "heat", "he125"], load: { apfsds: 12, heat: 8, he125: 8 }, cap: 28, cycle: 6.0, reload: 18, recoil: 0.25, rock: 0.011, snd: "boom", follow: true },
+    { id: "mg3", name: "7.62 mm MG3 coax", kind: "mg", ammo: ["pkt"], cap: 250, rpm: 1000, reload: 6, snd: "mg" },
+  ],
+  "pzh2000-ext": [
+    { id: "l52", name: "155 mm L/52 howitzer", kind: "cannon", ammo: ["he125", "heat"], load: { he125: 20, heat: 10 }, cap: 30, cycle: 6.5, reload: 20, recoil: 0.35, rock: 0.015, snd: "boom", follow: true },
+  ],
+  "gepard-ext": [
+    { id: "oerlikon", name: "Twin 35 mm Oerlikon KDA", kind: "auto", ammo: ["het30", "apt30"], load: { het30: 320, apt30: 180 }, cap: 500, rpm: 550, reload: 10, recoil: 0.05, rock: 0.002, snd: "ac", modes: [["b4", "Short burst (4)"], ["b10", "Long burst (10)"], ["hold", "Hold to fire"]] },
+  ],
+  "bmp2-hd": [
+    { id: "2a42", name: "30 mm 2A42 autocannon", kind: "auto", ammo: ["het30", "apt30"], load: { het30: 300, apt30: 200 }, cap: 500, rpm: 330, reload: 10, recoil: 0.04, rock: 0.002, snd: "ac", modes: [["b4", "Short burst (4)"], ["b10", "Long burst (10)"], ["hold", "Hold to fire"]] },
+  ],
+  "m113-hd": [
+    { id: "m2hb", name: "12.7 mm M2HB Browning", kind: "mg", ammo: ["nsvt"], cap: 100, rpm: 550, reload: 6, snd: "hmg" },
+  ],
+  "mtlb-hd": [
+    { id: "pktm", name: "7.62 mm PKT turret", kind: "mg", ammo: ["pkt"], cap: 250, rpm: 750, reload: 6, snd: "mg" },
+  ],
 };
 const MODELS = { t64apfsds: "models/ammo-t64-apfsds.glb.gz.b64.txt", t64heat: "models/ammo-t64-heat.glb.gz.b64.txt", t64he: "models/ammo-t64-hefrag.glb.gz.b64.txt",
   bmphe: "models/ammo-bmp3-100-hefrag.glb.gz.b64.txt", bmpatgm: "models/ammo-bmp3-100-atgm.glb.gz.b64.txt", grad: "models/9m22-rocket.glb.gz.b64.txt", javm: "models/javelin-missile.glb.gz.b64.txt" };
@@ -331,11 +357,24 @@ export function installVehicleFire(A) {
   function nodeBoxLocal(node, frame) { const b = new THREE.Box3(); node.updateMatrixWorld(true); const inv = new THREE.Matrix4().copy(frame.matrixWorld).invert(); node.traverse((o) => { if (o.isMesh) { o.geometry.computeBoundingBox(); b.union(o.geometry.boundingBox.clone().applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld))); } }); return b; }
   function pivot(parent, nodes, p) { const pv = new THREE.Object3D(); pv.position.copy(p); parent.add(pv); for (const n of nodes) { n.position.sub(p); pv.add(n); } return pv; }
   function marker(parent, x, y, z) { const o = new THREE.Object3D(); o.position.set(x, y, z); parent.add(o); return o; }
+  function rigForFallback(key, rig) {
+    const sc = rig.gltf.scene, W = { muz: {}, recoil: {}, dirNode: {} };
+    sc.updateMatrixWorld(true);
+    const b = new THREE.Box3().setFromObject(sc), sz = b.getSize(V3()), c = b.getCenter(V3());
+    const inv = new THREE.Matrix4().copy(sc.matrixWorld).invert();
+    const tip = new THREE.Vector3(b.max.x, b.min.y + sz.y * 0.72, c.z).applyMatrix4(inv);
+    for (const w of (WEAP[key] || [])) {
+      W.muz[w.id] = marker(sc, tip.x, tip.y, tip.z);
+      W.dirNode[w.id] = sc;
+    }
+    return (rig.vf = W);
+  }
   function rigFor(key, rig) {
     if (rig.vf) return rig.vf;
     if (SUPPORT[key]) return (rig.vf = rigSupport(key, rig));
     const sc = rig.gltf.scene, by = (n) => sc.getObjectByName(n), W = { muz: {}, recoil: {}, dirNode: {} };
-    if (key === "t64bv") {   // the v4 hero is flat (every part a root node): build turret and gun pivots from the parts' own geometry
+    try {
+    if (key === "t64bv" && by("turret_body") && by("mantlet_cast") && by("main_gun_muzzle")) {   // the v4 hero is flat (every part a root node): build turret and gun pivots from the parts' own geometry
       const tb = nodeBoxLocal(by("turret_body"), sc), tc = tb.getCenter(V3()), turretRe = /^(turret_|era_turret_|stowage_turret|stowage_latches$|snorkel|smoke_|marking_cross_[lr]$|antenna_base|antenna_whip|mantlet|gun_|main_gun_|coax_mg|searchlight_|cupola_|hatch_commander|hatch_gunner|gunner_|nsvt_|kobra_|turret_vent|elec_cable_searchlight)/;
       const gunRe = /^(mantlet|gun_|main_gun_|coax_mg|searchlight_)/, recRe = /^(gun_thermal_sleeve|gun_fume_extractor|gun_sleeve_bands|main_gun_)/;
       const kids = [...sc.children];
@@ -352,13 +391,13 @@ export function installVehicleFire(A) {
       const cx = nodeBoxLocal(by("coax_mg"), sc); W.muz.pkt = marker(elP, (cx.min.x + cx.max.x) / 2 - off.x, (cx.min.y + cx.max.y) / 2 - off.y, cx.min.z - off.z);
       const ns = nodeBoxLocal(by("nsvt_gun"), sc); W.muz.nsvt = marker(yawP, (ns.min.x + ns.max.x) / 2 - yawP.position.x, (ns.min.y + ns.max.y) / 2, ns.min.z - yawP.position.z);
       W.dirNode = { "2a46": elP, pkt: elP, nsvt: yawP }; W.recoil = { "2a46": recP };
-    } else if (key === "bmp3") {
+    } else if (key === "bmp3" && by("gun") && by("main_gun_barrel")) {
       const gun = by("gun"), ch = (re) => gun.children.filter((n) => re.test(n.name));
       const recP = pivot(gun, ch(/^main_gun_/), new THREE.Vector3()), recA = pivot(gun, ch(/^coax_2a72/), new THREE.Vector3());
       const mb = nodeBoxLocal(by("main_gun_barrel"), gun), ac = nodeBoxLocal(by("coax_2a72_muzzle_brake"), gun), pk = nodeBoxLocal(by("coax_pkt_barrel"), gun);
       W.muz["2a70"] = marker(recP, 0, (mb.min.y + mb.max.y) / 2, mb.min.z); W.muz["2a72"] = marker(recA, (ac.min.x + ac.max.x) / 2, (ac.min.y + ac.max.y) / 2, ac.min.z); W.muz.pktb = marker(gun, (pk.min.x + pk.max.x) / 2, (pk.min.y + pk.max.y) / 2, pk.min.z);
       W.dirNode = { "2a70": gun, "2a72": gun, pktb: gun }; W.recoil = { "2a70": recP, "2a72": recA };
-    } else if (key === "bm21") {
+    } else if (key === "bm21" && by("launcher_elevation")) {
       const el = by("launcher_elevation"), bores = by("launch_tube_bores"), caps = by("tube_rubber_muzzle_caps");
       W.dirNode = { grad: el }; W.caps = caps;
       // the 40 tubes: connected components of the bore mesh (each bore is its own piece), centres in the elevation frame
@@ -378,7 +417,9 @@ export function installVehicleFire(A) {
       W.tubes = list.map((t, i) => { const nose = new THREE.Mesh(noseGeo, noseMat); nose.position.set(t.x, t.y, zf + 0.16); nose.name = "grad_loaded_" + i; el.add(nose); return { i, x: t.x, y: t.y, front: marker(el, t.x, t.y, zf), rear: zr, nose, loaded: true }; });
       W.muz.grad = W.tubes[0].front; W.tubeLen = zr - zf; W.tubesFound = tubes.length;
     }
+    if (!Object.keys(W.muz).length) return rigForFallback(key, rig);
     rig.vf = W; return W;
+    } catch (e) { console.warn("rigFor fallback:", key, e); return rigForFallback(key, rig); }
   }
   const muzzleW = V3(), dirW = V3();
   function bore(wid, tube) {   // muzzle point and bore direction, in the world, as the vehicle is posed right now
