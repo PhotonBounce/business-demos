@@ -503,12 +503,12 @@ export function installVehicleFire(A) {
   }
 
   // ---------------------------------------------------------------- firing
-  const curW = () => { const L = WEAP[st.key]; return L.find((w) => w.id === st.sel[st.key]) || L[0]; };
-  const curAmmo = () => { const w = curW(); return st.ammoSel[w.id] && w.ammo.includes(st.ammoSel[w.id]) ? st.ammoSel[w.id] : w.ammo[0]; };
+  const curW = () => { const L = WEAP[st.key]; return L ? (L.find((w) => w.id === st.sel[st.key]) || L[0]) : null; };
+  const curAmmo = () => { const w = curW(); if (!w) return null; return st.ammoSel[w.id] && w.ammo.includes(st.ammoSel[w.id]) ? st.ammoSel[w.id] : w.ammo[0]; };
   const tgtById = (id) => tgts.find((t) => t.id === id && (!t.only || t.only === st.key)) || tgts[1];
   function stock(w) { const s = st.weapons[w.id]; return w.load ? s.left[curAmmo()] : s.left.all; }
   function ready(w) { const s = st.weapons[w.id]; return CLOCK.t >= s.readyAt && CLOCK.t >= s.reloadUntil; }
-  function nextTube() { return st.W.tubes.find((t) => t.loaded) || null; }
+  function nextTube() { return (st.W && st.W.tubes) ? (st.W.tubes.find((t) => t.loaded) || null) : null; }
   function fireOnce() {
     const w = curW(), s = st.weapons[w.id], aid = curAmmo(), a = AMMO[aid];
     if (CLOCK.t < s.reloadUntil) { A.msg(`${w.name}: reloading...`); return false; }
