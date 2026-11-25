@@ -193,7 +193,7 @@ function makeMaterials(quality) {
   M.wood = new THREE.MeshPhysicalMaterial({ map: tex(`textures/wood_albedo_${hi}.webp`, true), normalMap: tex(`textures/wood_normal_${hi}.webp`),
     roughnessMap: tex(`textures/wood_rough_${hi}.webp`), roughness: 0.85, metalness: 0, clearcoat: 0.4, clearcoatRoughness: 0.25, color: 0xd8a27a });
   M.wood.normalScale.set(0.8, 0.8);
-  M.steel = edgeWear(new THREE.MeshStandardMaterial({ color: 0x4d535c, metalness: 1, roughness: 1, roughnessMap: tex("textures/steel_rough.webp"), normalMap: tex("textures/steel_normal.webp"), envMapIntensity: 0.975 }), 1);
+  M.steel = edgeWear(new THREE.MeshPhysicalMaterial({ color: 0x242a34, metalness: 0.94, roughness: 0.56, roughnessMap: tex("textures/steel_rough.webp"), normalMap: tex("textures/steel_normal.webp"), clearcoat: 0.28, clearcoatRoughness: 0.30, envMapIntensity: 1.05 }), 0.7);
   M.steel.normalScale.set(0.35, 0.35);
   M.phosphate = edgeWear(new THREE.MeshStandardMaterial({ color: 0x55554e, metalness: 0.7, roughness: 1, roughnessMap: tex("textures/phosphate_rough.webp") }), 0.5);
   M.spring = new THREE.MeshStandardMaterial({ color: 0x24262a, metalness: 0.9, roughness: 0.45 });
@@ -202,7 +202,7 @@ function makeMaterials(quality) {
   M.lacquer = new THREE.MeshPhysicalMaterial({ color: 0x5b5a3a, metalness: 0.6, roughness: 0.4, clearcoat: 0.6, clearcoatRoughness: 0.3 });   // Soviet lacquered steel case
   M.gilding = new THREE.MeshStandardMaterial({ color: 0xc07a45, metalness: 1, roughness: 0.22 });
   M.lead = new THREE.MeshStandardMaterial({ color: 0x55575a, metalness: 0.4, roughness: 0.7 });
-  M.bakelite = new THREE.MeshPhysicalMaterial({ color: 0x2c1a10, metalness: 0, roughness: 0.5, clearcoat: 0.5, clearcoatRoughness: 0.35, sheen: 0.2, sheenColor: new THREE.Color(0x5a3a26) });
+  M.bakelite = new THREE.MeshPhysicalMaterial({ color: 0x521d13, metalness: 0.04, roughness: 0.38, normalMap: tex("textures/wood_normal_2k.webp"), clearcoat: 0.78, clearcoatRoughness: 0.22, sheen: 0.25, sheenColor: new THREE.Color(0x7a3222) });
   // AK-47 finishes: wired directly to Blackwell 4K (4096x4096) WebP PBR maps (zero low-res canvas noise)
   if (typeof document !== "undefined") {
     const stRough = tex("textures/steel_rough.webp"), stNorm = tex("textures/steel_normal.webp"), phRough = tex("textures/phosphate_rough.webp");
@@ -239,12 +239,32 @@ function condMaterial(base, cond) {
 // ---- skins: a finish over the outer parts (steel, wood, bakelite); internals and rounds keep the factory finish
 function canvasTex(draw, N = 512) { const c = document.createElement("canvas"); c.width = c.height = N; draw(c.getContext("2d"), N); const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t; }
 function seeded(seed) { let x = seed; return () => { x = (x * 16807) % 2147483647; return x / 2147483647; }; }
-export const SKINS = ["factory", "glass", "gold", "chrome", "black", "pink", "camo", "damascus"];
+export const SKINS = ["factory", "worn", "glass", "gold", "chrome", "black", "pink", "camo", "damascus"];
 const skinCache = {};
 function skinMaterial(skin) {
   if (skinCache[skin]) return skinCache[skin];
   let m = null;
-  if (skin === "glass") m = glassFresnel(new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0.02, transmission: 1, thickness: 0.0015, ior: 1.5, attenuationColor: new THREE.Color(0xf2fbff), attenuationDistance: 5, clearcoat: 1, clearcoatRoughness: 0.03, envMapIntensity: 1.04, transparent: true, depthWrite: false, side: THREE.DoubleSide }));
+  if (skin === "worn") m = edgeWear(new THREE.MeshStandardMaterial({
+    color: 0xffffff, metalness: 0.72, roughness: 0.82,
+    normalMap: tex("textures/steel_normal.webp"), roughnessMap: tex("textures/steel_rough.webp"),
+    envMapIntensity: 0.72,
+    map: canvasTex((g, N) => {
+      const r = seeded(1945);
+      g.fillStyle = "#26282b"; g.fillRect(0, 0, N, N);
+      for (let i = 0; i < 420; i++) {
+        const x = r() * N, y = r() * N, rad = 4 + r() * 26;
+        g.fillStyle = r() < 0.55 ? `rgba(18,16,14,${(0.10 + r() * 0.20).toFixed(3)})` : `rgba(82,62,42,${(0.06 + r() * 0.14).toFixed(3)})`;
+        g.beginPath(); g.arc(x, y, rad, 0, 6.283); g.fill();
+      }
+      for (let i = 0; i < 650; i++) {
+        const x = r() * N, y = r() * N, L = 12 + r() * 90, a = (r() - 0.5) * 0.7;
+        g.strokeStyle = r() < 0.65 ? `rgba(175,180,188,${(0.16 + r() * 0.34).toFixed(3)})` : `rgba(12,12,12,${(0.25 + r() * 0.35).toFixed(3)})`;
+        g.lineWidth = 0.6 + r() * 2.1;
+        g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * L, y + Math.sin(a) * L); g.stroke();
+      }
+    }, 1024),
+  }), 1.25);
+  else if (skin === "glass") m = glassFresnel(new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0.02, transmission: 1, thickness: 0.0015, ior: 1.5, attenuationColor: new THREE.Color(0xf2fbff), attenuationDistance: 5, clearcoat: 1, clearcoatRoughness: 0.03, envMapIntensity: 1.04, transparent: true, depthWrite: false, side: THREE.DoubleSide }));
   else if (skin === "gold") m = edgeWear(new THREE.MeshStandardMaterial({ color: 0xffc356, metalness: 1, roughness: 0.08, envMapIntensity: 0.9 }), 0.5);   // polished 24k (sRGB 255,195,86), slight wear on the edges
   else if (skin === "chrome") m = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 1, roughness: 0.02, envMapIntensity: 1.0 });   // mirror: the environment map is the whole look (intensity already glare-capped)
   else if (skin === "black") m = new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0.1, roughness: 0.05, clearcoat: 1, clearcoatRoughness: 0.02, specularIntensity: 0.8, envMapIntensity: 0.85,   // Onyx black: polished deep black stone, faint grey veining
@@ -407,6 +427,17 @@ export class Look {
   }
   // split each outer shell part at the gun's lateral centre plane (world z = 0): the half facing the default camera
   // (+z) becomes glass, the far half stays opaque. The glass copy is a child of the part, so it moves with the slide.
+  setStaticSkin(root, skin) {
+    if (!root) return;
+    const sm = skin && skin !== "factory" ? skinMaterial(skin) : null;
+    root.traverse((o) => {
+      if (!o.isMesh) return;
+      if (!o.userData.__origMat) o.userData.__origMat = o.material;
+      if (!sm) { o.material = o.userData.__origMat; return; }
+      if (sm.map && !o.geometry.attributes.uv) boxUV(o, 6);
+      o.material = sm;
+    });
+  }
   setSkin(rig, skin) { rig.skin = SKINS.includes(skin) ? skin : "factory"; this.dress(rig); }
   setCaseMat(rig, mat) { if ((rig.caseMat || null) === (mat || null) && rig.dressedCase) return; rig.caseMat = mat || null; rig.dressedCase = true; this.dress(rig); }
   setCondition(rig, cond) { if ((rig.cond || "clean") === cond && rig.dressedCond) return; rig.cond = cond; rig.dressedCond = true; this.dress(rig); }

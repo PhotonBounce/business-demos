@@ -337,7 +337,7 @@ button.fire.safe{filter:grayscale(.7)}
     <label class="ctl"><span>Target</span><select id="ttype"><option value="paper">Paper on a board</option><option value="steel">Steel plate</option></select></label>
     <label class="ctl chk"><input type="checkbox" id="ambience"> Ambience (wind)</label>
     <label class="ctl chk" id="npcBox"><input type="checkbox" id="npcs"> NPCs downrange (UA and RU privates)</label>
-    <label class="ctl"><span>Skin</span><select id="skin"><option value="factory">Factory</option><option value="glass">Full glass</option><option value="gold">Gold</option><option value="chrome">Chrome</option><option value="black">Onyx black</option><option value="pink">Pink (cerakote)</option><option value="camo">Camo (woodland)</option><option value="damascus">Damascus</option></select></label>
+    <label class="ctl"><span>Skin</span><select id="skin"><option value="factory">Factory</option><option value="worn">Old gun (battle-worn)</option><option value="glass">Full glass</option><option value="gold">Gold</option><option value="chrome">Chrome</option><option value="black">Onyx black</option><option value="pink">Pink (cerakote)</option><option value="camo">Camo (woodland)</option><option value="damascus">Damascus</option></select></label>
     <label class="ctl chk" id="voxelBox"><input type="checkbox" id="voxel"> Voxel blocks (any skin)</label>
     <label class="ctl" id="voxWrap" hidden><span>Voxel size <output id="voxv">fine</output></span><input type="range" id="voxsize" min="0" max="2" step="1" value="0" aria-label="Voxel size: fine, medium, coarse"></label>
     <label class="ctl"><span>Cases</span><select id="casemat">
@@ -773,13 +773,14 @@ function cartGeos(c, lod, segs) {
   return out;
 }
 // where a modelled round sits in its node's frame: its axis (PCA of the case, pointing at the bullet), the head centre, and a twist that puts the lathe's vertices on the node's own axes
-function fitRound(caseNode, jacketNode, unit) {
+function fitRound(caseNode, jacketNode, unit, fixedAxis) {
   const pos = (n) => { const a = []; n.traverse((m) => { if (m.isMesh) { const pa = m.geometry.attributes.position; for (let i = 0; i < pa.count; i += Math.max(1, (pa.count / 1500) | 0)) a.push(new THREE.Vector3().fromBufferAttribute(pa, i)); } }); return a; };
   const P = pos(caseNode); if (P.length < 8) return null;
   const c = new THREE.Vector3(); for (const q of P) c.add(q); c.divideScalar(P.length);
   const C = [0, 0, 0, 0, 0, 0, 0, 0, 0]; for (const q of P) { const d = [q.x - c.x, q.y - c.y, q.z - c.z]; for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) C[i * 3 + j] += d[i] * d[j]; }
   let x = [1, 0.3, 0.2]; for (let k = 0; k < 60; k++) { const y = [0, 1, 2].map((i) => C[i * 3] * x[0] + C[i * 3 + 1] * x[1] + C[i * 3 + 2] * x[2]); const l = Math.hypot(...y) || 1; x = y.map((q) => q / l); }
   const axis = new THREE.Vector3(...x).normalize();
+  if (fixedAxis) axis.copy(fixedAxis).normalize();
   if (jacketNode) { const J = pos(jacketNode); if (J.length) { const jc = new THREE.Vector3(); for (const q of J) jc.add(q); jc.divideScalar(J.length); if (jc.sub(c).dot(axis) < 0) axis.negate(); } }
   if (!jacketNode) {   // an empty case: the neck end (the narrower one) is the front
     let lo = 1e9, hi = -1e9; for (const q of P) { const t = q.clone().sub(c).dot(axis); lo = Math.min(lo, t); hi = Math.max(hi, t); }
@@ -796,7 +797,7 @@ function fitRound(caseNode, jacketNode, unit) {
 }
 // replace the geometry of one round's part nodes with the real-parts versions; `parts` = {case, primer, mix, powder, jacket, lead, core} (nodes may be missing: extra parts are added as children of the case)
 function applyRound(rig, parts, calKey, opts = {}) {
-  const c = CART[calKey], M = fitRound(parts.case, parts.jacket, rig.unit); if (!M) return false;
+  const c = CART[calKey], M = fitRound(parts.case, parts.jacket, rig.unit, opts.fixedAxis); if (!M) return false;
   const full = cartGeos(c, false), lod = cartGeos(c, true), put = (node, geo) => { if (!node) return; geo = geo.clone().applyMatrix4(M); if (node.isMesh) { node.geometry.dispose(); node.geometry = geo; } else node.traverse((m) => { if (m.isMesh && !m.userData.cartDone) { m.geometry.dispose(); m.geometry = geo; m.userData.cartDone = true; } }); };
   const lodOf = (g) => g.clone().applyMatrix4(M);
   const fullDetail = opts.lod !== true;
@@ -853,7 +854,15 @@ function buildRig(gltf, gun) {
     // single stack: each round's own slot (top first); the stack rises by moving every round up to the slot above
     { const find = (pfx, sfx) => byName(pfx + sfx);
       applyRound(rig, { case: find("chamber__round__", "case"), primer: find("chamber__round__", "primer_cup"), mix: find("chamber__round__", "primer_mix"), powder: find("chamber__round__", "powder"), jacket: find("chamber__round__", "bullet_jacket"), core: find("chamber__round__", "bullet_core") }, "9x18");
-      rig.magRounds.forEach((arr, idx) => { const nm = (suffix) => arr.find((n) => n.name.endsWith("__" + suffix)); applyRound(rig, { case: nm("case"), primer: nm("primer_cup"), mix: nm("primer_mix"), powder: nm("powder"), jacket: nm("bullet_jacket"), core: nm("bullet_core") }, "9x18", { lod: idx > 0 && !S.cut && (S.quality === "low" || S.quality === "medium") }); }); }
+      const makAxis = (() => {
+        const cc = find("chamber__round__", "case"), cj = find("chamber__round__", "bullet_jacket");
+        if (cc && cj) {
+          const bc = bboxLocal(cc).getCenter(new THREE.Vector3()), bj = bboxLocal(cj).getCenter(new THREE.Vector3());
+          const d = bj.sub(bc); if (d.lengthSq() > 1e-8) return d.normalize();
+        }
+        return new THREE.Vector3(0, 0, -1);
+      })();
+      rig.magRounds.forEach((arr, idx) => { const nm = (suffix) => arr.find((n) => n.name.endsWith("__" + suffix)); applyRound(rig, { case: nm("case"), primer: nm("primer_cup"), mix: nm("primer_mix"), powder: nm("powder"), jacket: nm("bullet_jacket"), core: nm("bullet_core") }, "9x18", { lod: idx > 0 && !S.cut && (S.quality === "low" || S.quality === "medium"), fixedAxis: makAxis }); }); }
     rig.slots = rig.magRounds.map((arr) => { const b = bboxLocal(arr[0]); return b.getCenter(new THREE.Vector3()); });
     rig.slotNodes = rig.magRounds.map((arr) => arr.map((n) => ({ n, base: n.position.clone() })));
     rig.mirrorZ = null;
@@ -2160,7 +2169,7 @@ $("ambience").addEventListener("change", () => { savePref("ambience", $("ambienc
 // skin per gun, remembered per viewer
 const skinFor = (g) => (["factory", "glass", "gold", "chrome", "black", "pink", "camo", "damascus"].includes(prefs["skin_" + g]) ? prefs["skin_" + g] : "factory");
 $("skin").value = skinFor(S.gun);
-$("skin").addEventListener("change", () => { savePref("skin_" + S.gun, $("skin").value); for (const [k, r] of Object.entries(models)) if (k.startsWith(S.gun + ":")) { look.setSkin(r, $("skin").value); if (k.endsWith(":cut")) cutCartridges(r); } applySelector3D(); dirty = true; });
+$("skin").addEventListener("change", () => { const sk = $("skin").value; savePref("skin_" + S.gun, sk); for (const [k, r] of Object.entries(models)) if (k.startsWith(S.gun + ":")) { look.setSkin(r, sk); if (k.endsWith(":cut")) cutCartridges(r); } if (vehRig && vehRig.outer && look.setStaticSkin) look.setStaticSkin(vehRig.outer, sk); applySelector3D(); dirty = true; });
 // Voxel is its own toggle now (owner, 18 Nov), saved apart from the skin; the blocks take the chosen skin's material. (An old saved skin "voxel" turns the toggle on.)
 if (["AK", "MAK", "GAT"].some((g) => prefs["skin_" + g] === "voxel")) { savePref("voxel", true); for (const g of ["AK", "MAK", "GAT"]) if (prefs["skin_" + g] === "voxel") savePref("skin_" + g, "factory"); }
 $("voxel").checked = !!prefs.voxel; $("voxel").addEventListener("change", () => { savePref("voxel", $("voxel").checked); $("voxWrap").hidden = !$("voxel").checked; });
