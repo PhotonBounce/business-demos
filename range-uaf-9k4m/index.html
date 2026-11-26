@@ -2,173 +2,436 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>PhotonBounce Studio Hub — Arena, Nod, Grisha, Kalshi, KDP</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PhotonBounce Fleet Arena Hub v2 — All Projects</title>
 <style>
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#0b0f17; color:#e6edf3; overflow:hidden; }
-  .topbar { height:50px; background:#111827; border-bottom:1px solid #263247; display:flex; align-items:center; gap:6px; padding:0 12px; overflow-x:auto; white-space:nowrap; }
-  .brand { font-weight:800; letter-spacing:.5px; color:#60a5fa; margin-right:10px; font-size:14px; }
-  .tab { background:#1b2436; color:#cbd5e1; border:1px solid #2d3c56; padding:7px 12px; border-radius:7px; cursor:pointer; font-size:13px; font-weight:600; transition:all .15s; }
-  .tab:hover { background:#24324b; color:#fff; }
-  .tab.active { background:#2563eb; border-color:#3b82f6; color:#fff; }
-  .pane { display:none; height:calc(100vh - 50px); width:100vw; overflow-y:auto; }
-  .pane.active { display:block; }
-  .pane.full { overflow:hidden; }
-  .wrap { max-width:1360px; margin:0 auto; padding:20px; }
-  .grid2 { display:grid; grid-template-columns:repeat(auto-fit, minmax(460px, 1fr)); gap:18px; }
-  .grid3 { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:16px; }
-  .card { background:#131b2b; border:1px solid #24314a; border-radius:12px; padding:16px; }
-  .card h3 { margin:0 0 10px 0; font-size:16px; color:#93c5fd; }
-  .meta { font-size:12px; color:#94a3b8; margin-top:8px; }
-  .banner { background:#172554; border:1px solid #1d4ed8; border-radius:10px; padding:12px 16px; margin-bottom:16px; font-size:13px; line-height:1.5; }
-  .banner a { color:#93c5fd; }
-  video { width:100%; border-radius:8px; background:#000; max-height:460px; }
-  audio { width:100%; margin-top:8px; }
-  img.thumb { width:100%; border-radius:8px; border:1px solid #263247; }
-  table { width:100%; border-collapse:collapse; font-size:14px; }
-  th, td { padding:10px 12px; border-bottom:1px solid #24314a; text-align:left; }
-  th { color:#93c5fd; background:#0f1624; }
-  .pos { color:#4ade80; font-weight:700; }
-  .neg { color:#f87171; font-weight:700; }
-  .pill { display:inline-block; padding:3px 9px; border-radius:999px; font-size:11px; font-weight:700; margin-left:6px; }
-  .pill.green { background:#14532d; color:#86efac; }
-  .pill.amber { background:#78350f; color:#fde68a; }
-  .pill.red { background:#7f1d1d; color:#fca5a5; }
+  :root { --bg:#0b0f17; --card:#131a26; --border:#253247; --txt:#e2e8f0; --muted:#94a3b8; --acc:#38bdf8; --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--txt); }
+  a { color:var(--acc); text-decoration:none; } a:hover { text-decoration:underline; }
+  header { position:sticky; top:0; z-index:50; background:#0f1623; border-bottom:1px solid var(--border); padding:8px 14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .brand { font-weight:800; font-size:14px; letter-spacing:.3px; color:#f8fafc; margin-right:6px; }
+  .tabs { display:flex; gap:6px; flex-wrap:wrap; flex:1; }
+  .tab { background:#182234; color:#cbd5e1; border:1px solid #293852; border-radius:7px; padding:6px 11px; font-size:12.5px; font-weight:600; cursor:pointer; }
+  .tab.active { background:var(--acc); color:#07101d; border-color:var(--acc); }
+  .ts { font-size:11px; color:var(--muted); }
+  .pane { display:none; } .pane.active { display:block; }
+  .wrap { max-width:1460px; margin:0 auto; padding:14px 18px 36px; }
+  .proj-panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin-bottom:16px; }
+  .proj-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+  .sub { font-size:13px; color:var(--muted); margin-top:4px; }
+  .eta { font-size:12px; color:#cbd5e1; margin-top:4px; }
+  .pill { display:inline-block; padding:3px 9px; border-radius:999px; font-size:11px; font-weight:700; text-transform:uppercase; }
+  .pill.ok { background:rgba(34,197,94,.16); color:#4ade80; border:1px solid rgba(34,197,94,.35); }
+  .pill.warn { background:rgba(245,158,11,.16); color:#fbbf24; border:1px solid rgba(245,158,11,.35); }
+  .pill.bad { background:rgba(239,68,68,.16); color:#f87171; border:1px solid rgba(239,68,68,.35); }
+  .grid3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; margin-bottom:12px; }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); gap:14px; }
+  .grid4 { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
+  .box { background:#0e1420; border:1px solid #223047; border-radius:9px; padding:10px 12px; }
+  .box h4 { margin:0 0 6px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .box.done h4 { color:#4ade80; } .box.wip h4 { color:#38bdf8; } .box.prob h4 { color:#f87171; }
+  .box ul { margin:0; padding-left:16px; font-size:12.5px; line-height:1.55; color:#cbd5e1; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:11px; padding:12px 14px; }
+  .card h3 { margin:0 0 8px; font-size:15px; }
+  .meta { font-size:12px; color:var(--muted); margin-top:6px; }
+  video, audio, img.prev { width:100%; border-radius:8px; background:#000; display:block; }
+  .banner { background:#162235; border:1px solid #2b4162; border-radius:9px; padding:10px 14px; margin-bottom:14px; font-size:13px; }
+  .banner.warn { background:#2a1717; border-color:#7f1d1d; color:#fecaca; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid #223047; }
+  th { color:#94a3b8; font-size:11.5px; text-transform:uppercase; }
+  .pos { color:#4ade80; font-weight:700; } .neg { color:#f87171; font-weight:700; }
+  .order-box { background:#0b1220; border:1px solid #294063; border-radius:9px; padding:10px 12px; }
+  .order-top { display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:7px; font-size:12.5px; }
+  .order-btns { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .o-type, .o-text { background:#111a2b; color:#e2e8f0; border:1px solid #304565; border-radius:6px; padding:6px 8px; font-family:inherit; font-size:12.5px; }
+  .o-text { width:100%; resize:vertical; }
+  .btn-pri { background:var(--acc); color:#07101d; border:0; border-radius:6px; padding:6px 10px; font-weight:700; font-size:12px; cursor:pointer; }
+  .btn-sec { background:#1e293b; color:#cbd5e1; border:1px solid #334155; border-radius:6px; padding:6px 9px; font-size:12px; cursor:pointer; }
+  .o-item { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; background:#121c2e; border:1px solid #23334d; border-radius:6px; padding:7px 9px; margin-top:6px; font-size:12.5px; }
+  .drawer-bar { background:#111927; border-bottom:1px solid var(--border); padding:6px 14px; display:flex; justify-content:space-between; align-items:center; font-size:12.5px; }
+  #range-drawer { display:none; padding:12px 16px; background:#0d131f; border-bottom:1px solid var(--border); }
+  #range-drawer.open { display:block; }
 </style>
 </head>
 <body>
-  <div class="topbar">
-    <span class="brand">PHOTONBOUNCE HUB</span>
-    <button class="tab active" data-tab="range">3D Shooting Range</button>
-    <button class="tab" data-tab="nod">Nod Kremlinoff</button>
-    <button class="tab" data-tab="grisha">Grisha</button>
-    <button class="tab" data-tab="cinema">4K Weapon Cinema</button>
-    <button class="tab" data-tab="occupant">Occupant Killer</button>
-    <button class="tab" data-tab="taleloom">TaleLoom &amp; Audiobooks</button>
-    <button class="tab" data-tab="kalshi">Kalshi Sentinel (PAPER)</button>
-    <button class="tab" data-tab="kdp">KDP Books &amp; GPU Fleet</button>
+<header>
+  <div class="brand">PHOTONBOUNCE ARENA HUB v2</div>
+  <div class="tabs">
+    <button class="tab active" onclick="openTab('range',this)">3D Shooting Range</button>
+    <button class="tab" onclick="openTab('nod',this)">Nod Kremlinoff</button>
+    <button class="tab" onclick="openTab('grisha',this)">Grisha</button>
+    <button class="tab" onclick="openTab('cinema',this)">4K Weapon Cinema</button>
+    <button class="tab" onclick="openTab('occupant',this)">Occupant Killer</button>
+    <button class="tab" onclick="openTab('taleloom',this)">Books, TaleLoom &amp; Audio</button>
+    <button class="tab" onclick="openTab('kalshi',this)">Kalshi Sentinel (PAPER)</button>
+    <button class="tab" onclick="openTab('kdp',this)">KDP &amp; GPU Fleet</button>
   </div>
+  <button class="btn-sec" id="global-orders-btn" onclick="copyAllOrders()">Orders: 0</button>
+  <span class="ts">Built 2026-11-26 03:03 UTC</span>
+</header>
 
-  <div id="pane-range" class="pane full active">
-    <iframe src="range.html" style="width:100%;height:100%;border:0;"></iframe>
+<section id="pane-range" class="pane active">
+  <div class="drawer-bar">
+    <span><b>3D Range:</b> AK-47 16K (3.88M tris) &amp; Makarov V9 16K r2 (1.88M tris) baked &nbsp;|&nbsp; Open bugs: AK mag feed + rear curved tang, PKM firing WIP</span>
+    <button class="btn-pri" onclick="document.getElementById('range-drawer').classList.toggle('open')">Project Overview / Bugs / Leave Order &#9662;</button>
   </div>
-
-  <div id="pane-nod" class="pane">
-    <div class="wrap">
-      <div class="banner"><b>Nod Kremlinoff — Episode 01 (60s Combined CB-25 Delivered Today)</b> · Rendered on Blackwell <code>g4-e</code> (97.5 min). Below: today's CB-25 combined 60s master, previous v2 60s high-polish, polished 60s voice master, and 6×4 QA contact sheet.</div>
-      <div class="grid2">
-        <div class="card"><h3>Ep01 60s Combined — CB-25 Master (NEW Today) <span class="pill green">DONE</span></h3><video controls preload="metadata" src="hub-media/nod-ep01-60s-cb25.mp4"></video><div class="meta">53.2 MB · media-exacto: nod/cb25-60s/nod-mackremlinoff-ep01-60s-cb25.mp4</div></div>
-        <div class="card"><h3>Ep01 60s v2 High-Polish (Previous Baseline)</h3><video controls preload="metadata" src="hub-media/nod-ep01-60s-v2.mp4"></video><div class="meta">6.8 MB · v2 baseline for side-by-side comparison</div></div>
-        <div class="card"><h3>Nod Ep01 Polished 60s Voice Master (MP3)</h3><audio controls src="hub-media/nod_ep01_60s_v2_polished.mp3"></audio><div class="meta">2.4 MB · nod_ep01_60s_v2_polished.mp3</div></div>
-        <div class="card"><h3>CB-25 6×4 QA Frame Sheet</h3><img class="thumb" src="hub-media/nod_cb25_qa_6x4.jpg" alt="CB-25 QA Sheet" /></div>
+  <div id="range-drawer">
+    <div class="proj-panel">
+      <div class="proj-head">
+        <div><h2 style="margin:0;font-size:18px;">3D Shooting Range & EXACTO Armory</h2><div class="sub">Interactive WebGL firing range with real-time PBR skins, slow-mo cycling, cutaway glass, and EXACTO 16K weapon assets.</div></div>
+        <div style="text-align:right;"><span class="pill ok">ACTIVE BUILD</span><div class="eta">ETA: <b>Next AK/PKM fix pass: 26–27 Nov (pending Duet queue slot on idle Blackwell g4-e)</b></div></div>
+      </div>
+      <div class="grid3">
+        <div class="box done"><h4>Done</h4><ul><li>AK-47 16K fixed bake (<code>0-148</code>): 3,880,540 tris, 52 parts, selector pivot fixed, 235.8 MB GLB</li><li>Makarov V9 16K r2 (<code>0-149</code>): 1,876,420 tris, 87 parts, 16384px PBR+AO+ORM, 107.6 MB GLB DONE</li><li>Part-envelope geometry gate (<code>check_part_envelope.py</code>) enforced before every bake</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>WebGL Range GLB upgrade to swap in newly accepted 3.88M-tri AK-47 &amp; 1.88M-tri Makarov r2 web-LODs</li><li>Batch-2 reference photos (<code>0-151</code> on T4) finishing for next reference-traced weapons</li><li>PKM articulated belt-feed &amp; firing controller rig wiring</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>AK-47 bug (Owner 26 Nov):</b> bullets pulling from wrong place for firing (magazine-to-chamber feed alignment — queued for next fix round)</li><li><b>AK-47 geometry bug (Owner 26 Nov):</b> missing curved transition metal piece (rear receiver tang) going from top of gun to stock in back</li><li><b>PKM:</b> does not fire yet — articulated firing/belt-feed animation still in works</li><li><b>WebGL display note:</b> browser Range loads lighter web-GLBs (~1M tris) so browsers do not crash; full 3.88M-tri 16K master is on <code>media-exacto</code></li></ul></div>
+      </div>
+      <div class="order-box" data-tab="range">
+        <div class="order-top">
+          <b>Owner Comments &amp; Direct Orders — 3D Shooting Range & EXACTO Armory</b>
+          <div class="order-btns">
+            <select class="o-type"><option value="ORDER">ORDER</option><option value="BUG">BUG</option><option value="APPROVAL">APPROVAL</option><option value="NOTE">NOTE</option></select>
+            <button type="button" class="btn-pri" onclick="addOrder('range')">Save Comment / Order</button>
+            <button type="button" class="btn-sec" onclick="copyAllOrders()">Copy All Orders (MD)</button>
+            <button type="button" class="btn-sec" onclick="downloadOrders()">Download .md</button>
+          </div>
+        </div>
+        <textarea class="o-text" rows="2" placeholder="Leave a comment, bug report, or direct fleet order for 3D Shooting Range & EXACTO Armory... (saved in browser & exportable to #2246 / PC Antigravity)"></textarea>
+        <div class="o-list" id="orders-range"></div>
       </div>
     </div>
-  </div>
+    </div>
+  <div style="height:calc(100vh - 86px);width:100%;"><iframe id="range-frame" src="range.html" style="width:100%;height:100%;border:0;background:#0a0d12;"></iframe></div>
+</section>
 
-  <div id="pane-grisha" class="pane">
-    <div class="wrap">
-      <div class="banner"><b>Grisha — Talking Head &amp; Approved Episodes</b> · SLM v2-r1/r2 trained &amp; scored (<code>V-1</code> hold on voicing SLM text). <b>CB-30 Hold:</b> 827 shot-list jobs paused in <code>held/</code> after <code>img-1</code> hit account-level <code>403 PERMISSION_DENIED</code> starting 23 Nov 19:50Z (awaiting owner decision).</div>
-      <div class="grid2">
-        <div class="card"><h3>Grisha Studio 60s Talking Head <span class="pill green">APPROVED</span></h3><video controls preload="metadata" src="hub-media/grisha-studio-60s.mp4"></video><div class="meta">4.3 MB · grisha-c209-studio-60s-talking-head.mp4</div></div>
-        <div class="card"><h3>Grisha Ep01 — Robotaxi (Full Episode) <span class="pill green">APPROVED</span></h3><video controls preload="metadata" src="hub-media/grisha-ep01-robotaxi.mp4"></video><div class="meta">18.8 MB · grisha-ep01-robotaxi-c216-full.mp4</div></div>
-        <div class="card"><h3>Grisha Ep02 — VPN (Full Episode) <span class="pill green">APPROVED</span></h3><video controls preload="metadata" src="hub-media/grisha-ep02-vpn.mp4"></video><div class="meta">18.7 MB · grisha-ep02-vpn-c216-full.mp4</div></div>
-        <div class="card"><h3>Grisha 60s Approved Voice Master (MP3)</h3><audio controls src="hub-media/grisha-60s-voice.mp3"></audio><div class="meta">1.9 MB · grisha-c204-60s-approved-voice.mp3</div></div>
+<section id="pane-nod" class="pane"><div class="wrap">
+  
+    <div class="proj-panel">
+      <div class="proj-head">
+        <div><h2 style="margin:0;font-size:18px;">Nod Kremlinoff Show</h2><div class="sub">Satirical political talking-head show. Current CB-25 60s episode uses 2D LatentSync overlay; Owner rejected quality and ordered full Blackwell render power.</div></div>
+        <div style="text-align:right;"><span class="pill bad">NEEDS FULL-POWER REBUILD</span><div class="eta">ETA: <b>New high-compute Nod test clip: within 4–6h of Duet pipeline approval</b></div></div>
+      </div>
+      <div class="grid3">
+        <div class="box done"><h4>Done</h4><ul><li>Voice clone polished 60s master (<code>nod_ep01_60s_v2_polished.mp3</code>)</li><li>CB-25 60s test cut &amp; 6x4 QA contact sheet rendered and archived below for comparison</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Escalated Owner order to Fleet Boss Claude Duet (#2246): unlock full RTX PRO 6000 Blackwell (96 GB VRAM + 5 parallel runners) for high-compute Nod rebuild</li><li>Evaluate full 3D rigged head / LivePortrait+HallO2 / Wan2.1+EchoMimicV2 high-VRAM pipeline instead of 2D LatentSync</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Owner verdict (26 Nov):</b> "nod still sucks" — 2D LatentSync mouth overlay drifts off identity and looks rubbery</li><li>Awaiting Duet approval of the new high-compute Blackwell Nod pipeline spec before launching on warm <code>g4-e</code></li></ul></div>
+      </div>
+      <div class="order-box" data-tab="nod">
+        <div class="order-top">
+          <b>Owner Comments &amp; Direct Orders — Nod Kremlinoff Show</b>
+          <div class="order-btns">
+            <select class="o-type"><option value="ORDER">ORDER</option><option value="BUG">BUG</option><option value="APPROVAL">APPROVAL</option><option value="NOTE">NOTE</option></select>
+            <button type="button" class="btn-pri" onclick="addOrder('nod')">Save Comment / Order</button>
+            <button type="button" class="btn-sec" onclick="copyAllOrders()">Copy All Orders (MD)</button>
+            <button type="button" class="btn-sec" onclick="downloadOrders()">Download .md</button>
+          </div>
+        </div>
+        <textarea class="o-text" rows="2" placeholder="Leave a comment, bug report, or direct fleet order for Nod Kremlinoff Show... (saved in browser & exportable to #2246 / PC Antigravity)"></textarea>
+        <div class="o-list" id="orders-nod"></div>
       </div>
     </div>
-  </div>
-
-  <div id="pane-cinema" class="pane">
-    <div class="wrap">
-      <div class="banner"><b>4K 60s Weapon Cinema &amp; Live 16K EXACTO Bake Status:</b> Today's fixed AK-47 16K (<code>0-148</code>, <b>3,880,540 tris</b>, 235.8 MB GLB) finished at 22:50Z and is awaiting Co-Boss QA before swapping into the WebGL Range. Makarov V9 (<code>0-147</code>, <b>1,876,420 tris</b>) finished at 23:10Z; <code>0-149</code> Makarov V9 r2 is baking now on Blackwell <code>g4-e</code>.</div>
-      
-      <div class="banner">4K 60s MP4 showcases (55–97 MB each) are stored locally on your PC and stream instantly at full 4K on <a href="http://localhost:8765/#cinema" target="_blank">http://localhost:8765/#cinema</a> (server running live on port 8765).</div>
-      <div class="grid2">
-        <div class="card"><h3>AK-47 4K Cinema v2 (60s)</h3><div class="meta">96.5 MB · Done · <code>D:\fleet-32k-downloads\64k-arena-assetts\ak47_claude_4k_cinema_v2_60s.mp4</code></div></div>
-        <div class="card"><h3>Makarov PM 4K Cinema v2 (60s)</h3><div class="meta">54.6 MB · Done · <code>D:\fleet-32k-downloads\64k-arena-assetts\makarov_claude_4k_cinema_v2_60s.mp4</code></div></div>
-        <div class="card"><h3>Tempest-6 Gatling 4K Cinema v2 (60s)</h3><div class="meta">63.2 MB · Done · <code>D:\fleet-32k-downloads\64k-arena-assetts\tempest6_gatling_4k_cinema_v2_60s.mp4</code></div></div>
-        <div class="card"><h3>Tempest-7 Gatling 4K Cinema v2 (60s)</h3><div class="meta">74.9 MB · Done · <code>D:\fleet-32k-downloads\64k-arena-assetts\tempest7_gatling_4k_cinema_v2_60s.mp4</code></div></div>
-      </div>
     
-    </div>
+  <div class="grid2">
+    <div class="card"><h3>Nod Ep01 60s — CB-25 Cut (Flagged: Needs Full Blackwell Rebuild)</h3><video controls preload="metadata" src="hub-media/nod-ep01-60s-cb25.mp4"></video><div class="meta">53.2 MB · LatentSync overlay cut — Owner rejected quality; full Blackwell rebuild requested</div></div>
+    <div class="card"><h3>Nod Ep01 60s — v2 Comparison + Polished Voice Master</h3><video controls preload="metadata" src="hub-media/nod-ep01-60s-v2.mp4"></video><audio controls style="margin-top:8px;" src="hub-media/nod_ep01_60s_v2_polished.mp3"></audio><div class="meta">Voice master approved; video pipeline upgrading off 2D LatentSync</div></div>
+    <div class="card"><h3>CB-25 6x4 Frame QA Sheet</h3><img class="prev" src="hub-media/nod_cb25_qa_6x4.jpg" alt="Nod QA sheet" /></div>
   </div>
+</div></section>
 
-  <div id="pane-occupant" class="pane full">
+<section id="pane-grisha" class="pane"><div class="wrap">
+  
+    <div class="proj-panel">
+      <div class="proj-head">
+        <div><h2 style="margin:0;font-size:18px;">Grisha Show</h2><div class="sub">Russian/English political satire series. Owner flagged that the C-216 Robotaxi/VPN videos embedded below are the WRONG Grisha videos.</div></div>
+        <div style="text-align:right;"><span class="pill bad">WRONG VIDEOS FLAGGED</span><div class="eta">ETA: <b>Corrected Grisha video swap: 26 Nov once canonical files verified</b></div></div>
+      </div>
+      <div class="grid3">
+        <div class="box done"><h4>Done</h4><ul><li>Canonical 60s Studio talking-head voice master (<code>grisha-c204-60s-approved-voice.mp3</code>)</li><li>Canon-gate scripts &amp; 2026-10-29 daily episode pipeline built on <code>mudel-master</code></li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Auditing <code>media-shows</code> / <code>media-grisha</code> / Drive for the correct canonical Grisha episodes to replace C-216 below</li><li>Tempest/Nod/Grisha GPU priority queue awaiting Duet assignment on idle <code>g4-e</code></li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Owner verdict (26 Nov):</b> Wrong Grisha videos currently linked in Arena (C-216 Robotaxi &amp; VPN cuts flagged below)</li><li>Need Owner/Duet confirmation of exact canonical episode filenames to promote to this tab</li></ul></div>
+      </div>
+      <div class="order-box" data-tab="grisha">
+        <div class="order-top">
+          <b>Owner Comments &amp; Direct Orders — Grisha Show</b>
+          <div class="order-btns">
+            <select class="o-type"><option value="ORDER">ORDER</option><option value="BUG">BUG</option><option value="APPROVAL">APPROVAL</option><option value="NOTE">NOTE</option></select>
+            <button type="button" class="btn-pri" onclick="addOrder('grisha')">Save Comment / Order</button>
+            <button type="button" class="btn-sec" onclick="copyAllOrders()">Copy All Orders (MD)</button>
+            <button type="button" class="btn-sec" onclick="downloadOrders()">Download .md</button>
+          </div>
+        </div>
+        <textarea class="o-text" rows="2" placeholder="Leave a comment, bug report, or direct fleet order for Grisha Show... (saved in browser & exportable to #2246 / PC Antigravity)"></textarea>
+        <div class="o-list" id="orders-grisha"></div>
+      </div>
+    </div>
     
-      <div class="wrap">
-        <div class="banner">Occupant Killer Arena build runs locally on your PC at <a href="http://localhost:8765/#occupant" target="_blank">http://localhost:8765/#occupant</a>.</div>
-        <div class="card"><h3>Occupant Killer — Status</h3>
-          <p>Waiting on Co-Boss-accepted EXACTO weapon models to replace placeholder assets. Today's fixed AK-47 16K (<code>0-148</code>, 3.88M tris) finished at 22:50Z and Makarov V9 r2 (<code>0-149</code>) is baking now on Blackwell <code>g4-e</code>.</p>
+  <div class="banner warn"><b>OWNER FLAG (26 Nov):</b> Dmitri flagged that the C-216 Robotaxi &amp; VPN videos below are the <b>wrong Grisha videos</b>. Kept visible only for audit until the canonical Grisha episodes are located and swapped in.</div>
+  <div class="grid2">
+    <div class="card"><h3>Grisha Studio 60s Talking Head + Approved Voice MP3</h3><video controls preload="metadata" src="hub-media/grisha-studio-60s.mp4"></video><audio controls style="margin-top:8px;" src="hub-media/grisha-60s-voice.mp3"></audio></div>
+    <div class="card"><h3>[FLAGGED WRONG] C-216 Ep01 Robotaxi</h3><video controls preload="metadata" src="hub-media/grisha-ep01-robotaxi.mp4"></video></div>
+    <div class="card"><h3>[FLAGGED WRONG] C-216 Ep02 VPN</h3><video controls preload="metadata" src="hub-media/grisha-ep02-vpn.mp4"></video></div>
+  </div>
+</div></section>
+
+<section id="pane-cinema" class="pane"><div class="wrap">
+  
+    <div class="proj-panel">
+      <div class="proj-head">
+        <div><h2 style="margin:0;font-size:18px;">4K Weapon Cinema & EXACTO Turntables</h2><div class="sub">60-second 4K showcase videos (skin switching, slow-mo firing/reloading, cutaway glass) plus freshly baked 16K EXACTO macro renders.</div></div>
+        <div style="text-align:right;"><span class="pill ok">PLAYABLE INLINE + R2 FIX</span><div class="eta">ETA: <b>Tempest-7 r2 proof: ~15 min after Duet release; full r2 wide wave: ~4h across g4-e + e2..e6</b></div></div>
+      </div>
+      <div class="grid3">
+        <div class="box done"><h4>Done</h4><ul><li>ALL 4 Weapon Cinema v2 60s videos (AK-47, Makarov, Tempest-6, Tempest-7) encoded for instant inline playback here + full 4K originals on PC/Drive</li><li>Makarov V9 16K r2 (<code>0-149</code>) 4x studio renders (after + frame/slide/barrel macros) live below</li><li>Tempest-7 ejection port + open chute geometry fix (<code>0477e3f1</code>) passed <code>check_ejection.py</code> (0 overlaps / 1,800 frames)</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Tempest-7 r2 8-frame T4 proof render (<code>2026-11-25-t7-ejection-fix-proof-t4.json</code>) held awaiting Duet release</li><li>Tempest-7 60-chunk wide re-render + 82-chunk vertical wave held pending r2 proof sign-off</li><li>New 1-min slow turntable animations with half-glass &rarr; full-glass &rarr; cutaway &amp; slow-mo bullet travel + loud SFX</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Tempest-7 old scene bug:</b> spent cases clipped closed chute on frames 416–1591 (fixed in r2 scene <code>0477e3f1</code>, pending visual render proof)</li><li><b>AK-47 cinema:</b> will re-render after magazine feed + rear curved metal tang fixes land</li></ul></div>
+      </div>
+      <div class="order-box" data-tab="cinema">
+        <div class="order-top">
+          <b>Owner Comments &amp; Direct Orders — 4K Weapon Cinema & EXACTO Turntables</b>
+          <div class="order-btns">
+            <select class="o-type"><option value="ORDER">ORDER</option><option value="BUG">BUG</option><option value="APPROVAL">APPROVAL</option><option value="NOTE">NOTE</option></select>
+            <button type="button" class="btn-pri" onclick="addOrder('cinema')">Save Comment / Order</button>
+            <button type="button" class="btn-sec" onclick="copyAllOrders()">Copy All Orders (MD)</button>
+            <button type="button" class="btn-sec" onclick="downloadOrders()">Download .md</button>
+          </div>
+        </div>
+        <textarea class="o-text" rows="2" placeholder="Leave a comment, bug report, or direct fleet order for 4K Weapon Cinema & EXACTO Turntables... (saved in browser & exportable to #2246 / PC Antigravity)"></textarea>
+        <div class="o-list" id="orders-cinema"></div>
+      </div>
+    </div>
+    
+  <h3 style="margin:6px 0 10px;">4K Weapon Cinema v2 (60s Playable Inline)</h3>
+  <div class="grid2">
+    <div class="card"><h3>AK-47 4K Cinema v2 (60s)</h3><video controls preload="metadata" src="media/cinema/ak47-cinema-v2-60s-web.mp4"></video><div class="meta">Full 4K master (92 MB) on PC/Drive · Web stream plays inline here</div></div>
+    <div class="card"><h3>Makarov PM 4K Cinema v2 (60s)</h3><video controls preload="metadata" src="media/cinema/makarov-cinema-v2-60s-web.mp4"></video><div class="meta">Full 4K master (52 MB) on PC/Drive · Web stream plays inline here</div></div>
+    <div class="card"><h3>Tempest-6 Gatling 4K Cinema v2 (60s)</h3><video controls preload="metadata" src="media/cinema/tempest6-cinema-v2-60s-web.mp4"></video><div class="meta">Full 4K master (60 MB) on PC/Drive · Web stream plays inline here</div></div>
+    <div class="card"><h3>Tempest-7 Gatling 4K Cinema v2 (60s)</h3><video controls preload="metadata" src="media/cinema/tempest7-cinema-v2-60s-web.mp4"></video><div class="meta">Full 4K master (71 MB) on PC/Drive · r2 ejection-port fix built (0477e3f1)</div></div>
+  </div>
+  <h3 style="margin:18px 0 10px;">Freshly Completed: Makarov V9 16K r2 (<code>0-149</code>, 1.88M tris, 16384px PBR+AO+ORM)</h3>
+  <div class="grid4">
+    <div class="card"><h3>Full Studio After Shot</h3><img class="prev" src="media/exacto/after_makarov16k_hd.jpg" alt="Makarov 16K after" /></div>
+    <div class="card"><h3>Macro — Frame</h3><img class="prev" src="media/exacto/macro_makarov16k_frame_hd.jpg" alt="Makarov 16K frame" /></div>
+    <div class="card"><h3>Macro — Slide</h3><img class="prev" src="media/exacto/macro_makarov16k_slide_hd.jpg" alt="Makarov 16K slide" /></div>
+    <div class="card"><h3>Macro — Barrel</h3><img class="prev" src="media/exacto/macro_makarov16k_barrel_hd.jpg" alt="Makarov 16K barrel" /></div>
+  </div>
+</div></section>
+
+<section id="pane-occupant" class="pane"><div class="wrap">
+  
+    <div class="proj-panel">
+      <div class="proj-head">
+        <div><h2 style="margin:0;font-size:18px;">Occupant Killer — Game & Massive Upgrades</h2><div class="sub">Flagship FPS/defense game (WebGL + Unreal Engine 5 massive upgrade track). Replacing legacy placeholders with reference-traced 16K EXACTO weapons and UE5 Pixel Streaming 2.</div></div>
+        <div style="text-align:right;"><span class="pill warn">UPGRADES IN PROGRESS</span><div class="eta">ETA: <b>Asset swap + Stage-5 fix + public deploy: 27–28 Nov (awaiting Duet OK-8 sign-off &amp; UE5 GPU slot)</b></div></div>
+      </div>
+      <div class="grid3">
+        <div class="box done"><h4>Done</h4><ul><li>UE5 project scaffolded (<code>members/antigravity-work/ue5/OccupantKiller/OccupantKiller.uproject</code> + Config + <code>import_fleet_glbs_and_render.py</code> + <code>launch_pixel_streaming2.py</code>)</li><li>EXACTO 16K weapons ready for import: AK-47 3.88M tris (<code>0-148</code>) &amp; Makarov V9 16K r2 1.88M tris (<code>0-149</code>, 4 previews shown below)</li><li>Playable web build live at <a href="https://photon-bounce.com/ok/" target="_blank">photon-bounce.com/ok/</a> + local arena build</li><li>Full release audit complete (<code>OK-1</code>, <code>OK-2</code>, <code>OK-3</code>, <code>OK-8</code>)</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Swapping EXACTO AK-47 &amp; Makarov 16K assets into UE5 <code>OccupantKiller.uproject</code> + web GLB pack</li><li>Massive gameplay/graphics upgrade track: UE5 Nanite/Lumen weapon rigs, enemy AI/Bradley stage-5 fix, T-64BV &amp; FPV drone integration</li><li>Fixing public distribution: publishing 3 Nov+ build to <code>photon-bounce.com/ok/</code> and hosting public APK/EXE downloads outside private GitHub repo</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Stale public web builds (OK-8):</b> <code>photon-bounce.com/ok/</code> is still 30 Oct; GitHub Pages is 25 Oct (3 Nov release not deployed because deploy workflows failed in 4–5s)</li><li><b>Private-repo 404 (OK-8):</b> public Android APK &amp; Windows EXE links return 404 because repo is private — must mirror to <code>photon-bounce.com/ok/</code></li><li><b>Stage 5 bug (OK-1):</b> Bradley vehicle did not move in cloud test — needs fix before next public release push</li></ul></div>
+      </div>
+      <div class="order-box" data-tab="occupant">
+        <div class="order-top">
+          <b>Owner Comments &amp; Direct Orders — Occupant Killer — Game & Massive Upgrades</b>
+          <div class="order-btns">
+            <select class="o-type"><option value="ORDER">ORDER</option><option value="BUG">BUG</option><option value="APPROVAL">APPROVAL</option><option value="NOTE">NOTE</option></select>
+            <button type="button" class="btn-pri" onclick="addOrder('occupant')">Save Comment / Order</button>
+            <button type="button" class="btn-sec" onclick="copyAllOrders()">Copy All Orders (MD)</button>
+            <button type="button" class="btn-sec" onclick="downloadOrders()">Download .md</button>
+          </div>
+        </div>
+        <textarea class="o-text" rows="2" placeholder="Leave a comment, bug report, or direct fleet order for Occupant Killer — Game & Massive Upgrades... (saved in browser & exportable to #2246 / PC Antigravity)"></textarea>
+        <div class="o-list" id="orders-occupant"></div>
+      </div>
+    </div>
+    
+  
+      <div class="banner">Live Web Playable Build: <a href="https://photon-bounce.com/ok/" target="_blank"><b>https://photon-bounce.com/ok/</b></a> &nbsp;|&nbsp; Local UE5/Arena Sandbox: <a href="http://localhost:8765/#occupant" target="_blank">http://localhost:8765/#occupant</a></div>
+    
+  <h3 style="margin:6px 0 10px;">EXACTO &amp; UE5 Game Assets Ready for Occupant Killer Integration</h3>
+  <div class="grid4">
+    <div class="card"><h3>Makarov V9 16K r2 (1.88M tris)</h3><img class="prev" src="media/exacto/after_makarov16k_hd.jpg" alt="Makarov 16K" /><div class="meta">Done 02:33Z · 107.6 MB GLB · <a href="#range" onclick="openTabById('range')">Inspect in 3D Range &rarr;</a></div></div>
+    <div class="card"><h3>AK-47 16K Fixed (3.88M tris)</h3><img class="prev" src="media/exacto/macro_makarov16k_slide_hd.jpg" style="display:none" /><div class="meta" style="margin-top:0;line-height:1.6;">Done 22:50Z (<code>0-148</code>) · 52 parts, 16384px PBR, 235.8 MB GLB on <code>media-exacto</code>.<br><a href="#cinema" onclick="openTabById('cinema')">Watch 4K Cinema &rarr;</a> · <a href="#range" onclick="openTabById('range')">Open in 3D Range &rarr;</a></div></div>
+    <div class="card"><h3>UE5 Project &amp; Pixel Streaming 2</h3><div class="meta" style="margin-top:0;line-height:1.6;"><code>OccupantKiller.uproject</code> + <code>import_fleet_glbs_and_render.py</code> + <code>launch_pixel_streaming2.py</code> ready in <code>members/antigravity-work/ue5/OccupantKiller/</code>.</div></div>
+    <div class="card"><h3>Web Playable &amp; Release Audit</h3><div class="meta" style="margin-top:0;line-height:1.6;"><a href="https://photon-bounce.com/ok/" target="_blank"><b>Launch Web Build (photon-bounce.com/ok/) &rarr;</b></a><br>Audit <code>OK-1..OK-8</code> complete; 3 Nov build + Bradley stage-5 fix + public APK/EXE mirror queued.</div></div>
+  </div>
+</div></section>
+
+<section id="pane-taleloom" class="pane"><div class="wrap">
+  
+    <div class="proj-panel">
+      <div class="proj-head">
+        <div><h2 style="margin:0;font-size:18px;">TaleLoom, Books, QA & Audiobooks</h2><div class="sub">All book manuscripts, 5-cycle Gemini QA pipeline (AIstudio1 + free-tier), November 2026 primary-source monthlies, TaleLoom illustrated videos, and mastered audiobooks.</div></div>
+        <div style="text-align:right;"><span class="pill ok">HEAVY ACTIVE PROGRESS</span><div class="eta">ETA: <b>Wakeborn &amp; Zona 5x QA: 26–28 Nov; Nov Monthlies drafts: 27–30 Nov; Blue Tsunami KDP: post-12 Dec</b></div></div>
+      </div>
+      <div class="grid3">
+        <div class="box done"><h4>Done</h4><ul><li><b>Nov 2026 Monthlies Research (CB-34 / DUET-002):</b> 100% DONE — 378 HTTP-200 verbatim primary-source events across 37 files (Daily Dose Days 1–25 = 231 events; Fascism Watch Ch01–10 = 122 events)</li><li><b>Wakeborn <i>Light-Lag Witness</i>:</b> 10/10 chapters drafted (28,503 words); AIstudio1 completed QA Cycle 1 (<code>llw-v1-full-cycle-1.md</code>, 3 findings)</li><li><b>Zona Chronicles Storyline 1:</b> 10/10 chapters drafted (47,595 words, DRAFT v2)</li><li><b><i>Blue Tsunami</i> v2:</b> 12/12 chapters drafted (53,424 words, source rebuild)</li><li><b>TaleLoom Frankenstein Ep01–Ep05</b> full MP4s + 48k MP3s &amp; 5 mastered audiobooks (Dictatorships Today, Fix This World, Marmalade Ledger, Quiet Count, Wakeborn/Zona samples)</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>5-clean-cycle Gemini QA running on AIstudio1 (<code>Q40–Q42</code>): Wakeborn LLW &rarr; Zona S1 v2 &rarr; Blue Tsunami v2</li><li>Duet drafting Dictatorships Today Ch02–10 + November monthly manuscripts from our 378 verified events</li><li>Blue Tsunami final certification refresh scheduled after 3 Dec (MS), 8 Dec, and 12 Dec (LA runoffs)</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Wakeborn LLW Cycle 1 FAIL:</b> 3 canon/arithmetic findings logged in <code>llw-v1-full-cycle-1.md</code> — Duet fixing for Cycle 2</li><li><b>DUET-011 free-tier Gemini worker:</b> waiting on <code>0-151</code> to finish on <code>t4-a</code> + <code>aistudio.google.com</code> added to local Chrome rule file</li></ul></div>
+      </div>
+      <div class="order-box" data-tab="taleloom">
+        <div class="order-top">
+          <b>Owner Comments &amp; Direct Orders — TaleLoom, Books, QA & Audiobooks</b>
+          <div class="order-btns">
+            <select class="o-type"><option value="ORDER">ORDER</option><option value="BUG">BUG</option><option value="APPROVAL">APPROVAL</option><option value="NOTE">NOTE</option></select>
+            <button type="button" class="btn-pri" onclick="addOrder('taleloom')">Save Comment / Order</button>
+            <button type="button" class="btn-sec" onclick="copyAllOrders()">Copy All Orders (MD)</button>
+            <button type="button" class="btn-sec" onclick="downloadOrders()">Download .md</button>
+          </div>
+        </div>
+        <textarea class="o-text" rows="2" placeholder="Leave a comment, bug report, or direct fleet order for TaleLoom, Books, QA & Audiobooks... (saved in browser & exportable to #2246 / PC Antigravity)"></textarea>
+        <div class="o-list" id="orders-taleloom"></div>
+      </div>
+    </div>
+    
+  
+      <div class="grid2">
+        <div class="card"><h3>Active Book Drafts &amp; QA Docs (Google Drive)</h3>
+          <ul style="margin:6px 0 0 18px;line-height:1.8;">
+            <li><a href="https://docs.google.com/document/d/1W4rOu4-JsEHMXLc7pIHcc-UXSPEwA3dFjVH4CPtSCJI/edit" target="_blank"><b>Wakeborn — Light-Lag Witness (10 ch, 28,503w)</b></a> · AIstudio1 Cycle 1 filed</li>
+            <li><a href="https://docs.google.com/document/d/19l_v7qrqPof_wBG9E-2GtgBkK3-rFWYZOoZhShAsjRw/edit" target="_blank"><b>Zona Chronicles — Storyline 1 DRAFT v2 (10 ch, 47,595w)</b></a> · QA queued</li>
+            <li><a href="https://docs.google.com/document/d/1jYSRhzsp_Jyje1oV0jZfqAxTLW0g0cirIPxHythnzWE/edit" target="_blank"><b>Blue Tsunami v2 (12 ch, 53,424w)</b></a> · QA + Dec certification refresh</li>
+            <li><b>Nov 2026 Monthlies Source Packs:</b> 378 verbatim primary-source events pushed on <code>mudel-master</code></li>
+          </ul>
+        </div>
+        <div class="card"><h3>TaleLoom &amp; Mastered Audiobooks (Local PC Stream)</h3>
+          <p class="meta">Full Frankenstein Ep01–Ep05 illustrated MP4s (70–122 MB each) + 5 mastered audiobooks stream directly on <a href="http://localhost:8765/#taleloom" target="_blank">http://localhost:8765/#taleloom</a>.</p>
         </div>
       </div>
     
-  </div>
+</div></section>
 
-  <div id="pane-taleloom" class="pane">
-    <div class="wrap">
-      
-      <div class="banner">Full TaleLoom Frankenstein Ep01–Ep05 MP4s (70–122 MB) &amp; 5 full Audiobooks stream directly from your local PC Hub at <a href="http://localhost:8765/#taleloom" target="_blank">http://localhost:8765/#taleloom</a>.</div>
-      <div class="grid2">
-        <div class="card"><h3>TaleLoom — Frankenstein (Ep01–Ep05)</h3><p>5 complete illustrated video episodes + 48k mastered MP3 narrations on disk.</p></div>
-        <div class="card"><h3>Audiobooks Mastered</h3><p>Dictatorships Today (11 ch), Fix This World (31 ch), Marmalade Ledger (10 ch), Quiet Count (12 ch), Wakeborn Ch01–02, Zona Chronicles Ch01.</p></div>
+<section id="pane-kalshi" class="pane"><div class="wrap">
+  
+    <div class="proj-panel">
+      <div class="proj-head">
+        <div><h2 style="margin:0;font-size:18px;">Kalshi Sentinel (PAPER TRADING ONLY)</h2><div class="sub">Continuous 30s live-orderbook paper-trading daemon on KXBTC15M / KXETH15M / KXSOL15M. Latest snapshot: 2026-11-26T02:35:51Z (1997 trades, 17385 decisions).</div></div>
+        <div style="text-align:right;"><span class="pill ok">LIVE DAEMON · 0 LIVE ORDERS</span><div class="eta">ETA: <b>Ongoing 24/7 paper run; strategy pruning report ready whenever Owner wants</b></div></div>
       </div>
-    
-    </div>
-  </div>
-
-  <div id="pane-kalshi" class="pane">
-    <div class="wrap">
-      <div class="banner"><b>Kalshi Sentinel — 100% PAPER ONLY (0 Live Orders, $0 Real Cash Risked)</b> · Snapshot <code>hourly-20261125-2336Z.json</code> · <b>1,884</b> rows · <b>16,489</b> decisions · Combined Net Paper PnL: <b class="pos">+$6.93</b> (Top 2 strategies <code>D_fair_value + A_orderbook_imbalance</code> = <b class="pos">+$41.04</b> across 878 settled paper trades).</div>
-      <div class="card">
-        <h3>Paper Strategy Breakdown (~$1 paper sizing per trade)</h3>
-        <table>
-          <thead><tr><th>Strategy</th><th>Settled Trades</th><th>Win / Loss (Rate)</th><th>Paper PnL</th></tr></thead>
-          <tbody><tr><td><b>D_fair_value</b></td><td>625</td><td>344W / 281L (55.0%)</td><td class='pos'>+$32.18</td></tr><tr><td><b>V1_filtered</b></td><td>426</td><td>353W / 73L (82.9%)</td><td class='neg'>$-13.75</td></tr><tr><td><b>A_orderbook_imbalance</b></td><td>253</td><td>201W / 52L (79.4%)</td><td class='pos'>+$8.86</td></tr><tr><td><b>V3_late_snipe_84_93c</b></td><td>283</td><td>245W / 38L (86.6%)</td><td class='neg'>$-9.29</td></tr><tr><td><b>C_V3_narrow_88_93c</b></td><td>235</td><td>207W / 28L (88.1%)</td><td class='neg'>$-8.20</td></tr><tr><td><b>B_late_momentum</b></td><td>60</td><td>47W / 13L (78.3%)</td><td class='neg'>$-2.87</td></tr></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div id="pane-kdp" class="pane">
-    <div class="wrap">
-      <div class="banner"><b>Amazon KDP Publishing</b> — All 6 approved covers &amp; manuscripts (Rows #3–#8) staged and ready; paused by Amazon's weekly Kindle eBook creation cap until <b>Sat 28 Nov 6:00 PM CST (Sun 29 Nov 00:00 UTC)</b>.</div>
       <div class="grid3">
-        <div class="card"><h3>Fix This World — Nov 2026</h3><img class="thumb" src="hub-media/kdp/fix_this_world_nov2026_victor.jpg" /></div>
-        <div class="card"><h3>Fix This World — Dec 2026</h3><img class="thumb" src="hub-media/kdp/fix_this_world_dec2026_victor.jpg" /></div>
-        <div class="card"><h3>Dictatorships Today — Oct 2026</h3><img class="thumb" src="hub-media/kdp/dictatorships_today_oct2026.jpg" /></div>
-        <div class="card"><h3>Daily Dose of Trump — Oct 2026</h3><img class="thumb" src="hub-media/kdp/daily_dose_trump_oct2026.jpg" /></div>
-        <div class="card"><h3>Fascism Watch — Oct 2026</h3><img class="thumb" src="hub-media/kdp/fascism_watch_opt4.jpg" /></div>
-        <div class="card"><h3>AI &amp; Your Job</h3><img class="thumb" src="hub-media/kdp/ai_and_your_job_cover.jpg" /></div>
+        <div class="box done"><h4>Done</h4><ul><li>Net paper PnL: <b>+$4.60</b> across 1997 paper trades (<b>0</b> real dollars risked)</li><li><code>D_fair_value</code> leading at <b>+$33.97</b> (362W/298L); <code>A_orderbook_imbalance</code> at <b>+$8.74</b> (213W/56L)</li><li>Hourly automated snapshots committed to <code>mudel-master</code> every hour</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Collecting statistically significant multi-day paper ledger across all 6 strategies</li><li>Preparing strategy pruning proposal (drop losing V1/V3/C late-snipe drag; isolate D_fair_value + A_orderbook_imbalance)</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Strategy drag:</b> <code>V1_filtered</code> (-$17.01), <code>V3_late_snipe_84_93c</code> (-$10.29), and <code>C_V3_narrow</code> (-$8.18) drag down total net PnL</li><li><b>Strict fence:</b> PAPER ONLY — live trading stays 100% disabled until Owner explicitly authorizes</li></ul></div>
       </div>
-      <div class="card" style="margin-top:18px;">
-        <h3>Live GPU Fleet Roster (CB-29 Watchdog Active)</h3>
-        <table>
-          <thead><tr><th>Seat</th><th>GPU</th><th>State</th><th>Current / Last Job</th></tr></thead>
-          <tbody>
-            <tr><td><b>g4-e</b></td><td>RTX PRO 6000 Blackwell (96 GB)</td><td><span class="pill green">WORKING</span></td><td>Running <code>0-149</code> Makarov V9 r2 (11/11 jobs DONE today)</td></tr>
-            <tr><td><b>t4-a</b></td><td>Tesla T4 (16 GB)</td><td><span class="pill green">UP / WARM</span></td><td>Idle polling <code>lane=t4</code> (heartbeat cached-token fix <code>7f86cb7e49</code> live)</td></tr>
-            <tr><td><b>g4-f</b></td><td>RTX PRO 6000 Blackwell (96 GB)</td><td><span class="pill red">NEEDS HUMAN</span></td><td>Paused on Google reCAPTCHA since 12:38Z</td></tr>
-          </tbody>
-        </table>
+      <div class="order-box" data-tab="kalshi">
+        <div class="order-top">
+          <b>Owner Comments &amp; Direct Orders — Kalshi Sentinel (PAPER TRADING ONLY)</b>
+          <div class="order-btns">
+            <select class="o-type"><option value="ORDER">ORDER</option><option value="BUG">BUG</option><option value="APPROVAL">APPROVAL</option><option value="NOTE">NOTE</option></select>
+            <button type="button" class="btn-pri" onclick="addOrder('kalshi')">Save Comment / Order</button>
+            <button type="button" class="btn-sec" onclick="copyAllOrders()">Copy All Orders (MD)</button>
+            <button type="button" class="btn-sec" onclick="downloadOrders()">Download .md</button>
+          </div>
+        </div>
+        <textarea class="o-text" rows="2" placeholder="Leave a comment, bug report, or direct fleet order for Kalshi Sentinel (PAPER TRADING ONLY)... (saved in browser & exportable to #2246 / PC Antigravity)"></textarea>
+        <div class="o-list" id="orders-kalshi"></div>
       </div>
     </div>
+    
+  <div class="card">
+    <h3>Live Paper-Trading Ledger Breakdown (Snapshot 2026-11-26T02:35:51Z · 0 Live Orders)</h3>
+    <table><thead><tr><th>Strategy</th><th>Settled</th><th>Win / Loss</th><th>Net Paper PnL</th></tr></thead><tbody><tr><td><b>D_fair_value</b></td><td>660</td><td>362W / 298L (54.8%)</td><td class='pos'>+$33.97</td></tr><tr><td><b>V1_filtered</b></td><td>454</td><td>374W / 80L (82.4%)</td><td class='neg'>$-17.01</td></tr><tr><td><b>A_orderbook_imbalance</b></td><td>269</td><td>213W / 56L (79.2%)</td><td class='pos'>+$8.74</td></tr><tr><td><b>V3_late_snipe_84_93c</b></td><td>302</td><td>261W / 41L (86.4%)</td><td class='neg'>$-10.29</td></tr><tr><td><b>C_V3_narrow_88_93c</b></td><td>247</td><td>218W / 29L (88.3%)</td><td class='neg'>$-8.18</td></tr><tr><td><b>B_late_momentum</b></td><td>62</td><td>49W / 13L (79.0%)</td><td class='neg'>$-2.63</td></tr></tbody></table>
   </div>
+</div></section>
+
+<section id="pane-kdp" class="pane"><div class="wrap">
+  
+    <div class="proj-panel">
+      <div class="proj-head">
+        <div><h2 style="margin:0;font-size:18px;">KDP Books & GPU Fleet Command</h2><div class="sub">Fleet GPU & KDP publishing dashboard. Hard Colab cap: <b>3</b> sessions (g4-e, t4-a, g4-f). Blackwell parallel runners: <b>5/5</b> alive (complete).</div></div>
+        <div style="text-align:right;"><span class="pill ok">CAP = 3 COLAB SESSIONS (R-1)</span><div class="eta">ETA: <b>0-151 summary: &lt;04:00Z; KDP batch resume: Sat 28 Nov 6:00 PM CST</b></div></div>
+      </div>
+      <div class="grid3">
+        <div class="box done"><h4>Done</h4><ul><li>Enforced Rule R-1 (max 3 Colab sessions): terminated standalone agy CPU sessions, integrated <code>agy-img-1..2</code> as CPU subprocesses inside <code>t4-a</code></li><li><code>g4-e</code> + 5 subprocess runners (<code>g4-e2..g4-e6</code>) warm, alive, and ready for Duet orders</li><li>Added Rule R-2 1-minute GPU utilization telemetry logger to <code>t4_a_worker.ipynb</code></li><li>Verified KDP Bookshelf: zero older <i>Blue Tsunami</i> editions; Rows #5 &amp; #7 set to $0.99 (35% royalty, KDP Select off)</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li><code>t4-a</code> finishing <code>0-151</code> (Batch-2 reference photos) &rarr; <code>BATCH2-REFS-SUMMARY.md</code> &rarr; <code>0-152</code></li><li>KDP upload batch resumes <b>Sat 28 Nov 6:00 PM CST</b> when Amazon weekly upload cap resets</li><li>Staggered &lt;22h Colab restarts scheduled before <code>10:35Z</code> / <code>10:36Z</code> (between jobs only)</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b><code>g4-f</code> (2nd Blackwell):</b> waiting on human-only Google reCAPTCHA click by Owner (marked <code>needs_human</code>)</li><li><b>KDP weekly upload cap:</b> Amazon blocks new title uploads until Sat 28 Nov 6 PM CST</li><li><b>Gmail / Drive plugins:</b> awaiting 1-click Owner install/sign-in in Antigravity chat to auto-send email briefs</li></ul></div>
+      </div>
+      <div class="order-box" data-tab="kdp">
+        <div class="order-top">
+          <b>Owner Comments &amp; Direct Orders — KDP Books & GPU Fleet Command</b>
+          <div class="order-btns">
+            <select class="o-type"><option value="ORDER">ORDER</option><option value="BUG">BUG</option><option value="APPROVAL">APPROVAL</option><option value="NOTE">NOTE</option></select>
+            <button type="button" class="btn-pri" onclick="addOrder('kdp')">Save Comment / Order</button>
+            <button type="button" class="btn-sec" onclick="copyAllOrders()">Copy All Orders (MD)</button>
+            <button type="button" class="btn-sec" onclick="downloadOrders()">Download .md</button>
+          </div>
+        </div>
+        <textarea class="o-text" rows="2" placeholder="Leave a comment, bug report, or direct fleet order for KDP Books & GPU Fleet Command... (saved in browser & exportable to #2246 / PC Antigravity)"></textarea>
+        <div class="o-list" id="orders-kdp"></div>
+      </div>
+    </div>
+    
+  <div class="card" style="margin-bottom:14px;">
+    <h3>Live GPU &amp; Colab Fleet (Hard Cap = 3 Sessions · Blackwell Runners: g4-e2, g4-e3, g4-e4, g4-e5, g4-e6)</h3>
+    <table><thead><tr><th>Seat</th><th>Hardware</th><th>State</th><th>Current / Last Job</th><th>Notes</th></tr></thead><tbody><tr><td><b>g4-e</b></td><td>NVIDIA RTX PRO 6000 Blackwell Server Edition (97887 MiB)</td><td><span class='pill ok'>idle</span></td><td>0-149-2026-11-25-hd16k-makarov-v9-bake-r2-g4e</td><td style='font-size:12px;color:#94a3b8;'>Running 0-149 Makarov V9 16K bake r2 (claimed 23:16:20Z, renewed 01:46:38Z, limit 03:16Z); 0-149z spawn-runners queued next; untouched mid-job.</td></tr><tr><td><b>t4-a</b></td><td>Tesla T4 (15360 MiB)</td><td><span class='pill ok'>working</span></td><td>0-151-2026-11-25-cb35-fetch-reference-photos-batch2-t4a</td><td style='font-size:12px;color:#94a3b8;'>Working 0-151-2026-11-25-cb35-fetch-reference-photos-batch2-t4a (heartbeat cycle 51 at 2026-11-26T02:49:58Z); hosts agy-img-1..2 as CPU-only subprocesses on nex</td></tr><tr><td><b>g4-f</b></td><td>NVIDIA RTX PRO 6000 Blackwell (target)</td><td><span class='pill warn'>needs_human</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>Stopped cleanly without touching CAPTCHA; awaiting Owner click.</td></tr><tr><td><b>agy-img-1..2</b></td><td>CPU-only subprocess inside t4-a (CUDA_VISIBLE_DEVICES=empty, nice 10)</td><td><span class='pill warn'>subprocess-in-t4-a</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>DUET-005: standalone agy_img_1 &amp; agy_img_2 Colab CPU sessions disconnected/deleted at 01:58:57Z &amp; 01:58:52Z and tabs closed; integrated as CPU-only subprocesses</td></tr></tbody></table>
+  </div>
+  <div class="card">
+    <h3>KDP Cover Previews (Queued for Sat 28 Nov 6 PM CST Cap Reset)</h3>
+    <div class="grid4">
+      <div><img class="prev" src="hub-media/kdp/daily_dose_trump_oct2026.jpg" alt="Daily Dose Oct 2026" /><div class="meta">Daily Dose Oct 2026 ($0.99 / 35%)</div></div>
+      <div><img class="prev" src="hub-media/kdp/fascism_watch_opt4.jpg" alt="Fascism Watch" /><div class="meta">Fascism Watch</div></div>
+      <div><img class="prev" src="hub-media/kdp/fix_this_world_nov2026_victor.jpg" alt="Fix This World Nov" /><div class="meta">Fix This World Nov 2026</div></div>
+      <div><img class="prev" src="hub-media/kdp/ai_and_your_job_cover.jpg" alt="AI & Your Job" /><div class="meta">AI &amp; Your Job</div></div>
+    </div>
+  </div>
+</div></section>
 
 <script>
-  const tabs = document.querySelectorAll('.tab');
-  const panes = document.querySelectorAll('.pane');
-  function activate(id) {
-    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === id));
-    panes.forEach(p => p.classList.toggle('active', p.id === 'pane-' + id));
-    if (id === 'occupant') {
-      const f = document.getElementById('ok-frame');
-      if (f && !f.src) f.src = f.dataset.src;
-    }
-    history.replaceState(null, '', '#' + id);
+function openTab(id, btn) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('pane-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (id === 'occupant') {
+    const f = document.getElementById('ok-frame');
+    if (f && !f.src && f.dataset.src) f.src = f.dataset.src;
   }
-  tabs.forEach(t => t.addEventListener('click', () => activate(t.dataset.tab)));
-  const h = location.hash.replace('#', '');
-  if (h && document.getElementById('pane-' + h)) activate(h);
+  history.replaceState(null, '', '#' + id);
+}
+function openTabById(id) {
+  const btn = Array.from(document.querySelectorAll('.tab')).find(b => b.getAttribute('onclick')?.includes("'" + id + "'"));
+  openTab(id, btn);
+}
+const STORE_KEY = 'pb_arena_owner_orders_v1';
+function loadOrders() { try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch { return []; } }
+function saveOrders(arr) { localStorage.setItem(STORE_KEY, JSON.stringify(arr)); renderOrders(); }
+function addOrder(tab) {
+  const box = document.querySelector('.order-box[data-tab="' + tab + '"]');
+  const text = box.querySelector('.o-text').value.trim();
+  const kind = box.querySelector('.o-type').value;
+  if (!text) return;
+  const arr = loadOrders();
+  arr.unshift({ id: Date.now(), tab, kind, text, ts: new Date().toISOString().slice(0,19) + 'Z' });
+  box.querySelector('.o-text').value = '';
+  saveOrders(arr);
+}
+function delOrder(id) { saveOrders(loadOrders().filter(x => x.id !== id)); }
+function renderOrders() {
+  const arr = loadOrders();
+  document.getElementById('global-orders-btn').textContent = 'Orders: ' + arr.length + ' (Copy MD)';
+  document.querySelectorAll('.o-list').forEach(el => {
+    const tab = el.id.replace('orders-', '');
+    const items = arr.filter(x => x.tab === tab);
+    el.innerHTML = items.map(x => `<div class="o-item"><div><span class="pill ${x.kind==='BUG'?'bad':x.kind==='ORDER'?'warn':'ok'}">${x.kind}</span> <span style="color:#94a3b8;font-size:11px;">${x.ts}</span><div style="margin-top:3px;">${x.text.replace(/</g,'&lt;')}</div></div><button class="btn-sec" onclick="delOrder(${x.id})">&times;</button></div>`).join('');
+  });
+}
+function buildOrdersMd() {
+  const arr = loadOrders();
+  if (!arr.length) return '# Owner Arena Orders (empty)';
+  return '# Owner Arena Comments & Orders (' + new Date().toISOString() + ')\n\n' + arr.map(x => `- **[${x.kind} | ${x.tab} | ${x.ts}]** ${x.text}`).join('\n');
+}
+function copyAllOrders() {
+  const md = buildOrdersMd();
+  navigator.clipboard.writeText(md).then(() => alert('Copied ' + loadOrders().length + ' orders to clipboard! Paste in chat or #2246.')).catch(() => prompt('Copy Markdown:', md));
+}
+function downloadOrders() {
+  const blob = new Blob([buildOrdersMd()], { type: 'text/markdown' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'OWNER-ARENA-ORDERS.md'; a.click();
+}
+renderOrders();
+if (location.hash) {
+  const h = location.hash.slice(1);
+  if (document.getElementById('pane-' + h)) openTabById(h);
+}
 </script>
-</body>
-</html>
+</body></html>
