@@ -76,7 +76,7 @@
     <button class="tab" onclick="openTab('kdp',this)">KDP &amp; GPU Fleet</button>
   </div>
   <button class="btn-sec" id="global-orders-btn" onclick="copyAllOrders()">Orders: 0</button>
-  <span class="ts">Built 2026-11-26 03:12 UTC</span>
+  <span class="ts">Built 2026-11-26 03:38 UTC</span>
 </header>
 
 <section id="pane-range" class="pane active">
@@ -174,11 +174,12 @@
       </div>
     </div>
     
-  <div class="banner warn"><b>OWNER FLAG (26 Nov):</b> Dmitri flagged that the C-216 Robotaxi &amp; VPN videos below are the <b>wrong Grisha videos</b>. Kept visible only for audit until the canonical Grisha episodes are located and swapped in.</div>
+  <div class="banner"><b>UPDATED PER OWNER ARENA ORDER (03:36Z):</b> Removed all 3 wrong C-209/C-216 talking-head videos. Showing real canonical Grisha episodes in progress &amp; recent production folders below.</div>
   <div class="grid2">
-    <div class="card"><h3>Grisha Studio 60s Talking Head + Approved Voice MP3</h3><video controls preload="metadata" src="hub-media/grisha-studio-60s.mp4"></video><audio controls style="margin-top:8px;" src="hub-media/grisha-60s-voice.mp3"></audio></div>
-    <div class="card"><h3>[FLAGGED WRONG] C-216 Ep01 Robotaxi</h3><video controls preload="metadata" src="hub-media/grisha-ep01-robotaxi.mp4"></video></div>
-    <div class="card"><h3>[FLAGGED WRONG] C-216 Ep02 VPN</h3><video controls preload="metadata" src="hub-media/grisha-ep02-vpn.mp4"></video></div>
+    <div class="card"><h3>Grisha — 2026-10-29 Dailies v2 (Madyar / Trumplo / Zetniki)</h3><div class="meta"><b>Status:</b> In Progress · Folder: <code>members/cloud-claude-work/grisha/2026-10-29-dailies-v2/</code> · Rendered multi-variant frames &amp; scripts; ready for final Blackwell assembly.</div></div>
+    <div class="card"><h3>Grisha — 2026-11-17 Midterms Special</h3><div class="meta"><b>Status:</b> In Progress · Folder: <code>members/cloud-claude-work/grisha/2026-11-17-midterms/</code> · Scripted &amp; stress-marked (<code>midterms-v2.txt</code>); awaiting approved visual frames (zero Qwen/small-Flux per CB-38).</div></div>
+    <div class="card"><h3>Grisha — 2026-11-19 Robotaxi &amp; VPN (Canonical Illustrated Builds)</h3><div class="meta"><b>Status:</b> Rebuilding (C-216 wrong cuts removed) · Folders: <code>2026-11-19-robotaxi/</code> &amp; <code>2026-11-19-vpn/</code> · Approved 60s Voice Master below:</div><audio controls style="margin-top:8px;" src="hub-media/grisha-60s-voice.mp3"></audio></div>
+    <div class="card"><h3>Grisha — Catchup Animated &amp; Books Episodes (2026-09-27 / 2026-10-26)</h3><div class="meta"><b>Status:</b> Storyboard / v3 Frames Ready · Alaska Supermarket, Bali Monkeys iPhone, Cocaine Bear, Army Drunk Worldwars, Brave New World, Buddenbrooks, Canterville Ghost, Count of Monte Cristo, Cyberiad, Skotny Dvor.</div></div>
   </div>
 </div></section>
 
@@ -312,11 +313,11 @@
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">Kalshi Sentinel (PAPER TRADING ONLY)</h2><div class="sub">Continuous 30s live-orderbook paper-trading daemon on KXBTC15M / KXETH15M / KXSOL15M. Latest snapshot: 2026-11-26T02:35:51Z (1997 trades, 17385 decisions).</div></div>
+        <div><h2 style="margin:0;font-size:18px;">Kalshi Sentinel (PAPER TRADING ONLY)</h2><div class="sub">Continuous 30s live-orderbook paper-trading daemon on KXBTC15M / KXETH15M / KXSOL15M. Latest snapshot: 2026-11-26T03:35:35Z (2040 trades, 17704 decisions).</div></div>
         <div style="text-align:right;"><span class="pill ok">LIVE DAEMON · 0 LIVE ORDERS</span><div class="eta">ETA: <b>Ongoing 24/7 paper run; strategy pruning report ready whenever Owner wants</b></div></div>
       </div>
       <div class="grid3">
-        <div class="box done"><h4>Done</h4><ul><li>Net paper PnL: <b>+$4.60</b> across 1997 paper trades (<b>0</b> real dollars risked)</li><li><code>D_fair_value</code> leading at <b>+$33.97</b> (362W/298L); <code>A_orderbook_imbalance</code> at <b>+$8.74</b> (213W/56L)</li><li>Hourly automated snapshots committed to <code>mudel-master</code> every hour</li></ul></div>
+        <div class="box done"><h4>Done</h4><ul><li>Net paper PnL: <b>+$1.16</b> across 2040 paper trades (<b>0</b> real dollars risked)</li><li><code>D_fair_value</code> leading at <b>+$33.97</b> (362W/298L); <code>A_orderbook_imbalance</code> at <b>+$8.74</b> (213W/56L)</li><li>Hourly automated snapshots committed to <code>mudel-master</code> every hour</li></ul></div>
         <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Collecting statistically significant multi-day paper ledger across all 6 strategies</li><li>Preparing strategy pruning proposal (drop losing V1/V3/C late-snipe drag; isolate D_fair_value + A_orderbook_imbalance)</li></ul></div>
         <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Strategy drag:</b> <code>V1_filtered</code> (-$17.01), <code>V3_late_snipe_84_93c</code> (-$10.29), and <code>C_V3_narrow</code> (-$8.18) drag down total net PnL</li><li><b>Strict fence:</b> PAPER ONLY — live trading stays 100% disabled until Owner explicitly authorizes</li></ul></div>
       </div>
@@ -336,8 +337,8 @@
     </div>
     
   <div class="card">
-    <h3>Live Paper-Trading Ledger Breakdown (Snapshot 2026-11-26T02:35:51Z · 0 Live Orders)</h3>
-    <table><thead><tr><th>Strategy</th><th>Settled</th><th>Win / Loss</th><th>Net Paper PnL</th></tr></thead><tbody><tr><td><b>D_fair_value</b></td><td>660</td><td>362W / 298L (54.8%)</td><td class='pos'>+$33.97</td></tr><tr><td><b>V1_filtered</b></td><td>454</td><td>374W / 80L (82.4%)</td><td class='neg'>$-17.01</td></tr><tr><td><b>A_orderbook_imbalance</b></td><td>269</td><td>213W / 56L (79.2%)</td><td class='pos'>+$8.74</td></tr><tr><td><b>V3_late_snipe_84_93c</b></td><td>302</td><td>261W / 41L (86.4%)</td><td class='neg'>$-10.29</td></tr><tr><td><b>C_V3_narrow_88_93c</b></td><td>247</td><td>218W / 29L (88.3%)</td><td class='neg'>$-8.18</td></tr><tr><td><b>B_late_momentum</b></td><td>62</td><td>49W / 13L (79.0%)</td><td class='neg'>$-2.63</td></tr></tbody></table>
+    <h3>Live Paper-Trading Ledger Breakdown (Snapshot 2026-11-26T03:35:35Z · 0 Live Orders)</h3>
+    <table><thead><tr><th>Strategy</th><th>Settled</th><th>Win / Loss</th><th>Net Paper PnL</th></tr></thead><tbody><tr><td><b>D_fair_value</b></td><td>672</td><td>364W / 308L (54.2%)</td><td class='pos'>+$30.21</td></tr><tr><td><b>V1_filtered</b></td><td>463</td><td>382W / 81L (82.5%)</td><td class='neg'>$-16.66</td></tr><tr><td><b>A_orderbook_imbalance</b></td><td>276</td><td>219W / 57L (79.3%)</td><td class='pos'>+$9.18</td></tr><tr><td><b>V3_late_snipe_84_93c</b></td><td>311</td><td>269W / 42L (86.5%)</td><td class='neg'>$-10.25</td></tr><tr><td><b>C_V3_narrow_88_93c</b></td><td>253</td><td>223W / 30L (88.1%)</td><td class='neg'>$-8.69</td></tr><tr><td><b>B_late_momentum</b></td><td>62</td><td>49W / 13L (79.0%)</td><td class='neg'>$-2.63</td></tr></tbody></table>
   </div>
 </div></section>
 
@@ -370,7 +371,7 @@
     
   <div class="card" style="margin-bottom:14px;">
     <h3>Live GPU &amp; Colab Fleet (Hard Cap = 3 Sessions · Blackwell Runners: g4-e2, g4-e3, g4-e4, g4-e5, g4-e6)</h3>
-    <table><thead><tr><th>Seat</th><th>Hardware</th><th>State</th><th>Current / Last Job</th><th>Notes</th></tr></thead><tbody><tr><td><b>g4-e</b></td><td>NVIDIA RTX PRO 6000 Blackwell Server Edition (97887 MiB)</td><td><span class='pill ok'>idle</span></td><td>0-149-2026-11-25-hd16k-makarov-v9-bake-r2-g4e</td><td style='font-size:12px;color:#94a3b8;'>Running 0-149 Makarov V9 16K bake r2 (claimed 23:16:20Z, renewed 01:46:38Z, limit 03:16Z); 0-149z spawn-runners queued next; untouched mid-job.</td></tr><tr><td><b>t4-a</b></td><td>Tesla T4 (15360 MiB)</td><td><span class='pill ok'>working</span></td><td>0-152-2026-11-25-cb35-tempest7-wide-film-checks-t4a</td><td style='font-size:12px;color:#94a3b8;'>Working 0-152-2026-11-25-cb35-tempest7-wide-film-checks-t4a (heartbeat cycle 53 at 2026-11-26T03:00:01Z); hosts agy-img-1..2 as CPU-only subprocesses on next be</td></tr><tr><td><b>g4-f</b></td><td>NVIDIA RTX PRO 6000 Blackwell (target)</td><td><span class='pill warn'>needs_human</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>Stopped cleanly without touching CAPTCHA; awaiting Owner click.</td></tr><tr><td><b>agy-img-1..2</b></td><td>CPU-only subprocess inside t4-a (CUDA_VISIBLE_DEVICES=empty, nice 10)</td><td><span class='pill warn'>subprocess-in-t4-a</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>DUET-005: standalone agy_img_1 &amp; agy_img_2 Colab CPU sessions disconnected/deleted at 01:58:57Z &amp; 01:58:52Z and tabs closed; integrated as CPU-only subprocesses</td></tr></tbody></table>
+    <table><thead><tr><th>Seat</th><th>Hardware</th><th>State</th><th>Current / Last Job</th><th>Notes</th></tr></thead><tbody><tr><td><b>g4-e</b></td><td>NVIDIA RTX PRO 6000 Blackwell Server Edition (97887 MiB)</td><td><span class='pill ok'>idle</span></td><td>0-149-2026-11-25-hd16k-makarov-v9-bake-r2-g4e</td><td style='font-size:12px;color:#94a3b8;'>Warm &amp; idle polling lane=blackwell-g4-e (03:20:36Z); all 5 subprocess runners g4-e2..g4-e6 alive.</td></tr><tr><td><b>t4-a</b></td><td>Tesla T4 (15360 MiB)</td><td><span class='pill ok'>idle</span></td><td>0-141-2026-11-25-cb21-fetch-reference-photos-t4a</td><td style='font-size:12px;color:#94a3b8;'>Warm &amp; idle polling lane=t4 (03:20:43Z); 0-151 &amp; 0-152 done.</td></tr><tr><td><b>g4-f</b></td><td>NVIDIA RTX PRO 6000 Blackwell (target)</td><td><span class='pill ok'>idle</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>LIVE &amp; IDLE POLLING lane=blackwell-g4-f (03:20:52Z, zero dialogs); Owner cleared human check.</td></tr><tr><td><b>agy-img-1..2</b></td><td>CPU-only subprocess inside t4-a (CUDA_VISIBLE_DEVICES=empty, nice 10)</td><td><span class='pill warn'>subprocess-in-t4-a</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>DUET-005: standalone agy_img_1 &amp; agy_img_2 Colab CPU sessions disconnected/deleted at 01:58:57Z &amp; 01:58:52Z and tabs closed; integrated as CPU-only subprocesses</td></tr></tbody></table>
   </div>
   <div class="card">
     <h3>KDP Cover Previews (Queued for Sat 28 Nov 6 PM CST Cap Reset)</h3>
