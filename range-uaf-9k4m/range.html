@@ -3864,47 +3864,52 @@ if (DEBUG) {
     setTimeout(() => { try { audio.caseHit(isPistol ? "MAK" : "AK", S.floor || "concrete"); } catch {} }, isPkm ? 180 : 300);
 
     rig.outer.updateMatrixWorld(true);
-    let muz;
+    const box = new THREE.Box3().setFromObject(rig.outer);
+    const ctr = box.getCenter(new THREE.Vector3());
+    let muz, dirX = 1;
     if (isPkm) {
       const pp = ensurePkmParts(rig);
       pkmCycleStart = performance.now();
       if (pp && pp.flashHider) {
         const fb = new THREE.Box3().setFromObject(pp.flashHider);
         const fc = fb.getCenter(new THREE.Vector3());
-        muz = new THREE.Vector3(fb.max.x, fc.y, fc.z);
+        dirX = fc.x < ctr.x ? -1 : 1;
+        muz = new THREE.Vector3(dirX < 0 ? fb.min.x : fb.max.x, fc.y, fc.z);
       }
     }
     if (!muz) {
-      const box = new THREE.Box3().setFromObject(rig.outer);
-      const ctr = box.getCenter(new THREE.Vector3());
       muz = new THREE.Vector3(box.max.x, ctr.y + (box.max.y - box.min.y) * 0.12, ctr.z);
     }
+    flashCone.rotation.z = dirX > 0 ? -Math.PI / 2 : Math.PI / 2;
+    flashCone.position.x = dirX * 0.07;
     flashMesh.position.copy(muz);
-    flashMesh.scale.setScalar(isPkm ? 1.15 : 1.0);
+    flashMesh.scale.setScalar(isPkm ? 2.2 : 1.0);
     flashMesh.visible = true;
     flashLight.intensity = isPkm ? 2.6 : 1.8;
-    flashFrames = 1; // single rendered frame (DUET-025)
+    flashFrames = 1; // single rendered frame when running; held while CLOCK.paused (DUET-025/028)
     if (rig.flash && rig.flashLight) {
       rig.flash.position.copy(rig.outer.worldToLocal(muz.clone()));
       rig.flash.visible = true;
       rig.flashLight.intensity = isPkm ? 2.6 : 1.8;
     }
+    rig.outer.userData._dirX = dirX;
     recoilV = isPkm ? 0.036 : 0.045;
 
-    // Place 5ft (1.5m) paper target directly in line of fire and punch a real bullet hole!
-    const dist = Math.max(1.5, S.rangeM || 1.5);
+    // Place 3D paper target downrange at normal range distance (matching AK/MAK/SVD, never through the receiver — DUET-028)
+    const dist = Math.max(25, (S.dist && S.dist[S.gun]) || 50);
     tracerStart.copy(muz);
-    tracerEnd.set(muz.x + dist, muz.y, muz.z);
+    tracerEnd.set(muz.x + dirX * dist, muz.y, muz.z);
     tracerT = 0;
     try {
       if (tgt3 && tgt3.group) {
-        tgt3.group.visible = true;
-        tgt3.group.position.set(muz.x + dist, muz.y, muz.z);
+        tgt3.group.visible = !roomOn;
+        tgt3.group.position.set(muz.x + dirX * dist, muz.y, muz.z);
+        tgt3.group.rotation.y = dirX < 0 ? Math.PI : 0;
         const sx = (Math.random() - 0.5) * 0.025, sy = (Math.random() - 0.5) * 0.025;
         if (tgt3.hit) tgt3.hit(sx, sy);
       }
     } catch {}
-    msg(`${VIEWONLY[key]?.label || key}: FIRED (${staticAmmo[key]}/${cap}) -> ${dist.toFixed(1)} m target hit!`);
+    msg(`${VIEWONLY[key]?.label || key}: FIRED (${staticAmmo[key]}/${cap}) -> ${dist.toFixed(0)} m target hit!`);
     dirty = true;
   };
 
@@ -3918,7 +3923,7 @@ if (DEBUG) {
     if ((S.vehicle || "") !== lastHudVeh) syncPkmHud(S.vehicle || "");
 
     const rig = (S.vehicle ? activeRig : null) || vehRig;
-    if (flashMesh.visible) {
+    if (flashMesh.visible && !CLOCK.paused) {
       if (flashFrames <= 0) {
         flashMesh.visible = false;
         flashLight.intensity = 0;
@@ -3968,7 +3973,7 @@ if (DEBUG) {
       dirty = true;
     }
     if (recoilV > 0.0005 && rig && rig.outer && !/drone-/.test(S.vehicle || "")) {
-      rig.outer.position.x = -recoilV;
+      rig.outer.position.x = -(rig.outer.userData._dirX || 1) * recoilV;
       recoilV *= Math.pow(0.002, dt);
       if (recoilV <= 0.0006) { rig.outer.position.x = 0; recoilV = 0; }
       dirty = true;
