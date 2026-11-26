@@ -246,7 +246,7 @@ button.fire.safe{filter:grayscale(.7)}
           <option value="veh:tractor">Tractor UA + Roof Tempest-6 [188K tris · LIVE]</option>
         </optgroup>
         <optgroup label="Armory Showcase & WIP Prototypes">
-          <option value="veh:pkm-8k">PKM GPMG</option>
+          <option value="veh:pkm-8k">PKM GPMG [LIVE FIRE + RELOAD]</option>
           <option value="veh:svd-1m-hero">SVD Dragunov WIP Prototype (+ Internals) [WIP · LIVE FIRE + RELOAD]</option>
           <option value="veh:svd-1m-hero-cutaway">SVD Dragunov Cutaway WIP Prototype (+ Internals) [WIP · LIVE FIRE + RELOAD]</option>
           <option value="veh:fort12-1m-hero">Fort-12 9x18mm WIP Prototype (+ Internals) [WIP · LIVE FIRE + RELOAD]</option>
@@ -3750,6 +3750,29 @@ if (DEBUG) {
   tracerMesh.visible = false;
   scene.add(tracerMesh);
   let flashOffAt = 0, recoilV = 0, tracerT = -1, tracerStart = new THREE.Vector3(), tracerEnd = new THREE.Vector3();
+  let pkmCycleStart = 0, pkmCycleDur = 92; // 650 RPM PKM bolt + belt feed cycle (DUET-024)
+  function ensurePkmParts(rig) {
+    if (!rig || !rig.container || rig._pkmParts) return rig ? rig._pkmParts : null;
+    const boltNodes = [], beltNodes = [], coverNodes = [];
+    let flashHider = null;
+    rig.container.traverse((o) => {
+      const nm = (o.name || "").toLowerCase();
+      if (/^(bolt|bolt_carrier|gas_piston|charging_handle)$/.test(nm)) {
+        if (!o.userData._p0) o.userData._p0 = o.position.clone();
+        boltNodes.push(o);
+      } else if (/^(belt_round_|belt_clip_|belt_coil_|feed_slide|feed_lever|feed_pawl_)/.test(nm)) {
+        if (!o.userData._p0) o.userData._p0 = o.position.clone();
+        beltNodes.push(o);
+      } else if (nm === "ejection_port_cover" || nm === "feed_cover") {
+        if (!o.userData._r0) o.userData._r0 = o.rotation.clone();
+        coverNodes.push({ n: o, name: nm });
+      } else if (nm === "flash_hider") {
+        flashHider = o;
+      }
+    });
+    rig._pkmParts = { boltNodes, beltNodes, coverNodes, flashHider };
+    return rig._pkmParts;
+  }
   const staticAmmo = {};
   let reloadAnimEnd = 0, reloadAnimStart = 0;
   function staticCapFor(key) {
@@ -3763,22 +3786,19 @@ if (DEBUG) {
     return 30;
   }
   window.__staticReloadNow = (key) => {
-    if (!vehRig || !vehRig.outer || /^drone-|^vortex/.test(key)) return false;
-    const sCap = staticCapFor(key);
-    if (staticAmmo[key] == null) staticAmmo[key] = sCap;
-    if (performance.now() < reloadAnimEnd) { msg(`${VIEWONLY[key]?.label || key}: Reloading...`); return; }
-    if (staticAmmo[key] <= 0) { window.__staticReloadNow(key); return; }
-    staticAmmo[key]--;
+    const rig = (S.vehicle ? activeRig : null) || vehRig;
+    if (!rig || !rig.outer || /^drone-|^vortex/.test(key)) return false;
+    if (performance.now() < reloadAnimEnd) { msg(`${VIEWONLY[key]?.label || key}: Reloading...`); return false; }
     const isPistol = /fort12|fort14|fort17|mak/i.test(key);
     const g = isPistol ? "MAK" : "AK";
     const cap = staticCapFor(key);
     reloadAnimStart = performance.now();
     reloadAnimEnd = reloadAnimStart + 1650;
     try { audio.magOut(g); } catch {}
-    msg(`${VIEWONLY[key]?.label || key}: Reloading — mag out...`);
+    msg(`${VIEWONLY[key]?.label || key}: Reloading — ${/pkm|km762/i.test(key) ? "ammo box & belt out" : "mag out"}...`);
     setTimeout(() => {
       try { audio.magIn(g); } catch {}
-      msg(`${VIEWONLY[key]?.label || key}: Fresh magazine seated...`);
+      msg(`${VIEWONLY[key]?.label || key}: ${/pkm|km762/i.test(key) ? "100-rd belt seated on feed tray" : "Fresh magazine seated"}...`);
     }, 700);
     setTimeout(() => {
       try { if (audio.bolt) audio.bolt(g); else audio.event("bolt", g); } catch {}
@@ -3801,19 +3821,42 @@ if (DEBUG) {
       msg(`${VIEWONLY[key]?.label || key}: payload released!`);
       return;
     }
+    const cap = staticCapFor(key);
+    if (staticAmmo[key] == null) staticAmmo[key] = cap;
+    if (performance.now() < reloadAnimEnd) { msg(`${VIEWONLY[key]?.label || key}: Reloading...`); return; }
+    if (staticAmmo[key] <= 0) { window.__staticReloadNow(key); return; }
+    staticAmmo[key]--;
     const isPistol = /fort12|fort14|fort17|mak/i.test(key);
+    const isPkm = /pkm|km762/i.test(key);
     try { audio.shot(isPistol ? "MAK" : "AK"); } catch {}
-    setTimeout(() => { try { audio.caseHit(isPistol ? "MAK" : "AK", S.floor || "concrete"); } catch {} }, 300);
+    setTimeout(() => { try { audio.caseHit(isPistol ? "MAK" : "AK", S.floor || "concrete"); } catch {} }, isPkm ? 180 : 300);
 
     rig.outer.updateMatrixWorld(true);
-    const box = new THREE.Box3().setFromObject(rig.outer);
-    const ctr = box.getCenter(new THREE.Vector3());
-    const muz = new THREE.Vector3(box.max.x, ctr.y + (box.max.y - box.min.y) * 0.12, ctr.z);
+    let muz;
+    if (isPkm) {
+      const pp = ensurePkmParts(rig);
+      pkmCycleStart = performance.now();
+      if (pp && pp.flashHider) {
+        const fb = new THREE.Box3().setFromObject(pp.flashHider);
+        const fc = fb.getCenter(new THREE.Vector3());
+        muz = new THREE.Vector3(fb.max.x, fc.y, fc.z);
+      }
+    }
+    if (!muz) {
+      const box = new THREE.Box3().setFromObject(rig.outer);
+      const ctr = box.getCenter(new THREE.Vector3());
+      muz = new THREE.Vector3(box.max.x, ctr.y + (box.max.y - box.min.y) * 0.12, ctr.z);
+    }
     flashMesh.position.copy(muz);
-    flashMesh.scale.set(1.6, 0.9, 0.9);
+    flashMesh.scale.set(isPkm ? 2.1 : 1.6, isPkm ? 1.15 : 0.9, isPkm ? 1.15 : 0.9);
     flashMesh.visible = true;
-    flashOffAt = performance.now() + 75;
-    recoilV = 0.045;
+    flashOffAt = performance.now() + (isPkm ? 65 : 75);
+    if (rig.flash && rig.flashLight) {
+      rig.flash.position.copy(rig.outer.worldToLocal(muz.clone()));
+      rig.flash.visible = true;
+      rig.flashLight.intensity = isPkm ? 2.6 : 1.8;
+    }
+    recoilV = isPkm ? 0.036 : 0.045;
 
     // Place 5ft (1.5m) paper target directly in line of fire and punch a real bullet hole!
     const dist = Math.max(1.5, S.rangeM || 1.5);
@@ -3828,25 +3871,48 @@ if (DEBUG) {
         if (tgt3.hit) tgt3.hit(sx, sy);
       }
     } catch {}
-    msg(`${VIEWONLY[key]?.label || key}: FIRED -> ${dist.toFixed(1)} m target hit!`);
+    msg(`${VIEWONLY[key]?.label || key}: FIRED (${staticAmmo[key]}/${cap}) -> ${dist.toFixed(1)} m target hit!`);
     dirty = true;
   };
 
-  // Frame loop for RC drone flight physics + static-gun muzzle flash / recoil / tracer
+  // Frame loop for RC drone flight physics + static-gun muzzle flash / recoil / tracer / PKM bolt & belt cycle
   let lastTs = performance.now();
   function rcTick(now) {
     requestAnimationFrame(rcTick);
     const dt = Math.min(0.05, (now - lastTs) / 1000);
     lastTs = now;
 
-    if (flashMesh.visible && now > flashOffAt) { flashMesh.visible = false; dirty = true; }
+    const rig = (S.vehicle ? activeRig : null) || vehRig;
+    if (flashMesh.visible && now > flashOffAt) {
+      flashMesh.visible = false;
+      if (rig && rig.flash && rig.flashLight) { rig.flash.visible = false; rig.flashLight.intensity = 0; }
+      dirty = true;
+    }
     if (tracerT >= 0) {
       tracerT += dt * 16;
       if (tracerT >= 1) { tracerMesh.visible = false; tracerT = -1; }
       else { tracerMesh.visible = true; tracerMesh.position.lerpVectors(tracerStart, tracerEnd, tracerT); }
       dirty = true;
     }
-    const rig = (S.vehicle ? activeRig : null) || vehRig;
+    // PKM bolt carrier + gas piston + charging handle + belt feed animation (DUET-024)
+    if (pkmCycleStart > 0 && rig && rig._pkmParts && /pkm|km762/i.test(S.vehicle || "")) {
+      const u = (now - pkmCycleStart) / pkmCycleDur;
+      const pp = rig._pkmParts;
+      if (u < 1.0) {
+        const stroke = Math.sin(u * Math.PI); // 0 -> 1 (full rear) -> 0 (battery)
+        const beltShift = Math.sin(Math.min(1, u * 1.4) * Math.PI);
+        for (const n of pp.boltNodes) n.position.set(n.userData._p0.x - stroke * 0.095, n.userData._p0.y, n.userData._p0.z);
+        for (const n of pp.beltNodes) n.position.set(n.userData._p0.x, n.userData._p0.y + beltShift * 0.004, n.userData._p0.z - beltShift * 0.014);
+        for (const c of pp.coverNodes) if (c.name === "ejection_port_cover") c.n.rotation.set(c.n.userData._r0.x + stroke * 0.55, c.n.userData._r0.y, c.n.userData._r0.z);
+        dirty = true;
+      } else {
+        for (const n of pp.boltNodes) n.position.copy(n.userData._p0);
+        for (const n of pp.beltNodes) n.position.copy(n.userData._p0);
+        for (const c of pp.coverNodes) if (c.name === "ejection_port_cover") c.n.rotation.copy(c.n.userData._r0);
+        pkmCycleStart = 0;
+        dirty = true;
+      }
+    }
     if (now < reloadAnimEnd && rig && rig.outer && !/drone-/.test(S.vehicle || "")) {
       const p = (now - reloadAnimStart) / (reloadAnimEnd - reloadAnimStart);
       const tilt = Math.sin(p * Math.PI) * 0.28;
