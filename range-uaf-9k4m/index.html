@@ -76,7 +76,7 @@
     <button class="tab" onclick="openTab('kdp',this)">KDP &amp; GPU Fleet</button>
   </div>
   <button class="btn-sec" id="global-orders-btn" onclick="copyAllOrders()">Orders: 0</button>
-  <span class="ts">Built 2026-11-26 04:49 UTC</span>
+  <span class="ts">Built 2026-11-26 08:34 UTC</span>
 </header>
 
 <section id="pane-range" class="pane active">
@@ -88,12 +88,12 @@
     <div class="proj-panel">
       <div class="proj-head">
         <div><h2 style="margin:0;font-size:18px;">3D Shooting Range & EXACTO Armory</h2><div class="sub">Interactive WebGL firing range with real-time PBR skins, slow-mo cycling, cutaway glass, and EXACTO 16K weapon assets.</div></div>
-        <div style="text-align:right;"><span class="pill ok">ACTIVE BUILD</span><div class="eta">ETA: <b>Next AK/PKM fix pass: 26–27 Nov (pending Duet queue slot on idle Blackwell g4-e)</b></div></div>
+        <div style="text-align:right;"><span class="pill ok">ACTIVE BUILD</span><div class="eta">ETA: <b>PKM firing LIVE; AK-47 feed/tang &amp; Makarov r3 queued immediately after Tempest-7 Wide r2 finishes</b></div></div>
       </div>
       <div class="grid3">
         <div class="box done"><h4>Done</h4><ul><li>AK-47 16K fixed bake (<code>0-148</code>): 3,880,540 tris, 52 parts, selector pivot fixed, 235.8 MB GLB</li><li>Makarov V9 16K r2 (<code>0-149</code>): 1,876,420 tris, 87 parts, 16384px PBR+AO+ORM, 107.6 MB GLB DONE</li><li>Part-envelope geometry gate (<code>check_part_envelope.py</code>) enforced before every bake</li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>WebGL Range GLB upgrade to swap in newly accepted 3.88M-tri AK-47 &amp; 1.88M-tri Makarov r2 web-LODs</li><li>Batch-2 reference photos (<code>0-151</code> on T4) finishing for next reference-traced weapons</li><li>PKM articulated belt-feed &amp; firing controller rig wiring</li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>AK-47 bug (Owner 26 Nov):</b> bullets pulling from wrong place for firing (magazine-to-chamber feed alignment — queued for next fix round)</li><li><b>AK-47 geometry bug (Owner 26 Nov):</b> missing curved transition metal piece (rear receiver tang) going from top of gun to stock in back</li><li><b>PKM:</b> does not fire yet — articulated firing/belt-feed animation still in works</li><li><b>WebGL display note:</b> browser Range loads lighter web-GLBs (~1M tris) so browsers do not crash; full 3.88M-tri 16K master is on <code>media-exacto</code></li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>PKM GPMG firing wired &amp; LIVE on Range (<code>DUET-024/025/028/029</code>): bolt/belt animation, Belt 100/100 pill, additive cone flash, 25m target</li><li>CB-35 Batch-2 reference photos (18 weapons) 100% DONE on <code>t4-a</code></li><li>AK-47 mag-feed/rear-tang &amp; Makarov metal r3 approved GO (<code>DUET-013</code>) — queued after Tempest-7 r2</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>AK-47 bug (GO — DUET-013):</b> magazine-to-chamber feed alignment &amp; curved rear receiver tang queued for next Blackwell pass</li><li><b>Makarov r3 (GO — DUET-013):</b> steel finish pass queued after Tempest-7 r2 wave</li><li><b>WebGL display note:</b> browser Range loads lighter web-GLBs (~1M tris) so browsers do not crash; full 3.88M-tri 16K master is on <code>media-exacto</code></li></ul></div>
       </div>
       <div class="order-box" data-tab="range">
         <div class="order-top">
@@ -117,13 +117,13 @@
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">Nod Kremlinoff Show</h2><div class="sub">Satirical political talking-head show. Current CB-25 60s episode uses 2D LatentSync overlay; Owner rejected quality and ordered full Blackwell render power.</div></div>
-        <div style="text-align:right;"><span class="pill bad">NEEDS FULL-POWER REBUILD</span><div class="eta">ETA: <b>New high-compute Nod test clip: within 4–6h of Duet pipeline approval</b></div></div>
+        <div><h2 style="margin:0;font-size:18px;">Nod Kremlinoff Show</h2><div class="sub">Satirical political talking-head show. Full-power Blackwell rebuild is GO (DUET-013) — replacing 2D LatentSync overlay.</div></div>
+        <div style="text-align:right;"><span class="pill warn">FULL-POWER REBUILD GO (DUET-013)</span><div class="eta">ETA: <b>New high-compute Nod test clip: queued on Blackwell right after Tempest-7 r2 + EXACTO passes</b></div></div>
       </div>
       <div class="grid3">
-        <div class="box done"><h4>Done</h4><ul><li>Voice clone polished 60s master (<code>nod_ep01_60s_v2_polished.mp3</code>)</li><li>CB-25 60s test cut &amp; 6x4 QA contact sheet rendered and archived below for comparison</li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Escalated Owner order to Fleet Boss Claude Duet (#2246): unlock full RTX PRO 6000 Blackwell (96 GB VRAM + 5 parallel runners) for high-compute Nod rebuild</li><li>Evaluate full 3D rigged head / LivePortrait+HallO2 / Wan2.1+EchoMimicV2 high-VRAM pipeline instead of 2D LatentSync</li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Owner verdict (26 Nov):</b> "nod still sucks" — 2D LatentSync mouth overlay drifts off identity and looks rubbery</li><li>Awaiting Duet approval of the new high-compute Blackwell Nod pipeline spec before launching on warm <code>g4-e</code></li></ul></div>
+        <div class="box done"><h4>Done</h4><ul><li>Voice clone polished 60s master (<code>nod_ep01_60s_v2_polished.mp3</code>)</li><li>CB-25 60s test cut &amp; 6x4 QA contact sheet archived below for comparison</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Full-power Blackwell Nod rebuild approved GO (<code>DUET-013</code>) — queued after Tempest-7 r2 + EXACTO r3</li><li>Evaluating full 3D rigged head / LivePortrait+HallO2 / Wan2.1+EchoMimicV2 high-VRAM pipeline instead of 2D LatentSync</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Owner verdict (26 Nov):</b> "nod still sucks" — 2D LatentSync mouth overlay drifts off identity and looks rubbery</li></ul></div>
       </div>
       <div class="order-box" data-tab="nod">
         <div class="order-top">
@@ -151,13 +151,13 @@
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">Grisha Show</h2><div class="sub">Russian/English political satire series. Owner flagged that the C-216 Robotaxi/VPN videos embedded below are the WRONG Grisha videos.</div></div>
-        <div style="text-align:right;"><span class="pill bad">WRONG VIDEOS FLAGGED</span><div class="eta">ETA: <b>Corrected Grisha video swap: 26 Nov once canonical files verified</b></div></div>
+        <div><h2 style="margin:0;font-size:18px;">Grisha Show</h2><div class="sub">Russian/English political satire series. Replacing C-216 Robotaxi/VPN videos with canonical Grisha episodes.</div></div>
+        <div style="text-align:right;"><span class="pill warn">CANONICAL SWAP IN PROGRESS</span><div class="eta">ETA: <b>Corrected Grisha video swap: in progress</b></div></div>
       </div>
       <div class="grid3">
         <div class="box done"><h4>Done</h4><ul><li>Canonical 60s Studio talking-head voice master (<code>grisha-c204-60s-approved-voice.mp3</code>)</li><li>Canon-gate scripts &amp; 2026-10-29 daily episode pipeline built on <code>mudel-master</code></li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Auditing <code>media-shows</code> / <code>media-grisha</code> / Drive for the correct canonical Grisha episodes to replace C-216 below</li><li>Tempest/Nod/Grisha GPU priority queue awaiting Duet assignment on idle <code>g4-e</code></li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Owner verdict (26 Nov):</b> Wrong Grisha videos currently linked in Arena (C-216 Robotaxi &amp; VPN cuts flagged below)</li><li>Need Owner/Duet confirmation of exact canonical episode filenames to promote to this tab</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Auditing <code>media-shows</code> / <code>media-grisha</code> / Drive for the correct canonical Grisha episodes to replace C-216 below</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Owner verdict (26 Nov):</b> Wrong Grisha videos currently linked in Arena (C-216 Robotaxi &amp; VPN cuts flagged below)</li></ul></div>
       </div>
       <div class="order-box" data-tab="grisha">
         <div class="order-top">
@@ -188,12 +188,12 @@
     <div class="proj-panel">
       <div class="proj-head">
         <div><h2 style="margin:0;font-size:18px;">4K Weapon Cinema & EXACTO Turntables</h2><div class="sub">60-second 4K showcase videos (skin switching, slow-mo firing/reloading, cutaway glass) plus freshly baked 16K EXACTO macro renders.</div></div>
-        <div style="text-align:right;"><span class="pill ok">PLAYABLE INLINE + R2 FIX</span><div class="eta">ETA: <b>Tempest-7 r2 proof: ~15 min after Duet release; full r2 wide wave: ~4h across g4-e + e2..e6</b></div></div>
+        <div style="text-align:right;"><span class="pill ok">TEMPEST-7 R2 WAVE 97% DONE</span><div class="eta">ETA: <b>Tempest-7 Wide r2 assembly: ~08:40Z today</b></div></div>
       </div>
       <div class="grid3">
         <div class="box done"><h4>Done</h4><ul><li>ALL 4 Weapon Cinema v2 60s videos (AK-47, Makarov, Tempest-6, Tempest-7) encoded for instant inline playback here + full 4K originals on PC/Drive</li><li>Makarov V9 16K r2 (<code>0-149</code>) 4x studio renders (after + frame/slide/barrel macros) live below</li><li>Tempest-7 ejection port + open chute geometry fix (<code>0477e3f1</code>) passed <code>check_ejection.py</code> (0 overlaps / 1,800 frames)</li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Tempest-7 r2 8-frame T4 proof render (<code>2026-11-25-t7-ejection-fix-proof-t4.json</code>) held awaiting Duet release</li><li>Tempest-7 60-chunk wide re-render + 82-chunk vertical wave held pending r2 proof sign-off</li><li>New 1-min slow turntable animations with half-glass &rarr; full-glass &rarr; cutaway &amp; slow-mo bullet travel + loud SFX</li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Tempest-7 old scene bug:</b> spent cases clipped closed chute on frames 416–1591 (fixed in r2 scene <code>0477e3f1</code>, pending visual render proof)</li><li><b>AK-47 cinema:</b> will re-render after magazine feed + rear curved metal tang fixes land</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Tempest-7 60-chunk wide r2 wave LIVE on <code>g4-f..f6</code> Blackwell: 58/60 chunks done (97%, 0 failed) &rarr; assembly auto-queued at 60/60</li><li>New 1-min slow turntable animations with half-glass &rarr; full-glass &rarr; cutaway &amp; slow-mo bullet travel + loud SFX</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>AK-47 cinema:</b> will re-render after magazine feed + rear curved metal tang fixes land</li></ul></div>
       </div>
       <div class="order-box" data-tab="cinema">
         <div class="order-top">
@@ -230,13 +230,13 @@
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">Occupant Killer — Game & Massive Upgrades</h2><div class="sub">Flagship FPS/defense game (WebGL + Unreal Engine 5 massive upgrade track). Replacing legacy placeholders with reference-traced 16K EXACTO weapons and UE5 Pixel Streaming 2.</div></div>
-        <div style="text-align:right;"><span class="pill warn">UPGRADES IN PROGRESS</span><div class="eta">ETA: <b>Asset swap + Stage-5 fix + public deploy: 27–28 Nov (awaiting Duet OK-8 sign-off &amp; UE5 GPU slot)</b></div></div>
+        <div><h2 style="margin:0;font-size:18px;">Occupant Killer — Game & Massive Upgrades</h2><div class="sub">Flagship FPS/defense game (WebGL + Unreal Engine 5 massive upgrade track). OK deploys &amp; upgrades approved GO (DUET-013).</div></div>
+        <div style="text-align:right;"><span class="pill warn">UPGRADES GO (DUET-013)</span><div class="eta">ETA: <b>Asset swap + Stage-5 fix + public deploy: 27–28 Nov (GO per DUET-013)</b></div></div>
       </div>
       <div class="grid3">
         <div class="box done"><h4>Done</h4><ul><li>UE5 project scaffolded (<code>members/antigravity-work/ue5/OccupantKiller/OccupantKiller.uproject</code> + Config + <code>import_fleet_glbs_and_render.py</code> + <code>launch_pixel_streaming2.py</code>)</li><li>EXACTO 16K weapons ready for import: AK-47 3.88M tris (<code>0-148</code>) &amp; Makarov V9 16K r2 1.88M tris (<code>0-149</code>, 4 previews shown below)</li><li>Playable web build live at <a href="https://photon-bounce.com/ok/" target="_blank">photon-bounce.com/ok/</a> + local arena build</li><li>Full release audit complete (<code>OK-1</code>, <code>OK-2</code>, <code>OK-3</code>, <code>OK-8</code>)</li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Swapping EXACTO AK-47 &amp; Makarov 16K assets into UE5 <code>OccupantKiller.uproject</code> + web GLB pack</li><li>Massive gameplay/graphics upgrade track: UE5 Nanite/Lumen weapon rigs, enemy AI/Bradley stage-5 fix, T-64BV &amp; FPV drone integration</li><li>Fixing public distribution: publishing 3 Nov+ build to <code>photon-bounce.com/ok/</code> and hosting public APK/EXE downloads outside private GitHub repo</li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Stale public web builds (OK-8):</b> <code>photon-bounce.com/ok/</code> is still 30 Oct; GitHub Pages is 25 Oct (3 Nov release not deployed because deploy workflows failed in 4–5s)</li><li><b>Private-repo 404 (OK-8):</b> public Android APK &amp; Windows EXE links return 404 because repo is private — must mirror to <code>photon-bounce.com/ok/</code></li><li><b>Stage 5 bug (OK-1):</b> Bradley vehicle did not move in cloud test — needs fix before next public release push</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Swapping EXACTO AK-47 &amp; Makarov 16K assets into UE5 <code>OccupantKiller.uproject</code> + web GLB pack</li><li>Massive gameplay/graphics upgrade track: UE5 Nanite/Lumen weapon rigs, enemy AI/Bradley stage-5 fix, T-64BV &amp; FPV drone integration</li><li>OK-8 public deploys approved GO (<code>DUET-013</code>): publishing updated build + mirroring APK/EXE to <code>photon-bounce.com/ok/</code></li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Stale public web builds (OK-8, GO):</b> updating <code>photon-bounce.com/ok/</code> and mirroring public APK/EXE outside private repo</li><li><b>Stage 5 bug (OK-1):</b> Bradley vehicle movement fix queued before next public release push</li></ul></div>
       </div>
       <div class="order-box" data-tab="occupant">
         <div class="order-top">
@@ -269,13 +269,13 @@
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">TaleLoom, Books, QA & Audiobooks</h2><div class="sub">All book manuscripts, 5-cycle Gemini QA pipeline (AIstudio1 + free-tier), November 2026 primary-source monthlies, TaleLoom illustrated videos, and mastered audiobooks.</div></div>
-        <div style="text-align:right;"><span class="pill ok">HEAVY ACTIVE PROGRESS</span><div class="eta">ETA: <b>Wakeborn &amp; Zona 5x QA: 26–28 Nov; Nov Monthlies drafts: 27–30 Nov; Blue Tsunami KDP: post-12 Dec</b></div></div>
+        <div><h2 style="margin:0;font-size:18px;">TaleLoom, Books, QA & Audiobooks</h2><div class="sub">All book manuscripts, 5-cycle Gemini QA pipeline (AIS-worker + t4-a), November 2026 primary-source monthlies, TaleLoom illustrated videos, and 17 mastered audiobooks.</div></div>
+        <div style="text-align:right;"><span class="pill ok">HEAVY ACTIVE PROGRESS</span><div class="eta">ETA: <b>Zona &amp; Wakeborn v1.1 5x QA: active now; Nov Monthlies KDP: cap resets Sat 28 Nov 6 PM CST</b></div></div>
       </div>
       <div class="grid3">
-        <div class="box done"><h4>Done</h4><ul><li><b>Nov 2026 Monthlies Research (CB-34 / DUET-002):</b> 100% DONE — 378 HTTP-200 verbatim primary-source events across 37 files (Daily Dose Days 1–25 = 231 events; Fascism Watch Ch01–10 = 122 events)</li><li><b>Wakeborn <i>Light-Lag Witness</i>:</b> 10/10 chapters drafted (28,503 words); AIstudio1 completed QA Cycle 1 (<code>llw-v1-full-cycle-1.md</code>, 3 findings)</li><li><b>Zona Chronicles Storyline 1:</b> 10/10 chapters drafted (47,595 words, DRAFT v2)</li><li><b><i>Blue Tsunami</i> v2:</b> 12/12 chapters drafted (53,424 words, source rebuild)</li><li><b>TaleLoom Frankenstein Ep01–Ep05</b> full MP4s + 48k MP3s &amp; 5 mastered audiobooks (Dictatorships Today, Fix This World, Marmalade Ledger, Quiet Count, Wakeborn/Zona samples)</li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>5-clean-cycle Gemini QA running on AIstudio1 (<code>Q40–Q42</code>): Wakeborn LLW &rarr; Zona S1 v2 &rarr; Blue Tsunami v2</li><li>Duet drafting Dictatorships Today Ch02–10 + November monthly manuscripts from our 378 verified events</li><li>Blue Tsunami final certification refresh scheduled after 3 Dec (MS), 8 Dec, and 12 Dec (LA runoffs)</li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Wakeborn LLW Cycle 1 FAIL:</b> 3 canon/arithmetic findings logged in <code>llw-v1-full-cycle-1.md</code> — Duet fixing for Cycle 2</li><li><b>DUET-011 free-tier Gemini worker:</b> waiting on <code>0-151</code> to finish on <code>t4-a</code> + <code>aistudio.google.com</code> added to local Chrome rule file</li></ul></div>
+        <div class="box done"><h4>Done</h4><ul><li><b>Nov 2026 Monthlies Research (CB-34 / DUET-002):</b> 100% DONE — 378 HTTP-200 verbatim primary-source events across 37 files</li><li><b>Wakeborn <i>Light-Lag Witness</i> v1.1 (PR #2928):</b> 10/10 chapters (28,713 words), Cycle 1 fixes landed, DUET-027 hold LIFTED</li><li><b>Zona Chronicles Storyline 1 v2:</b> 10/10 chapters drafted (47,595 words) — #1 in 5-cycle Gemini QA</li><li><b><i>Blue Tsunami</i> v2:</b> 12/12 chapters drafted (53,424 words, source rebuild)</li><li><b>17 playable &amp; downloadable audiobooks</b> live below (Wakeborn, Zona, Fix This World, Dictatorships Today, Marmalade Ledger, Quiet Count, TaleLoom Frankenstein Ep01–05)</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>5-clean-cycle Gemini QA (<code>DUET-022/027</code>): Zona S1 v2 &rarr; Wakeborn LLW v1.1 &rarr; Blue Tsunami v2 via AIS-worker + t4-a</li><li>Blue Tsunami final certification refresh scheduled after 3 Dec (MS), 8 Dec, and 12 Dec (LA runoffs)</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>DUET-011 t4-a key test:</b> running zero-print last-4 billing check now while <code>t4-a</code> is idle</li></ul></div>
       </div>
       <div class="order-box" data-tab="taleloom">
         <div class="order-top">
@@ -353,11 +353,11 @@
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">Kalshi Sentinel (PAPER TRADING ONLY)</h2><div class="sub">Continuous 30s live-orderbook paper-trading daemon on KXBTC15M / KXETH15M / KXSOL15M. Latest snapshot: 2026-11-26T04:36:46Z (2085 trades, 18019 decisions).</div></div>
+        <div><h2 style="margin:0;font-size:18px;">Kalshi Sentinel (PAPER TRADING ONLY)</h2><div class="sub">Continuous 30s live-orderbook paper-trading daemon on KXBTC15M / KXETH15M / KXSOL15M. Latest snapshot: 2026-11-26T07:35:59Z (2174 trades, 18929 decisions).</div></div>
         <div style="text-align:right;"><span class="pill ok">LIVE DAEMON · 0 LIVE ORDERS</span><div class="eta">ETA: <b>Ongoing 24/7 paper run; strategy pruning report ready whenever Owner wants</b></div></div>
       </div>
       <div class="grid3">
-        <div class="box done"><h4>Done</h4><ul><li>Net paper PnL: <b>+$6.39</b> across 2085 paper trades (<b>0</b> real dollars risked)</li><li><code>D_fair_value</code> leading at <b>+$33.97</b> (362W/298L); <code>A_orderbook_imbalance</code> at <b>+$8.74</b> (213W/56L)</li><li>Hourly automated snapshots committed to <code>mudel-master</code> every hour</li></ul></div>
+        <div class="box done"><h4>Done</h4><ul><li>Net paper PnL: <b>+$12.43</b> across 2174 paper trades (<b>0</b> real dollars risked)</li><li><code>D_fair_value</code> leading at <b>+$33.97</b> (362W/298L); <code>A_orderbook_imbalance</code> at <b>+$8.74</b> (213W/56L)</li><li>Hourly automated snapshots committed to <code>mudel-master</code> every hour</li></ul></div>
         <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Collecting statistically significant multi-day paper ledger across all 6 strategies</li><li>Preparing strategy pruning proposal (drop losing V1/V3/C late-snipe drag; isolate D_fair_value + A_orderbook_imbalance)</li></ul></div>
         <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Strategy drag:</b> <code>V1_filtered</code> (-$17.01), <code>V3_late_snipe_84_93c</code> (-$10.29), and <code>C_V3_narrow</code> (-$8.18) drag down total net PnL</li><li><b>Strict fence:</b> PAPER ONLY — live trading stays 100% disabled until Owner explicitly authorizes</li></ul></div>
       </div>
@@ -377,8 +377,8 @@
     </div>
     
   <div class="card">
-    <h3>Live Paper-Trading Ledger Breakdown (Snapshot 2026-11-26T04:36:46Z · 0 Live Orders)</h3>
-    <table><thead><tr><th>Strategy</th><th>Settled</th><th>Win / Loss</th><th>Net Paper PnL</th></tr></thead><tbody><tr><td><b>D_fair_value</b></td><td>684</td><td>372W / 312L (54.4%)</td><td class='pos'>+$32.34</td></tr><tr><td><b>V1_filtered</b></td><td>473</td><td>391W / 82L (82.7%)</td><td class='neg'>$-16.52</td></tr><tr><td><b>A_orderbook_imbalance</b></td><td>282</td><td>225W / 57L (79.8%)</td><td class='pos'>+$10.47</td></tr><tr><td><b>V3_late_snipe_84_93c</b></td><td>320</td><td>278W / 42L (86.9%)</td><td class='neg'>$-9.30</td></tr><tr><td><b>C_V3_narrow_88_93c</b></td><td>261</td><td>231W / 30L (88.5%)</td><td class='neg'>$-7.97</td></tr><tr><td><b>B_late_momentum</b></td><td>62</td><td>49W / 13L (79.0%)</td><td class='neg'>$-2.63</td></tr></tbody></table>
+    <h3>Live Paper-Trading Ledger Breakdown (Snapshot 2026-11-26T07:35:59Z · 0 Live Orders)</h3>
+    <table><thead><tr><th>Strategy</th><th>Settled</th><th>Win / Loss</th><th>Net Paper PnL</th></tr></thead><tbody><tr><td><b>D_fair_value</b></td><td>720</td><td>397W / 323L (55.1%)</td><td class='pos'>+$38.02</td></tr><tr><td><b>V1_filtered</b></td><td>495</td><td>411W / 84L (83.0%)</td><td class='neg'>$-15.84</td></tr><tr><td><b>A_orderbook_imbalance</b></td><td>290</td><td>231W / 59L (79.7%)</td><td class='pos'>+$9.89</td></tr><tr><td><b>V3_late_snipe_84_93c</b></td><td>332</td><td>289W / 43L (87.0%)</td><td class='neg'>$-9.04</td></tr><tr><td><b>C_V3_narrow_88_93c</b></td><td>272</td><td>241W / 31L (88.6%)</td><td class='neg'>$-7.97</td></tr><tr><td><b>B_late_momentum</b></td><td>62</td><td>49W / 13L (79.0%)</td><td class='neg'>$-2.63</td></tr></tbody></table>
   </div>
 </div></section>
 
@@ -411,7 +411,7 @@
     
   <div class="card" style="margin-bottom:14px;">
     <h3>Live GPU &amp; Colab Fleet (Hard Cap = 3 Sessions · Blackwell Runners: g4-f2, g4-f3, g4-f4, g4-f5, g4-f6)</h3>
-    <table><thead><tr><th>Seat</th><th>Hardware</th><th>State</th><th>Current / Last Job</th><th>Notes</th></tr></thead><tbody><tr><td><b>g4-e</b></td><td>NVIDIA RTX PRO 6000 Blackwell Server Edition (97887 MiB)</td><td><span class='pill ok'>idle</span></td><td>0-149-2026-11-25-hd16k-makarov-v9-bake-r2-g4e</td><td style='font-size:12px;color:#94a3b8;'>Running 30 Tempest-7 wide r2 4K chunks across 6 parallel Blackwell runners (g4-e + e2..e6).</td></tr><tr><td><b>t4-a</b></td><td>Tesla T4 (15360 MiB)</td><td><span class='pill ok'>working</span></td><td>0-153-2026-11-25-t7-ejection-fix-proof-t4</td><td style='font-size:12px;color:#94a3b8;'>Working 0-153-2026-11-25-t7-ejection-fix-proof-t4 (heartbeat cycle 72 at 2026-11-26T04:35:22Z); hosts agy-img-1..2 as CPU-only subprocesses on next between-job </td></tr><tr><td><b>g4-f</b></td><td>NVIDIA RTX PRO 6000 Blackwell (target)</td><td><span class='pill ok'>working</span></td><td>tempest-7-wide-r2-wave (30 chunks across g4-f + f2..f6)</td><td style='font-size:12px;color:#94a3b8;'>Running 30 Tempest-7 wide r2 4K chunks across 6 parallel Blackwell runners (g4-f + f2..f6).</td></tr><tr><td><b>agy-img-1..2</b></td><td>CPU-only subprocess inside t4-a (CUDA_VISIBLE_DEVICES=empty, nice 10)</td><td><span class='pill warn'>subprocess-in-t4-a</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>DUET-005: standalone agy_img_1 &amp; agy_img_2 Colab CPU sessions disconnected/deleted at 01:58:57Z &amp; 01:58:52Z and tabs closed; integrated as CPU-only subprocesses</td></tr></tbody></table>
+    <table><thead><tr><th>Seat</th><th>Hardware</th><th>State</th><th>Current / Last Job</th><th>Notes</th></tr></thead><tbody><tr><td><b>g4-e</b></td><td>NVIDIA A100 High-RAM (Colab assigned on 06:06Z restart, 235.7 GB disk)</td><td><span class='pill ok'>working</span></td><td>0-149-2026-11-25-hd16k-makarov-v9-bake-r2-g4e</td><td style='font-size:12px;color:#94a3b8;'>Connected 06:06Z (A100 High-RAM, 167 GB RAM, 235.7 GB empty disk); Run all active with DUET-012 disk guards; 6 unclaimed T7-r2 chunks shifted to blackwell-g4-e.</td></tr><tr><td><b>t4-a</b></td><td>Tesla T4 (15360 MiB)</td><td><span class='pill ok'>working</span></td><td>0-155-2026-11-26-cb35-fetch-reference-photos-batch2b-t4a</td><td style='font-size:12px;color:#94a3b8;'>DUET-014 check: SAME running runtime (heartbeat #83 at 05:30:33Z), actively running 0-155.</td></tr><tr><td><b>g4-f</b></td><td>NVIDIA RTX PRO 6000 Blackwell (target)</td><td><span class='pill ok'>working</span></td><td>tempest-7-wide-r2-wave (30 chunks across g4-f + f2..f6)</td><td style='font-size:12px;color:#94a3b8;'>DUET-014 check: SAME running runtime (g4-f + f2..f6 alive), rendering Tempest-7 wide r2 4K wave (incl. 18 re-routed chunks).</td></tr><tr><td><b>agy-img-1..2</b></td><td>CPU-only subprocess inside t4-a (CUDA_VISIBLE_DEVICES=empty, nice 10)</td><td><span class='pill warn'>subprocess-in-t4-a</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>DUET-005: standalone agy_img_1 &amp; agy_img_2 Colab CPU sessions disconnected/deleted at 01:58:57Z &amp; 01:58:52Z and tabs closed; integrated as CPU-only subprocesses</td></tr></tbody></table>
   </div>
   <div class="card">
     <h3>KDP Cover Previews (Queued for Sat 28 Nov 6 PM CST Cap Reset)</h3>
