@@ -50,6 +50,13 @@
   .btn-pri { background:var(--acc); color:#07101d; border:0; border-radius:6px; padding:6px 10px; font-weight:700; font-size:12px; cursor:pointer; }
   .btn-sec { background:#1e293b; color:#cbd5e1; border:1px solid #334155; border-radius:6px; padding:6px 9px; font-size:12px; cursor:pointer; }
   .o-item { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; background:#121c2e; border:1px solid #23334d; border-radius:6px; padding:7px 9px; margin-top:6px; font-size:12.5px; }
+  .asset-cmt-bar { margin-top:9px; padding-top:8px; border-top:1px dashed #24334b; }
+  .asset-cmt-toggle { background:#162338; color:#7dd3fc; border:1px solid #294469; border-radius:6px; padding:4px 9px; font-size:11.5px; font-weight:600; cursor:pointer; }
+  .asset-cmt-toggle:hover { background:#1d2f4a; }
+  .asset-cmt-form { display:none; margin-top:7px; background:#0b1220; border:1px solid #294063; border-radius:7px; padding:8px; }
+  .asset-cmt-form.open { display:block; }
+  .asset-cmt-row { display:flex; gap:6px; margin-top:6px; align-items:center; flex-wrap:wrap; }
+  .asset-cmt-status { font-size:11.5px; margin-top:5px; color:#94a3b8; }
   .drawer-bar { background:#111927; border-bottom:1px solid var(--border); padding:6px 14px; display:flex; justify-content:space-between; align-items:center; font-size:12.5px; }
   #range-drawer { display:none; padding:12px 16px; background:#0d131f; border-bottom:1px solid var(--border); }
   #range-drawer.open { display:block; }
@@ -69,7 +76,7 @@
     <button class="tab" onclick="openTab('kdp',this)">KDP &amp; GPU Fleet</button>
   </div>
   <button class="btn-sec" id="global-orders-btn" onclick="copyAllOrders()">Orders: 0</button>
-  <span class="ts">Built 2026-11-26 03:03 UTC</span>
+  <span class="ts">Built 2026-11-26 03:12 UTC</span>
 </header>
 
 <section id="pane-range" class="pane active">
@@ -363,7 +370,7 @@
     
   <div class="card" style="margin-bottom:14px;">
     <h3>Live GPU &amp; Colab Fleet (Hard Cap = 3 Sessions · Blackwell Runners: g4-e2, g4-e3, g4-e4, g4-e5, g4-e6)</h3>
-    <table><thead><tr><th>Seat</th><th>Hardware</th><th>State</th><th>Current / Last Job</th><th>Notes</th></tr></thead><tbody><tr><td><b>g4-e</b></td><td>NVIDIA RTX PRO 6000 Blackwell Server Edition (97887 MiB)</td><td><span class='pill ok'>idle</span></td><td>0-149-2026-11-25-hd16k-makarov-v9-bake-r2-g4e</td><td style='font-size:12px;color:#94a3b8;'>Running 0-149 Makarov V9 16K bake r2 (claimed 23:16:20Z, renewed 01:46:38Z, limit 03:16Z); 0-149z spawn-runners queued next; untouched mid-job.</td></tr><tr><td><b>t4-a</b></td><td>Tesla T4 (15360 MiB)</td><td><span class='pill ok'>working</span></td><td>0-151-2026-11-25-cb35-fetch-reference-photos-batch2-t4a</td><td style='font-size:12px;color:#94a3b8;'>Working 0-151-2026-11-25-cb35-fetch-reference-photos-batch2-t4a (heartbeat cycle 51 at 2026-11-26T02:49:58Z); hosts agy-img-1..2 as CPU-only subprocesses on nex</td></tr><tr><td><b>g4-f</b></td><td>NVIDIA RTX PRO 6000 Blackwell (target)</td><td><span class='pill warn'>needs_human</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>Stopped cleanly without touching CAPTCHA; awaiting Owner click.</td></tr><tr><td><b>agy-img-1..2</b></td><td>CPU-only subprocess inside t4-a (CUDA_VISIBLE_DEVICES=empty, nice 10)</td><td><span class='pill warn'>subprocess-in-t4-a</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>DUET-005: standalone agy_img_1 &amp; agy_img_2 Colab CPU sessions disconnected/deleted at 01:58:57Z &amp; 01:58:52Z and tabs closed; integrated as CPU-only subprocesses</td></tr></tbody></table>
+    <table><thead><tr><th>Seat</th><th>Hardware</th><th>State</th><th>Current / Last Job</th><th>Notes</th></tr></thead><tbody><tr><td><b>g4-e</b></td><td>NVIDIA RTX PRO 6000 Blackwell Server Edition (97887 MiB)</td><td><span class='pill ok'>idle</span></td><td>0-149-2026-11-25-hd16k-makarov-v9-bake-r2-g4e</td><td style='font-size:12px;color:#94a3b8;'>Running 0-149 Makarov V9 16K bake r2 (claimed 23:16:20Z, renewed 01:46:38Z, limit 03:16Z); 0-149z spawn-runners queued next; untouched mid-job.</td></tr><tr><td><b>t4-a</b></td><td>Tesla T4 (15360 MiB)</td><td><span class='pill ok'>working</span></td><td>0-152-2026-11-25-cb35-tempest7-wide-film-checks-t4a</td><td style='font-size:12px;color:#94a3b8;'>Working 0-152-2026-11-25-cb35-tempest7-wide-film-checks-t4a (heartbeat cycle 53 at 2026-11-26T03:00:01Z); hosts agy-img-1..2 as CPU-only subprocesses on next be</td></tr><tr><td><b>g4-f</b></td><td>NVIDIA RTX PRO 6000 Blackwell (target)</td><td><span class='pill warn'>needs_human</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>Stopped cleanly without touching CAPTCHA; awaiting Owner click.</td></tr><tr><td><b>agy-img-1..2</b></td><td>CPU-only subprocess inside t4-a (CUDA_VISIBLE_DEVICES=empty, nice 10)</td><td><span class='pill warn'>subprocess-in-t4-a</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>DUET-005: standalone agy_img_1 &amp; agy_img_2 Colab CPU sessions disconnected/deleted at 01:58:57Z &amp; 01:58:52Z and tabs closed; integrated as CPU-only subprocesses</td></tr></tbody></table>
   </div>
   <div class="card">
     <h3>KDP Cover Previews (Queued for Sat 28 Nov 6 PM CST Cap Reset)</h3>
@@ -393,17 +400,53 @@ function openTabById(id) {
   openTab(id, btn);
 }
 const STORE_KEY = 'pb_arena_owner_orders_v1';
+const FLEET_API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? '/api/fleet-comment' : 'http://localhost:8765/api/fleet-comment';
 function loadOrders() { try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch { return []; } }
 function saveOrders(arr) { localStorage.setItem(STORE_KEY, JSON.stringify(arr)); renderOrders(); }
+async function sendToFleet(tab, asset, kind, text, statusEl) {
+  const arr = loadOrders();
+  const entry = { id: Date.now(), tab, asset, kind, text, ts: new Date().toISOString().slice(0,19) + 'Z', ghUrl: null };
+  arr.unshift(entry);
+  saveOrders(arr);
+  if (statusEl) statusEl.innerHTML = '<span style="color:#fbbf24;">Sending live to Fleet (#2246 + ARENA-INBOX.md)...</span>';
+  try {
+    const res = await fetch(FLEET_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tab, asset, kind, text })
+    });
+    const j = await res.json();
+    if (j.ok) {
+      entry.ghUrl = j.github_url || null;
+      saveOrders(arr);
+      if (statusEl) {
+        statusEl.innerHTML = j.github_url
+          ? `<span style="color:#4ade80;"><b>&#10003; Sent to Fleet!</b></span> <a href="${j.github_url}" target="_blank">View on #2246 &rarr;</a> (also logged to ARENA-INBOX.md)`
+          : `<span style="color:#4ade80;"><b>&#10003; Saved to ARENA-INBOX.md</b></span> (GitHub post note: ${j.github_err || 'pending'})`;
+      }
+      return;
+    }
+    throw new Error(j.error || 'Server error');
+  } catch (e) {
+    const body = encodeURIComponent(`**OWNER ARENA COMMENT [${kind}]**
+- **Tab:** \`${tab}\`
+- **Asset:** \`${asset}\`
+- **Message:** ${text}`);
+    const ghLink = `https://github.com/PhotonBounce/photonbounce/issues/2246#new_comment_field`;
+    if (statusEl) {
+      statusEl.innerHTML = `<span style="color:#fbbf24;">Saved locally (PC bridge offline from this device).</span> <a href="${ghLink}" target="_blank" onclick="navigator.clipboard?.writeText(decodeURIComponent('${body}'))">Copy &amp; open #2246 &rarr;</a>`;
+    }
+  }
+}
 function addOrder(tab) {
   const box = document.querySelector('.order-box[data-tab="' + tab + '"]');
   const text = box.querySelector('.o-text').value.trim();
   const kind = box.querySelector('.o-type').value;
   if (!text) return;
-  const arr = loadOrders();
-  arr.unshift({ id: Date.now(), tab, kind, text, ts: new Date().toISOString().slice(0,19) + 'Z' });
   box.querySelector('.o-text').value = '';
-  saveOrders(arr);
+  let st = box.querySelector('.tab-send-status');
+  if (!st) { st = document.createElement('div'); st.className = 'asset-cmt-status tab-send-status'; box.appendChild(st); }
+  sendToFleet(tab, tab + ' (tab-wide)', kind, text, st);
 }
 function delOrder(id) { saveOrders(loadOrders().filter(x => x.id !== id)); }
 function renderOrders() {
@@ -412,13 +455,48 @@ function renderOrders() {
   document.querySelectorAll('.o-list').forEach(el => {
     const tab = el.id.replace('orders-', '');
     const items = arr.filter(x => x.tab === tab);
-    el.innerHTML = items.map(x => `<div class="o-item"><div><span class="pill ${x.kind==='BUG'?'bad':x.kind==='ORDER'?'warn':'ok'}">${x.kind}</span> <span style="color:#94a3b8;font-size:11px;">${x.ts}</span><div style="margin-top:3px;">${x.text.replace(/</g,'&lt;')}</div></div><button class="btn-sec" onclick="delOrder(${x.id})">&times;</button></div>`).join('');
+    el.innerHTML = items.map(x => `<div class="o-item"><div><span class="pill ${x.kind==='BUG'?'bad':x.kind==='ORDER'?'warn':'ok'}">${x.kind}</span> <b>${(x.asset||x.tab).replace(/</g,'&lt;')}</b> <span style="color:#94a3b8;font-size:11px;">${x.ts}</span>${x.ghUrl ? ` &middot; <a href="${x.ghUrl}" target="_blank">#2246 &#10003;</a>` : ''}<div style="margin-top:3px;">${x.text.replace(/</g,'&lt;')}</div></div><button class="btn-sec" onclick="delOrder(${x.id})">&times;</button></div>`).join('');
+  });
+}
+function attachPerAssetCommentBoxes() {
+  document.querySelectorAll('.pane').forEach(pane => {
+    const tab = pane.id.replace('pane-', '');
+    pane.querySelectorAll('.card').forEach((card, idx) => {
+      const h3 = card.querySelector('h3');
+      const assetName = h3 ? h3.innerText.trim() : (tab + ' asset #' + (idx + 1));
+      const bar = document.createElement('div');
+      bar.className = 'asset-cmt-bar';
+      bar.innerHTML = `
+        <button type="button" class="asset-cmt-toggle">&#128172; Comment on "${assetName.replace(/"/g,'&quot;').slice(0,48)}" &rarr; Fleet</button>
+        <div class="asset-cmt-form">
+          <textarea class="o-text" rows="2" placeholder="Comment, bug, or order on ${assetName.replace(/"/g,'&quot;')}... goes straight to Fleet (#2246 + ARENA-INBOX.md)"></textarea>
+          <div class="asset-cmt-row">
+            <select class="o-type"><option value="ORDER">ORDER</option><option value="BUG">BUG</option><option value="APPROVAL">APPROVAL</option><option value="NOTE">NOTE</option></select>
+            <button type="button" class="btn-pri send-asset-btn">Send to Fleet (#2246)</button>
+          </div>
+          <div class="asset-cmt-status"></div>
+        </div>`;
+      const toggle = bar.querySelector('.asset-cmt-toggle');
+      const form = bar.querySelector('.asset-cmt-form');
+      const btn = bar.querySelector('.send-asset-btn');
+      const ta = bar.querySelector('textarea');
+      const sel = bar.querySelector('select');
+      const st = bar.querySelector('.asset-cmt-status');
+      toggle.onclick = () => { form.classList.toggle('open'); if (form.classList.contains('open')) ta.focus(); };
+      btn.onclick = () => {
+        const txt = ta.value.trim();
+        if (!txt) return;
+        ta.value = '';
+        sendToFleet(tab, assetName, sel.value, txt, st);
+      };
+      card.appendChild(bar);
+    });
   });
 }
 function buildOrdersMd() {
   const arr = loadOrders();
   if (!arr.length) return '# Owner Arena Orders (empty)';
-  return '# Owner Arena Comments & Orders (' + new Date().toISOString() + ')\n\n' + arr.map(x => `- **[${x.kind} | ${x.tab} | ${x.ts}]** ${x.text}`).join('\n');
+  return '# Owner Arena Comments & Orders (' + new Date().toISOString() + ')\n\n' + arr.map(x => `- **[${x.kind} | ${x.tab} | ${x.asset||x.tab} | ${x.ts}]** ${x.text}`).join('\n');
 }
 function copyAllOrders() {
   const md = buildOrdersMd();
@@ -428,6 +506,7 @@ function downloadOrders() {
   const blob = new Blob([buildOrdersMd()], { type: 'text/markdown' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'OWNER-ARENA-ORDERS.md'; a.click();
 }
+attachPerAssetCommentBoxes();
 renderOrders();
 if (location.hash) {
   const h = location.hash.slice(1);
