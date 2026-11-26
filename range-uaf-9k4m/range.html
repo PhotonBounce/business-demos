@@ -660,6 +660,7 @@ function buildAkMagSlots(rig, container, byName) {
   }
   const chBox = new THREE.Box3(); chP.updateMatrix(); chP.geometry.computeBoundingBox(); chBox.copy(chP.geometry.boundingBox).applyMatrix4(chP.matrix);
   const chC = chBox.getCenter(new THREE.Vector3());
+  rig.chC = chC.clone();
   // exterior parts only (case, primer, jacket): the powder / lead / core are inside and would only cost draw calls
   const proto = [...rig.caseNodes, ...rig.bulletNodes].map(({ n }) => n).filter((n) => (S.cut || !(S.quality === "low" || S.quality === "medium") ? true : /case|jacket/.test(n.name)));   // Low/Medium: the LOD pair (case + bullet) in the stack; High/Ultra and every cutaway: the whole round
   // the chamber round's own axis (primer -> bullet), so each copy can be turned to point at the arc centre
@@ -933,17 +934,25 @@ function applyPose(rig, p) {
     else rig.hammer.rotation.x = p.h * rig.hammerCocked;
   }
   const akFeedFrac = (rig.gun === "AK" && p.bulletVis && p.roundOff > 0.002) ? Math.min(1, p.roundOff / 0.055) : 0;
+  const _akFeedPlace = (n, base, off) => {
+    if (akFeedFrac > 0 && rig.chC && rig.slots && rig.slots.length) {
+      const ang = (rig.slotRot && rig.slotRot[0] ? rig.slotRot[0] : -0.14) * akFeedFrac;
+      const c = Math.cos(ang), s = Math.sin(ang), px = rig.chC.x, py = rig.chC.y;
+      const dx = (rig.slots[0].x - px) * akFeedFrac, dy = (rig.slots[0].y - py) * akFeedFrac;
+      n.rotation.z = ang;
+      n.position.set(base.x + px - (px * c - py * s) + dx, base.y + py - (px * s + py * c) + dy, base.z);
+    } else {
+      n.position.copy(base).addScaledVector(r, off * U);
+      if (rig.gun === "AK") n.rotation.z = 0;
+    }
+  };
   for (const { n, base } of rig.caseNodes) {
     n.visible = p.caseVis;
-    n.position.copy(base).addScaledVector(r, p.caseOff * U);
-    if (akFeedFrac > 0) { n.position.y -= 0.022 * akFeedFrac * U; n.rotation.z = -0.18 * akFeedFrac; }
-    else if (rig.gun === "AK") n.rotation.z = 0;
+    _akFeedPlace(n, base, p.caseOff);
   }
   for (const { n, base } of rig.bulletNodes) {
     n.visible = p.bulletVis;
-    n.position.copy(base).addScaledVector(r, p.roundOff * U);
-    if (akFeedFrac > 0) { n.position.y -= 0.022 * akFeedFrac * U; n.rotation.z = -0.18 * akFeedFrac; }
-    else if (rig.gun === "AK") n.rotation.z = 0;
+    _akFeedPlace(n, base, p.roundOff);
   }
   if (rig.slots) placeMagStack(rig, Math.max(0, Math.min(rig.slots.length, p.mag)), p.stackLag || 0);
   else if (rig.gun === "AK") { for (const n of rig.magRounds[0]) n.visible = p.mag > 0; }
