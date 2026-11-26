@@ -1772,7 +1772,8 @@ function drawTarget() {
     g.fillStyle = off ? "#c62f2b" : (i === shownHits.length - 1 ? "#d23a2a" : "#0e0e0e"); g.fill();
     g.lineWidth = dpr; g.strokeStyle = "#f4efe2"; g.stroke();
   });
-  $("distl").textContent = `· ${d} m`;
+  const dispDist = /pkm|km762/i.test(S.vehicle || "") ? Math.max(25, (S.dist && S.dist[S.gun]) || 50) : d;
+  $("distl").textContent = `· ${dispDist} m`;
   $("group").textContent = groupText();
   const sp = G.ext;
   $("tgtnote").textContent = `Impacts from each shot's own muzzle velocity: ${sp.label}, zeroed at ${sp.zero_m} m, sight ${fmt(sp.sight_h * 1000, 0)} mm over the bore, standard air, no wind, plus a ${fmt(sp.disp_moa, 1)} MOA precision cone. Approximate.`;
@@ -3797,9 +3798,11 @@ if (DEBUG) {
       const cap = staticCapFor(vKey);
       if (staticAmmo[vKey] == null) staticAmmo[vKey] = cap;
       if ($("magc")) $("magc").textContent = `${staticAmmo[vKey]}/${cap}`;
+      if ($("distl")) $("distl").textContent = `· ${Math.max(25, (S.dist && S.dist[S.gun]) || 50)} m`;
       condEffects(false);
     } else if (lastHudVeh && /pkm|km762/i.test(lastHudVeh)) {
       refresh();
+      drawTarget();
       condEffects(false);
     }
     lastHudVeh = vKey || "";
