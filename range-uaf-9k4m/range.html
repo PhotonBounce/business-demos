@@ -386,7 +386,7 @@ button.fire.safe{filter:grayscale(.7)}
         <label class="ctl chk" id="rollrow" hidden><input type="checkbox" id="roll" checked> Roll the wheels / tracks</label>
       </div>
       <div class="status" aria-live="polite">
-        <span class="pill">Magazine <b id="magc">0/30</b></span>
+        <span class="pill"><span id="maglbl">Magazine</span> <b id="magc">0/30</b></span>
         <span class="pill">Chamber <span class="dot" id="chdot"></span> <span id="chtxt">empty</span></span>
         <span class="pill" id="hamWrap">Hammer <b id="hamtxt">-</b></span>
         <span class="pill" id="tempWrap">Barrel <b id="temp">21 C</b></span>
@@ -1688,7 +1688,14 @@ function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 
 function refresh() {
   const st = S.session.status();
-  $("magc").textContent = `${st.mag}/${st.cap}`;
+  const isPkmV = /pkm|km762/i.test(S.vehicle || "");
+  if ($("maglbl")) $("maglbl").textContent = isPkmV ? "Belt" : "Magazine";
+  if (isPkmV) {
+    const rem = (window.__staticAmmo && window.__staticAmmo[S.vehicle] != null) ? window.__staticAmmo[S.vehicle] : 100;
+    $("magc").textContent = `${rem}/100`;
+  } else {
+    $("magc").textContent = `${st.mag}/${st.cap}`;
+  }
   const dot = $("chdot"); dot.className = "dot" + (st.jam ? " jam" : st.chambered ? " on" : "");
   $("chtxt").textContent = st.jam ? "stoppage" : st.chambered ? "loaded" : (st.locked ? "empty, slide locked open" : "empty");
   $("hamWrap").hidden = S.gun !== "MAK";
@@ -2110,6 +2117,7 @@ function simStats(gun, cond, lot, seed, n) {
 }
 let condToken = 0;
 function condEffects(announce = false) {
+  if (/pkm|km762/i.test(S.vehicle || "")) { condToken++; $("condfx").innerHTML = '<div class="stat"><div class="k">Condition effects</div><div class="v sm">Dirt and grit slow the gas-operated PKM bolt carrier and increase short-stroke stoppage risk; barrel heat shifts point of impact over long bursts.</div></div>'; S.condFx = null; return; }
   if (S.gun === "GAT") { condToken++; $("condfx").innerHTML = '<div class="stat"><div class="k">Condition effects</div><div class="v sm">Dirt and grit are shown on the gun; the rotary gun\'s rate is set by its motor, so the cyclic rate does not change.</div></div>'; S.condFx = null; return; }
   const token = ++condToken, gun = S.gun, cond = S.cond, lot = S.lot, n = gun === "AK" ? 300 : 300;
   $("condfx").innerHTML = '<div class="stat"><div class="k">Condition effects</div><div class="v sm">computing from the sim...</div></div>';
@@ -3740,16 +3748,22 @@ if (DEBUG) {
   });
   window.addEventListener("keyup", (e) => { keys[e.key.toLowerCase()] = false; });
 
-  // Universal live fire for any static/WIP firearm (real-gun AI audio + brass clink + muzzle flash + recoil + 5ft target hole)
-  const flashMat = new THREE.MeshBasicMaterial({ color: 0xffd27a, transparent: true, opacity: 0.92 });
-  const flashMesh = new THREE.Mesh(new THREE.SphereGeometry(0.055, 10, 10), flashMat);
+  // Universal live fire for any static/WIP firearm (real-gun AI audio + brass clink + additive AK/SVD-style muzzle flash + recoil + 5ft target hole)
+  const staticFlashMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(3.2, 1.8, 0.7), transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false });
+  const flashMesh = new THREE.Group();
+  const flashCone = new THREE.Mesh(new THREE.ConeGeometry(0.025, 0.14, 12, 1, true), staticFlashMat);
+  flashCone.rotation.z = -Math.PI / 2;
+  flashCone.position.x = 0.07;
+  const flashBall = new THREE.Mesh(new THREE.SphereGeometry(0.022, 12, 8), staticFlashMat);
+  const flashLight = new THREE.PointLight(0xffa040, 0, 1.5);
+  flashMesh.add(flashCone, flashBall, flashLight);
   flashMesh.visible = false;
   scene.add(flashMesh);
   const tracerMat = new THREE.MeshBasicMaterial({ color: 0xffea8a });
   const tracerMesh = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.008, 0.008), tracerMat);
   tracerMesh.visible = false;
   scene.add(tracerMesh);
-  let flashOffAt = 0, recoilV = 0, tracerT = -1, tracerStart = new THREE.Vector3(), tracerEnd = new THREE.Vector3();
+  let flashFrames = 0, recoilV = 0, tracerT = -1, tracerStart = new THREE.Vector3(), tracerEnd = new THREE.Vector3();
   let pkmCycleStart = 0, pkmCycleDur = 92; // 650 RPM PKM bolt + belt feed cycle (DUET-024)
   function ensurePkmParts(rig) {
     if (!rig || !rig.container || rig._pkmParts) return rig ? rig._pkmParts : null;
@@ -3774,6 +3788,22 @@ if (DEBUG) {
     return rig._pkmParts;
   }
   const staticAmmo = {};
+  window.__staticAmmo = staticAmmo;
+  let lastHudVeh = null;
+  function syncPkmHud(vKey) {
+    const isPkmV = /pkm|km762/i.test(vKey || "");
+    if ($("maglbl")) $("maglbl").textContent = isPkmV ? "Belt" : "Magazine";
+    if (isPkmV) {
+      const cap = staticCapFor(vKey);
+      if (staticAmmo[vKey] == null) staticAmmo[vKey] = cap;
+      if ($("magc")) $("magc").textContent = `${staticAmmo[vKey]}/${cap}`;
+      condEffects(false);
+    } else if (lastHudVeh && /pkm|km762/i.test(lastHudVeh)) {
+      refresh();
+      condEffects(false);
+    }
+    lastHudVeh = vKey || "";
+  }
   let reloadAnimEnd = 0, reloadAnimStart = 0;
   function staticCapFor(key) {
     if (/svd/i.test(key)) return 10;
@@ -3803,6 +3833,7 @@ if (DEBUG) {
     setTimeout(() => {
       try { if (audio.bolt) audio.bolt(g); else audio.event("bolt", g); } catch {}
       staticAmmo[key] = cap;
+      if (/pkm|km762/i.test(key)) syncPkmHud(key);
       msg(`${VIEWONLY[key]?.label || key}: Reloaded & chambered (${cap}/${cap})`);
       dirty = true;
     }, 1350);
@@ -3828,6 +3859,7 @@ if (DEBUG) {
     staticAmmo[key]--;
     const isPistol = /fort12|fort14|fort17|mak/i.test(key);
     const isPkm = /pkm|km762/i.test(key);
+    if (isPkm) syncPkmHud(key);
     try { audio.shot(isPistol ? "MAK" : "AK"); } catch {}
     setTimeout(() => { try { audio.caseHit(isPistol ? "MAK" : "AK", S.floor || "concrete"); } catch {} }, isPkm ? 180 : 300);
 
@@ -3848,9 +3880,10 @@ if (DEBUG) {
       muz = new THREE.Vector3(box.max.x, ctr.y + (box.max.y - box.min.y) * 0.12, ctr.z);
     }
     flashMesh.position.copy(muz);
-    flashMesh.scale.set(isPkm ? 2.1 : 1.6, isPkm ? 1.15 : 0.9, isPkm ? 1.15 : 0.9);
+    flashMesh.scale.setScalar(isPkm ? 1.15 : 1.0);
     flashMesh.visible = true;
-    flashOffAt = performance.now() + (isPkm ? 65 : 75);
+    flashLight.intensity = isPkm ? 2.6 : 1.8;
+    flashFrames = 1; // single rendered frame (DUET-025)
     if (rig.flash && rig.flashLight) {
       rig.flash.position.copy(rig.outer.worldToLocal(muz.clone()));
       rig.flash.visible = true;
@@ -3882,11 +3915,19 @@ if (DEBUG) {
     const dt = Math.min(0.05, (now - lastTs) / 1000);
     lastTs = now;
 
+    if ((S.vehicle || "") !== lastHudVeh) syncPkmHud(S.vehicle || "");
+
     const rig = (S.vehicle ? activeRig : null) || vehRig;
-    if (flashMesh.visible && now > flashOffAt) {
-      flashMesh.visible = false;
-      if (rig && rig.flash && rig.flashLight) { rig.flash.visible = false; rig.flashLight.intensity = 0; }
-      dirty = true;
+    if (flashMesh.visible) {
+      if (flashFrames <= 0) {
+        flashMesh.visible = false;
+        flashLight.intensity = 0;
+        if (rig && rig.flash && rig.flashLight) { rig.flash.visible = false; rig.flashLight.intensity = 0; }
+        dirty = true;
+      } else {
+        flashFrames--;
+        dirty = true;
+      }
     }
     if (tracerT >= 0) {
       tracerT += dt * 16;
