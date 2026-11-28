@@ -73,27 +73,28 @@
     <button class="tab" onclick="openTab('occupant',this)">Occupant Killer</button>
     <button class="tab" onclick="openTab('taleloom',this)">Books, TaleLoom &amp; Audio</button>
     <button class="tab" onclick="openTab('kalshi',this)">Kalshi Sentinel (PAPER)</button>
-    <button class="tab" onclick="openTab('kdp',this)">KDP &amp; GPU Fleet</button>
+    <button class="tab" onclick="openTab('patents',this)">Patent Vehicles</button>
+    <button class="tab" onclick="openTab('kdp',this)">Calendars &amp; CPU Fleet</button>
   </div>
   <button class="btn-sec" id="global-orders-btn" onclick="copyAllOrders()">Orders: 0</button>
-  <span class="ts">Built 2026-11-26 08:34 UTC</span>
+  <span class="ts">Built 2026-11-28 02:11 UTC</span>
 </header>
 
 <section id="pane-range" class="pane active">
   <div class="drawer-bar">
-    <span><b>3D Range:</b> AK-47 16K (3.88M tris) &amp; Makarov V9 16K r2 (1.88M tris) baked &nbsp;|&nbsp; Open bugs: AK mag feed + rear curved tang, PKM firing WIP</span>
+    <span><b>3D Range (status 28 Nov):</b> GPU work cancelled, all builds on CPU &nbsp;|&nbsp; AK-47 parts being rebuilt hard-surface (geometry check found 49 of 53 parts still voxel-built) &nbsp;|&nbsp; Fort-12 v4.1 built to real dimensions, no stand</span>
     <button class="btn-pri" onclick="document.getElementById('range-drawer').classList.toggle('open')">Project Overview / Bugs / Leave Order &#9662;</button>
   </div>
   <div id="range-drawer">
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">3D Shooting Range & EXACTO Armory</h2><div class="sub">Interactive WebGL firing range with real-time PBR skins, slow-mo cycling, cutaway glass, and EXACTO 16K weapon assets.</div></div>
-        <div style="text-align:right;"><span class="pill ok">ACTIVE BUILD</span><div class="eta">ETA: <b>PKM firing LIVE; AK-47 feed/tang &amp; Makarov r3 queued immediately after Tempest-7 Wide r2 finishes</b></div></div>
+        <div><h2 style="margin:0;font-size:18px;">3D Shooting Range & EXACTO Armory</h2><div class="sub">Interactive WebGL firing range. Every gun is rebuilt from blueprints or published dimensions (0.5 mm tolerance, exact cartridge fit, real mechanism travel). No voxel or remesh geometry on guns, weapons or vehicles. All model work runs on Colab CPU seats; GPU work is cancelled.</div></div>
+        <div style="text-align:right;"><span class="pill warn">CPU REBUILDS RUNNING</span><div class="eta">Next: <b>AK-47 hard-surface 4K close-ups (0-177b) rendering on cpu-a; then the remaining AK parts rebuilt without voxels</b></div></div>
       </div>
       <div class="grid3">
-        <div class="box done"><h4>Done</h4><ul><li>AK-47 16K fixed bake (<code>0-148</code>): 3,880,540 tris, 52 parts, selector pivot fixed, 235.8 MB GLB</li><li>Makarov V9 16K r2 (<code>0-149</code>): 1,876,420 tris, 87 parts, 16384px PBR+AO+ORM, 107.6 MB GLB DONE</li><li>Part-envelope geometry gate (<code>check_part_envelope.py</code>) enforced before every bake</li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>PKM GPMG firing wired &amp; LIVE on Range (<code>DUET-024/025/028/029</code>): bolt/belt animation, Belt 100/100 pill, additive cone flash, 25m target</li><li>CB-35 Batch-2 reference photos (18 weapons) 100% DONE on <code>t4-a</code></li><li>AK-47 mag-feed/rear-tang &amp; Makarov metal r3 approved GO (<code>DUET-013</code>) — queued after Tempest-7 r2</li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>AK-47 bug (GO — DUET-013):</b> magazine-to-chamber feed alignment &amp; curved rear receiver tang queued for next Blackwell pass</li><li><b>Makarov r3 (GO — DUET-013):</b> steel finish pass queued after Tempest-7 r2 wave</li><li><b>WebGL display note:</b> browser Range loads lighter web-GLBs (~1M tris) so browsers do not crash; full 3.88M-tri 16K master is on <code>media-exacto</code></li></ul></div>
+        <div class="box done"><h4>Done</h4><ul><li><b>AK-47 v9 16K bake</b> (<code>0-161b</code>, 27 Nov): 3.17M tris, 53 parts, 256.8 MB GLB on <code>media-exacto</code>, about 22 units</li><li><b>AK-47 trigger, trigger guard, bolt and carrier</b> rebuilt as clean hard-surface parts (DUET-069, PR #3025); 1080p close-ups rendered (<code>0-177a</code>, 28 Nov 01:58Z)</li><li><b>AK-47 receiver and magazine 4K stills</b> (<code>0-176c</code>, 28 Nov) shown in 4K Weapon Cinema</li><li><b>Fort-12 v4.1</b> (DUET-066): rebuilt from published dimensions (180 x 131 x 32 mm, 95 mm barrel, 12 rounds), no stand, 85 parts, 185,256 tris, 9x18 fit gate PASS, side profile matches the reference photo at 0.984</li><li><b>Fort-12 v4 dark finish</b> 4K stills (<code>0-175</code>, 28 Nov)</li><li><b>Makarov 16K r3</b> (<code>0-162</code>) accepted 26 Nov: fit gate PASS</li><li><b>AK feed fix</b> (DUET-034): magazine-to-chamber feed live on the range and eye-checked 26 Nov</li><li><b>PKM firing</b> live on the range (DUET-024/025)</li><li><b>Automatic geometry QA</b> (<code>qa_geometry.py</code>, PR #3026) flags voxel-built parts and bad edges</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>AK-47 4K close-ups of the four rebuilt parts (<code>0-177b</code>) rendering on cpu-a</li><li>AK-47: bolt carrier still has 2 bad edges, being fixed; the other 45 voxel-built parts follow</li><li>Fort-12 16K texture bake: not started (needs a GPU and your yes on units; GPU work is cancelled for now)</li><li>Remaining guns (PKM, Makarov detail pass, Gatling and the rest) queued behind the AK for clean rebuild + QA</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>AK-47:</b> 49 of 53 parts were found still voxel-built (28 Nov); the 16K bake from 27 Nov carries those parts and showed jagged edges on the trigger guard, trigger, charging handle and bolt</li><li><b>Range GLBs not swapped yet:</b> the browser range still loads the earlier web GLBs until the rebuilt parts pass QA</li><li><b>Fort-12:</b> no public blueprint exists; built from published dimensions and Commons photos</li></ul></div>
       </div>
       <div class="order-box" data-tab="range">
         <div class="order-top">
@@ -117,13 +118,13 @@
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">Nod Kremlinoff Show</h2><div class="sub">Satirical political talking-head show. Full-power Blackwell rebuild is GO (DUET-013) — replacing 2D LatentSync overlay.</div></div>
-        <div style="text-align:right;"><span class="pill warn">FULL-POWER REBUILD GO (DUET-013)</span><div class="eta">ETA: <b>New high-compute Nod test clip: queued on Blackwell right after Tempest-7 r2 + EXACTO passes</b></div></div>
+        <div><h2 style="margin:0;font-size:18px;">Nod Kremlinoff Show</h2><div class="sub">Satirical political talking-head show. The full-power rebuild was approved 26 Nov (DUET-013), but every video render was paused the same day to save Colab units (DUET-038), and GPU work was cancelled on 28 Nov.</div></div>
+        <div style="text-align:right;"><span class="pill bad">ON HOLD (NO GPU)</span><div class="eta">Next: <b>Rebuild waits until GPU work is allowed again; nothing has rendered since 26 Nov</b></div></div>
       </div>
       <div class="grid3">
-        <div class="box done"><h4>Done</h4><ul><li>Voice clone polished 60s master (<code>nod_ep01_60s_v2_polished.mp3</code>)</li><li>CB-25 60s test cut &amp; 6x4 QA contact sheet archived below for comparison</li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Full-power Blackwell Nod rebuild approved GO (<code>DUET-013</code>) — queued after Tempest-7 r2 + EXACTO r3</li><li>Evaluating full 3D rigged head / LivePortrait+HallO2 / Wan2.1+EchoMimicV2 high-VRAM pipeline instead of 2D LatentSync</li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Owner verdict (26 Nov):</b> "nod still sucks" — 2D LatentSync mouth overlay drifts off identity and looks rubbery</li></ul></div>
+        <div class="box done"><h4>Done</h4><ul><li>Voice clone polished 60s master (<code>nod_ep01_60s_v2_polished.mp3</code>)</li><li>Lip-sync test rounds R1 to R4 on g4-e (25 Nov); the CB-25 60s cut is kept below for comparison</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Nothing running. The full-power rebuild (3D rigged head or high-VRAM talking-head pipeline) is approved but needs a GPU</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Owner verdict (26 Nov):</b> "nod still sucks": the 2D LatentSync mouth overlay drifts off identity and looks rubbery</li><li><b>Blocked:</b> video renders paused since 26 Nov (DUET-038) and GPU work cancelled 28 Nov</li></ul></div>
       </div>
       <div class="order-box" data-tab="nod">
         <div class="order-top">
@@ -152,7 +153,7 @@
     <div class="proj-panel">
       <div class="proj-head">
         <div><h2 style="margin:0;font-size:18px;">Grisha Show</h2><div class="sub">Russian/English political satire series. Replacing C-216 Robotaxi/VPN videos with canonical Grisha episodes.</div></div>
-        <div style="text-align:right;"><span class="pill warn">CANONICAL SWAP IN PROGRESS</span><div class="eta">ETA: <b>Corrected Grisha video swap: in progress</b></div></div>
+        <div style="text-align:right;"><span class="pill bad">PAUSED (VIDEO RENDERS OFF)</span><div class="eta">Next: <b>Canonical episode swap still open; Grisha shot lists held while video renders are paused (DUET-038)</b></div></div>
       </div>
       <div class="grid3">
         <div class="box done"><h4>Done</h4><ul><li>Canonical 60s Studio talking-head voice master (<code>grisha-c204-60s-approved-voice.mp3</code>)</li><li>Canon-gate scripts &amp; 2026-10-29 daily episode pipeline built on <code>mudel-master</code></li></ul></div>
@@ -187,13 +188,13 @@
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">4K Weapon Cinema & EXACTO Turntables</h2><div class="sub">60-second 4K showcase videos (skin switching, slow-mo firing/reloading, cutaway glass) plus freshly baked 16K EXACTO macro renders.</div></div>
-        <div style="text-align:right;"><span class="pill ok">TEMPEST-7 R2 WAVE 97% DONE</span><div class="eta">ETA: <b>Tempest-7 Wide r2 assembly: ~08:40Z today</b></div></div>
+        <div><h2 style="margin:0;font-size:18px;">4K Weapon Cinema & EXACTO Turntables</h2><div class="sub">60-second 4K showcase videos plus the newest model stills. Video renders are paused since 26 Nov (DUET-038) and GPU work is cancelled; new stills below come from the CPU seats.</div></div>
+        <div style="text-align:right;"><span class="pill warn">VIDEOS PAUSED · CPU STILLS</span><div class="eta">Next: <b>AK-47 hard-surface 4K close-ups (0-177b), then fresh stills of each rebuilt gun as it passes QA</b></div></div>
       </div>
       <div class="grid3">
-        <div class="box done"><h4>Done</h4><ul><li>ALL 4 Weapon Cinema v2 60s videos (AK-47, Makarov, Tempest-6, Tempest-7) encoded for instant inline playback here + full 4K originals on PC/Drive</li><li>Makarov V9 16K r2 (<code>0-149</code>) 4x studio renders (after + frame/slide/barrel macros) live below</li><li>Tempest-7 ejection port + open chute geometry fix (<code>0477e3f1</code>) passed <code>check_ejection.py</code> (0 overlaps / 1,800 frames)</li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Tempest-7 60-chunk wide r2 wave LIVE on <code>g4-f..f6</code> Blackwell: 58/60 chunks done (97%, 0 failed) &rarr; assembly auto-queued at 60/60</li><li>New 1-min slow turntable animations with half-glass &rarr; full-glass &rarr; cutaway &amp; slow-mo bullet travel + loud SFX</li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>AK-47 cinema:</b> will re-render after magazine feed + rear curved metal tang fixes land</li></ul></div>
+        <div class="box done"><h4>Done</h4><ul><li>All 4 Weapon Cinema v2 60s videos (AK-47, Makarov, Tempest-6, Tempest-7) play inline below</li><li>New 27 to 28 Nov CPU stills below: Fort-12 v4 dark finish, Fort-12 v4.1 against the reference photo, AK-47 receiver and magazine, Makarov 16K r3</li><li>Tempest-7 ejection port fix passed <code>check_ejection.py</code> (0 overlaps / 1,800 frames)</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Stills for each rebuilt gun, each as its own full-size file, as models pass QA</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Videos paused</b> since 26 Nov (DUET-038): Tempest-7 vertical wave and turntables held</li><li><b>AK-47 cinema</b> is from before the rebuild; it is re-shot once the clean hard-surface AK passes QA</li></ul></div>
       </div>
       <div class="order-box" data-tab="cinema">
         <div class="order-top">
@@ -217,7 +218,17 @@
     <div class="card"><h3>Tempest-6 Gatling 4K Cinema v2 (60s)</h3><video controls preload="metadata" src="media/cinema/tempest6-cinema-v2-60s-web.mp4"></video><div class="meta">Full 4K master (60 MB) on PC/Drive · Web stream plays inline here</div></div>
     <div class="card"><h3>Tempest-7 Gatling 4K Cinema v2 (60s)</h3><video controls preload="metadata" src="media/cinema/tempest7-cinema-v2-60s-web.mp4"></video><div class="meta">Full 4K master (71 MB) on PC/Drive · r2 ejection-port fix built (0477e3f1)</div></div>
   </div>
-  <h3 style="margin:18px 0 10px;">Freshly Completed: Makarov V9 16K r2 (<code>0-149</code>, 1.88M tris, 16384px PBR+AO+ORM)</h3>
+  <h3 style="margin:18px 0 10px;">New 27&ndash;28 Nov: CPU stills (full size, open to zoom)</h3>
+  <div class="grid4">
+    <div class="card"><h3>Fort-12 v4 Dark Finish, Left</h3><a href="hub-media/2026-11-28/fort12_v4_dark_left.jpg" target="_blank"><img class="prev" src="hub-media/2026-11-28/fort12_v4_dark_left.jpg" alt="Fort-12 v4 dark left" loading="lazy" /></a><div class="meta">3840x2160 · job 0-175 · 28 Nov · no stand</div></div>
+    <div class="card"><h3>Fort-12 v4 Dark Finish, 3/4 Front</h3><a href="hub-media/2026-11-28/fort12_v4_dark_34front_left.jpg" target="_blank"><img class="prev" src="hub-media/2026-11-28/fort12_v4_dark_34front_left.jpg" alt="Fort-12 v4 dark 3/4" loading="lazy" /></a><div class="meta">3840x2160 · job 0-175 · 28 Nov</div></div>
+    <div class="card"><h3>Fort-12 v4.1 vs Reference Photo</h3><a href="hub-media/2026-11-28/fort12-v4.1-vs-photo-left.png" target="_blank"><img class="prev" src="hub-media/2026-11-28/fort12-v4.1-vs-photo-left.png" alt="Fort-12 v4.1 vs photo" loading="lazy" /></a><div class="meta">Side profile traced from the photo · IoU 0.984 · 180 x 131 mm</div></div>
+    <div class="card"><h3>AK-47 v9 Receiver, 4K</h3><a href="hub-media/2026-11-28/macro_aksm9_receiver_proc.jpg" target="_blank"><img class="prev" src="hub-media/2026-11-28/macro_aksm9_receiver_proc.jpg" alt="AK receiver" loading="lazy" /></a><div class="meta">Job 0-176c · 28 Nov · still uses the older smoothed trigger, guard and bolt; hard-surface rebuild rendering</div></div>
+    <div class="card"><h3>AK-47 v9 Magazine, 4K</h3><a href="hub-media/2026-11-28/macro_aksm9_magazine_proc.jpg" target="_blank"><img class="prev" src="hub-media/2026-11-28/macro_aksm9_magazine_proc.jpg" alt="AK magazine" loading="lazy" /></a><div class="meta">Job 0-176c · 28 Nov</div></div>
+    <div class="card"><h3>Makarov 16K r3, Full</h3><a href="hub-media/2026-11-28/makarov-v9-r3_2026-11-26_full.jpg" target="_blank"><img class="prev" src="hub-media/2026-11-28/makarov-v9-r3_2026-11-26_full.jpg" alt="Makarov r3" loading="lazy" /></a><div class="meta">Job 0-162 · accepted 26 Nov · fit gate PASS</div></div>
+    <div class="card"><h3>Makarov 16K r3, Slide Macro</h3><a href="hub-media/2026-11-28/makarov-v9-r3_2026-11-26_macro-slide.jpg" target="_blank"><img class="prev" src="hub-media/2026-11-28/makarov-v9-r3_2026-11-26_macro-slide.jpg" alt="Makarov r3 slide" loading="lazy" /></a><div class="meta">Job 0-162 · 26 Nov</div></div>
+  </div>
+  <h3 style="margin:18px 0 10px;">Earlier: Makarov V9 16K r2 (<code>0-149</code>, 1.88M tris, 16384px PBR+AO+ORM)</h3>
   <div class="grid4">
     <div class="card"><h3>Full Studio After Shot</h3><img class="prev" src="media/exacto/after_makarov16k_hd.jpg" alt="Makarov 16K after" /></div>
     <div class="card"><h3>Macro — Frame</h3><img class="prev" src="media/exacto/macro_makarov16k_frame_hd.jpg" alt="Makarov 16K frame" /></div>
@@ -230,13 +241,13 @@
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">Occupant Killer — Game & Massive Upgrades</h2><div class="sub">Flagship FPS/defense game (WebGL + Unreal Engine 5 massive upgrade track). OK deploys &amp; upgrades approved GO (DUET-013).</div></div>
-        <div style="text-align:right;"><span class="pill warn">UPGRADES GO (DUET-013)</span><div class="eta">ETA: <b>Asset swap + Stage-5 fix + public deploy: 27–28 Nov (GO per DUET-013)</b></div></div>
+        <div><h2 style="margin:0;font-size:18px;">Occupant Killer — Game & Massive Upgrades</h2><div class="sub">Flagship FPS/defense game. Per the 26 Nov salvage verdict the engine is kept and the old world is discarded; levels are being rebuilt as accurate voxel replicas from public data, Hostomel first (exterior and interior), Moscow next.</div></div>
+        <div style="text-align:right;"><span class="pill warn">HOSTOMEL REBUILD</span><div class="eta">Next: <b>Hostomel c01 terrain and c02 hangar redone against real elevation and footprint data (DUET-058), then the rest of the airport</b></div></div>
       </div>
       <div class="grid3">
-        <div class="box done"><h4>Done</h4><ul><li>UE5 project scaffolded (<code>members/antigravity-work/ue5/OccupantKiller/OccupantKiller.uproject</code> + Config + <code>import_fleet_glbs_and_render.py</code> + <code>launch_pixel_streaming2.py</code>)</li><li>EXACTO 16K weapons ready for import: AK-47 3.88M tris (<code>0-148</code>) &amp; Makarov V9 16K r2 1.88M tris (<code>0-149</code>, 4 previews shown below)</li><li>Playable web build live at <a href="https://photon-bounce.com/ok/" target="_blank">photon-bounce.com/ok/</a> + local arena build</li><li>Full release audit complete (<code>OK-1</code>, <code>OK-2</code>, <code>OK-3</code>, <code>OK-8</code>)</li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Swapping EXACTO AK-47 &amp; Makarov 16K assets into UE5 <code>OccupantKiller.uproject</code> + web GLB pack</li><li>Massive gameplay/graphics upgrade track: UE5 Nanite/Lumen weapon rigs, enemy AI/Bradley stage-5 fix, T-64BV &amp; FPV drone integration</li><li>OK-8 public deploys approved GO (<code>DUET-013</code>): publishing updated build + mirroring APK/EXE to <code>photon-bounce.com/ok/</code></li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Stale public web builds (OK-8, GO):</b> updating <code>photon-bounce.com/ok/</code> and mirroring public APK/EXE outside private repo</li><li><b>Stage 5 bug (OK-1):</b> Bradley vehicle movement fix queued before next public release push</li></ul></div>
+        <div class="box done"><h4>Done</h4><ul><li><b>Hostomel chunks c03 to c06</b> built on cpu-a from OpenStreetMap footprints (27 Nov, jobs 0-167 to 0-170): ATC tower, terminal and ops, south Antonov hangars, runway apron and props; previews below</li><li><b>Salvage verdict</b> (26 Nov): keep chunk store, mesher, destruction, enemy AI, weather, audio and vehicle logic; old terrain, layouts and vehicle geometry archived</li><li>Playable web build at <a href="https://photon-bounce.com/ok/" target="_blank">photon-bounce.com/ok/</a> (last deployed 30 Oct)</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Hostomel c01 (terrain) and c02 (An-225 hangar) are still placeholders; redo from Copernicus elevation and OSM data ordered (DUET-058)</li><li>World size: the 1 km world can't hold the 3.5 km Hostomel runway at 1:1, so the engine needs a larger streamed world</li><li>Moscow level: not started</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Public web build is stale</b> (30 Oct); a new deploy waits for the rebuilt Hostomel level</li><li><b>Hostomel map data</b> for c01/c02 not stored yet, so those two chunks are still guesses</li></ul></div>
       </div>
       <div class="order-box" data-tab="occupant">
         <div class="order-top">
@@ -256,7 +267,14 @@
   
       <div class="banner">Live Web Playable Build: <a href="https://photon-bounce.com/ok/" target="_blank"><b>https://photon-bounce.com/ok/</b></a> &nbsp;|&nbsp; Local UE5/Arena Sandbox: <a href="http://localhost:8765/#occupant" target="_blank">http://localhost:8765/#occupant</a></div>
     
-  <h3 style="margin:6px 0 10px;">EXACTO &amp; UE5 Game Assets Ready for Occupant Killer Integration</h3>
+  <h3 style="margin:6px 0 10px;">Hostomel Airport: CPU Voxel Chunks (27 Nov, work in progress)</h3>
+  <div class="grid4">
+    <div class="card"><h3>c03 ATC Tower</h3><img class="prev" src="hub-media/2026-11-28/hostomel_c03_atc_tower.png" alt="Hostomel c03" loading="lazy" /><div class="meta">OSM footprint · exterior + cutaway interior · job 0-167</div></div>
+    <div class="card"><h3>c04 Terminal &amp; Ops</h3><img class="prev" src="hub-media/2026-11-28/hostomel_c04_terminal_ops.png" alt="Hostomel c04" loading="lazy" /><div class="meta">Job 0-168</div></div>
+    <div class="card"><h3>c05 Antonov Hangars South</h3><img class="prev" src="hub-media/2026-11-28/hostomel_c05_antonov_hangars_south.png" alt="Hostomel c05" loading="lazy" /><div class="meta">Job 0-169</div></div>
+    <div class="card"><h3>c06 Runway Apron &amp; Props</h3><img class="prev" src="hub-media/2026-11-28/hostomel_c06_runway_apron_props.png" alt="Hostomel c06" loading="lazy" /><div class="meta">Job 0-170</div></div>
+  </div>
+  <h3 style="margin:18px 0 10px;">Earlier Weapon Assets (before the 28 Nov clean rebuild)</h3>
   <div class="grid4">
     <div class="card"><h3>Makarov V9 16K r2 (1.88M tris)</h3><img class="prev" src="media/exacto/after_makarov16k_hd.jpg" alt="Makarov 16K" /><div class="meta">Done 02:33Z · 107.6 MB GLB · <a href="#range" onclick="openTabById('range')">Inspect in 3D Range &rarr;</a></div></div>
     <div class="card"><h3>AK-47 16K Fixed (3.88M tris)</h3><img class="prev" src="media/exacto/macro_makarov16k_slide_hd.jpg" style="display:none" /><div class="meta" style="margin-top:0;line-height:1.6;">Done 22:50Z (<code>0-148</code>) · 52 parts, 16384px PBR, 235.8 MB GLB on <code>media-exacto</code>.<br><a href="#cinema" onclick="openTabById('cinema')">Watch 4K Cinema &rarr;</a> · <a href="#range" onclick="openTabById('range')">Open in 3D Range &rarr;</a></div></div>
@@ -270,12 +288,12 @@
     <div class="proj-panel">
       <div class="proj-head">
         <div><h2 style="margin:0;font-size:18px;">TaleLoom, Books, QA & Audiobooks</h2><div class="sub">All book manuscripts, 5-cycle Gemini QA pipeline (AIS-worker + t4-a), November 2026 primary-source monthlies, TaleLoom illustrated videos, and 17 mastered audiobooks.</div></div>
-        <div style="text-align:right;"><span class="pill ok">HEAVY ACTIVE PROGRESS</span><div class="eta">ETA: <b>Zona &amp; Wakeborn v1.1 5x QA: active now; Nov Monthlies KDP: cap resets Sat 28 Nov 6 PM CST</b></div></div>
+        <div style="text-align:right;"><span class="pill warn">WRITING ON · OFF KDP FOR NOW</span><div class="eta">Next: <b>Books stay off KDP while every KDP slot goes to calendars (your 27 Nov order); writing continues</b></div></div>
       </div>
       <div class="grid3">
         <div class="box done"><h4>Done</h4><ul><li><b>Nov 2026 Monthlies Research (CB-34 / DUET-002):</b> 100% DONE — 378 HTTP-200 verbatim primary-source events across 37 files</li><li><b>Wakeborn <i>Light-Lag Witness</i> v1.1 (PR #2928):</b> 10/10 chapters (28,713 words), Cycle 1 fixes landed, DUET-027 hold LIFTED</li><li><b>Zona Chronicles Storyline 1 v2:</b> 10/10 chapters drafted (47,595 words) — #1 in 5-cycle Gemini QA</li><li><b><i>Blue Tsunami</i> v2:</b> 12/12 chapters drafted (53,424 words, source rebuild)</li><li><b>17 playable &amp; downloadable audiobooks</b> live below (Wakeborn, Zona, Fix This World, Dictatorships Today, Marmalade Ledger, Quiet Count, TaleLoom Frankenstein Ep01–05)</li></ul></div>
         <div class="box wip"><h4>In Progress / Queued</h4><ul><li>5-clean-cycle Gemini QA (<code>DUET-022/027</code>): Zona S1 v2 &rarr; Wakeborn LLW v1.1 &rarr; Blue Tsunami v2 via AIS-worker + t4-a</li><li>Blue Tsunami final certification refresh scheduled after 3 Dec (MS), 8 Dec, and 12 Dec (LA runoffs)</li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>DUET-011 t4-a key test:</b> running zero-print last-4 billing check now while <code>t4-a</code> is idle</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>KDP is calendars only</b> (27 Nov, your words: "let's do only calendars for now"): Wakeborn, Zona, Blue Tsunami, non-fiction and the monthlies are held off KDP until you lift it</li><li><b>Gemini QA</b> moved off t4-a (no GPU seats now)</li></ul></div>
       </div>
       <div class="order-box" data-tab="taleloom">
         <div class="order-top">
@@ -353,8 +371,8 @@
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">Kalshi Sentinel (PAPER TRADING ONLY)</h2><div class="sub">Continuous 30s live-orderbook paper-trading daemon on KXBTC15M / KXETH15M / KXSOL15M. Latest snapshot: 2026-11-26T07:35:59Z (2174 trades, 18929 decisions).</div></div>
-        <div style="text-align:right;"><span class="pill ok">LIVE DAEMON · 0 LIVE ORDERS</span><div class="eta">ETA: <b>Ongoing 24/7 paper run; strategy pruning report ready whenever Owner wants</b></div></div>
+        <div><h2 style="margin:0;font-size:18px;">Kalshi Sentinel (PAPER TRADING ONLY)</h2><div class="sub">Paper-trading daemon on KXBTC15M / KXETH15M / KXSOL15M. Paper only, no real money. The newest snapshot in the fleet repo is 26 Nov 15:35 UTC; none has been written since.</div></div>
+        <div style="text-align:right;"><span class="pill warn">PAPER ONLY · SNAPSHOTS STOPPED 26 NOV</span><div class="eta">Next: <b>Hourly snapshots stopped when the PC seat was retired on 27 Nov; figures below are the 26 Nov 07:35 UTC snapshot</b></div></div>
       </div>
       <div class="grid3">
         <div class="box done"><h4>Done</h4><ul><li>Net paper PnL: <b>+$12.43</b> across 2174 paper trades (<b>0</b> real dollars risked)</li><li><code>D_fair_value</code> leading at <b>+$33.97</b> (362W/298L); <code>A_orderbook_imbalance</code> at <b>+$8.74</b> (213W/56L)</li><li>Hourly automated snapshots committed to <code>mudel-master</code> every hour</li></ul></div>
@@ -382,17 +400,45 @@
   </div>
 </div></section>
 
+<section id="pane-patents" class="pane"><div class="wrap">
+    <div class="proj-panel">
+      <div class="proj-head">
+        <div><h2 style="margin:0;font-size:18px;">Patent Vehicles: 3D Models from Public-Domain US Patents</h2><div class="sub">3D models built from expired US patent drawings (1893&ndash;1925, public domain). Clean hard-surface geometry to the drawings' proportions, no voxels; parts the sheets don't show are filled from period references and logged as inferred. Plain names only, no brand names or logos.</div></div>
+        <div style="text-align:right;"><span class="pill warn">FIRST MODEL IN QA</span><div class="eta">Next: <b>1894 submarine 1080p preview, then the other six priority designs</b></div></div>
+      </div>
+      <div class="grid3">
+        <div class="box done"><h4>Done</h4><ul><li>Hard-surface kit and build &rarr; QA &rarr; preview job set up on the CPU queue (28 Nov)</li><li><b>1894 submarine</b> built and passed geometry QA</li><li>Patent drawing sets stored with sources (<code>blueprints/SOURCES.md</code>)</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>1894 submarine: 1080p preview job submitted (0-178a)</li><li>Being built: 1893 whaleback steamer, 1895 road engine, 1925 motorcycle, 1897 geared locomotive, 1918 pleasure cruiser, 1919 flying boat</li><li>Then the rest of the 12-per-category sets</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li>Patent sheets skip some dimensions and hidden parts; those are filled from period references and marked as inferred</li><li>Slotted behind the gun jobs already running; more speed needs cpu-b and cpu-c (your yes on the token)</li></ul></div>
+      </div>
+      <div class="order-box" data-tab="patents">
+        <div class="order-top">
+          <b>Owner Comments &amp; Direct Orders &mdash; Patent Vehicles</b>
+          <div class="order-btns">
+            <select class="o-type"><option value="ORDER">ORDER</option><option value="BUG">BUG</option><option value="APPROVAL">APPROVAL</option><option value="NOTE">NOTE</option></select>
+            <button type="button" class="btn-pri" onclick="addOrder('patents')">Save Comment / Order</button>
+            <button type="button" class="btn-sec" onclick="copyAllOrders()">Copy All Orders (MD)</button>
+            <button type="button" class="btn-sec" onclick="downloadOrders()">Download .md</button>
+          </div>
+        </div>
+        <textarea class="o-text" rows="2" placeholder="Leave a comment, bug report, or direct fleet order for Patent Vehicles... (saved in browser &amp; exportable to #2246)"></textarea>
+        <div class="o-list" id="orders-patents"></div>
+      </div>
+    </div>
+    <div class="banner">Previews appear here as each model passes QA. Priority order: 1894 submarine, 1893 whaleback steamer, 1895 road engine, 1925 motorcycle, 1897 geared locomotive, 1918 pleasure cruiser, 1919 flying boat.</div>
+</div></section>
+
 <section id="pane-kdp" class="pane"><div class="wrap">
   
     <div class="proj-panel">
       <div class="proj-head">
-        <div><h2 style="margin:0;font-size:18px;">KDP Books & GPU Fleet Command</h2><div class="sub">Fleet GPU & KDP publishing dashboard. Hard Colab cap: <b>3</b> sessions (g4-e, t4-a, g4-f). Blackwell parallel runners: <b>5/5</b> alive (complete).</div></div>
-        <div style="text-align:right;"><span class="pill ok">CAP = 3 COLAB SESSIONS (R-1)</span><div class="eta">ETA: <b>0-151 summary: &lt;04:00Z; KDP batch resume: Sat 28 Nov 6:00 PM CST</b></div></div>
+        <div><h2 style="margin:0;font-size:18px;">KDP Books & GPU Fleet Command</h2><div class="sub">Calendars and the compute fleet. KDP takes only calendars for now (2 new titles per format per week, reset Sat 6 PM CST). Fleet: Colab CPU seats only, GPU work cancelled 28 Nov.</div></div>
+        <div style="text-align:right;"><span class="pill warn">CPU ONLY · 1 OF 3 SEATS UP</span><div class="eta">Next: <b>cpu-b and cpu-c start once you allow their GitHub token in Colab; KDP slots reset Sat 28 Nov 6 PM CST</b></div></div>
       </div>
       <div class="grid3">
-        <div class="box done"><h4>Done</h4><ul><li>Enforced Rule R-1 (max 3 Colab sessions): terminated standalone agy CPU sessions, integrated <code>agy-img-1..2</code> as CPU subprocesses inside <code>t4-a</code></li><li><code>g4-e</code> + 5 subprocess runners (<code>g4-e2..g4-e6</code>) warm, alive, and ready for Duet orders</li><li>Added Rule R-2 1-minute GPU utilization telemetry logger to <code>t4_a_worker.ipynb</code></li><li>Verified KDP Bookshelf: zero older <i>Blue Tsunami</i> editions; Rows #5 &amp; #7 set to $0.99 (35% royalty, KDP Select off)</li></ul></div>
-        <div class="box wip"><h4>In Progress / Queued</h4><ul><li><code>t4-a</code> finishing <code>0-151</code> (Batch-2 reference photos) &rarr; <code>BATCH2-REFS-SUMMARY.md</code> &rarr; <code>0-152</code></li><li>KDP upload batch resumes <b>Sat 28 Nov 6:00 PM CST</b> when Amazon weekly upload cap resets</li><li>Staggered &lt;22h Colab restarts scheduled before <code>10:35Z</code> / <code>10:36Z</code> (between jobs only)</li></ul></div>
-        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b><code>g4-f</code> (2nd Blackwell):</b> waiting on human-only Google reCAPTCHA click by Owner (marked <code>needs_human</code>)</li><li><b>KDP weekly upload cap:</b> Amazon blocks new title uploads until Sat 28 Nov 6 PM CST</li><li><b>Gmail / Drive plugins:</b> awaiting 1-click Owner install/sign-in in Antigravity chat to auto-send email briefs</li></ul></div>
+        <div class="box done"><h4>Done</h4><ul><li><b>Yachts</b> calendar: cover + 12 months redone as plain single-boat photographs (27 Nov)</li><li><b>Old fishing boats</b>: cover + 12 months, rigging checked (27 Nov)</li><li><b>Garden Birds</b>: 13 different species, no repeats</li><li><b>Blueprint calendar line</b> from public-domain US patent drawings: 21 sample pages in three styles (A, B, C) across 7 subjects</li><li><b>Fleet:</b> cpu-a running (8-core High-RAM, 8 runners, about 0.26 units an hour)</li></ul></div>
+        <div class="box wip"><h4>In Progress / Queued</h4><ul><li>Ape Families, Tugboats, Off-duty Santa, Early Humans, Highland Cows and the rest in the image queue (Nano Banana Pro via the Gemini app, never the paid API)</li><li>Blueprint line: waiting on your pick of style A, B or C before the full 12 months</li><li>cpu-b connected, stopped at Colab's "Grant access" to the GitHub token (your yes); cpu-c to follow as a copy</li></ul></div>
+        <div class="box prob"><h4>Problem Items / Open Bugs</h4><ul><li><b>Abduction Aliens</b> on hold ("No to alien like that")</li><li><b>Which two calendars</b> take Saturday's KDP slots is your pick</li><li><b>Colab units:</b> 773 on 28 Nov; floor 500; about 273 likely expire around 30 Dec; next grant 1 Dec</li><li><b>Google Cloud credit:</b> $0 until about 1 Dec, so the two Cloud VMs are not created</li></ul></div>
       </div>
       <div class="order-box" data-tab="kdp">
         <div class="order-top">
@@ -410,11 +456,16 @@
     </div>
     
   <div class="card" style="margin-bottom:14px;">
-    <h3>Live GPU &amp; Colab Fleet (Hard Cap = 3 Sessions · Blackwell Runners: g4-f2, g4-f3, g4-f4, g4-f5, g4-f6)</h3>
-    <table><thead><tr><th>Seat</th><th>Hardware</th><th>State</th><th>Current / Last Job</th><th>Notes</th></tr></thead><tbody><tr><td><b>g4-e</b></td><td>NVIDIA A100 High-RAM (Colab assigned on 06:06Z restart, 235.7 GB disk)</td><td><span class='pill ok'>working</span></td><td>0-149-2026-11-25-hd16k-makarov-v9-bake-r2-g4e</td><td style='font-size:12px;color:#94a3b8;'>Connected 06:06Z (A100 High-RAM, 167 GB RAM, 235.7 GB empty disk); Run all active with DUET-012 disk guards; 6 unclaimed T7-r2 chunks shifted to blackwell-g4-e.</td></tr><tr><td><b>t4-a</b></td><td>Tesla T4 (15360 MiB)</td><td><span class='pill ok'>working</span></td><td>0-155-2026-11-26-cb35-fetch-reference-photos-batch2b-t4a</td><td style='font-size:12px;color:#94a3b8;'>DUET-014 check: SAME running runtime (heartbeat #83 at 05:30:33Z), actively running 0-155.</td></tr><tr><td><b>g4-f</b></td><td>NVIDIA RTX PRO 6000 Blackwell (target)</td><td><span class='pill ok'>working</span></td><td>tempest-7-wide-r2-wave (30 chunks across g4-f + f2..f6)</td><td style='font-size:12px;color:#94a3b8;'>DUET-014 check: SAME running runtime (g4-f + f2..f6 alive), rendering Tempest-7 wide r2 4K wave (incl. 18 re-routed chunks).</td></tr><tr><td><b>agy-img-1..2</b></td><td>CPU-only subprocess inside t4-a (CUDA_VISIBLE_DEVICES=empty, nice 10)</td><td><span class='pill warn'>subprocess-in-t4-a</span></td><td>—</td><td style='font-size:12px;color:#94a3b8;'>DUET-005: standalone agy_img_1 &amp; agy_img_2 Colab CPU sessions disconnected/deleted at 01:58:57Z &amp; 01:58:52Z and tabs closed; integrated as CPU-only subprocesses</td></tr></tbody></table>
+    <h3>Colab Fleet, 28 Nov (Cap = 3 Sessions, CPU Only)</h3>
+    <table><thead><tr><th>Seat</th><th>Hardware</th><th>State</th><th>Current / Last Job</th></tr></thead><tbody>
+    <tr><td><b>cpu-a</b></td><td>CPU 8-core High-RAM, 8 runners</td><td><span class='pill ok'>working</span></td><td>0-177b AK-47 hard-surface 4K close-ups (0-176c and 0-177a done 28 Nov)</td></tr>
+    <tr><td><b>cpu-b</b></td><td>CPU High-RAM</td><td><span class='pill warn'>waiting</span></td><td>Stopped at Colab's "Grant access" to the GitHub token; needs your yes</td></tr>
+    <tr><td><b>cpu-c</b></td><td>CPU (copy of cpu-b)</td><td><span class='pill warn'>not started</span></td><td>Made after cpu-b connects</td></tr>
+    <tr><td><b>GPU seats</b></td><td>Blackwell G4, A100, T4</td><td><span class='pill bad'>cancelled</span></td><td>GPU work cancelled 28 Nov; 16K bakes need your yes on units</td></tr>
+    </tbody></table>
   </div>
   <div class="card">
-    <h3>KDP Cover Previews (Queued for Sat 28 Nov 6 PM CST Cap Reset)</h3>
+    <h3>Book Cover Previews (held off KDP while calendars go first)</h3>
     <div class="grid4">
       <div><img class="prev" src="hub-media/kdp/daily_dose_trump_oct2026.jpg" alt="Daily Dose Oct 2026" /><div class="meta">Daily Dose Oct 2026 ($0.99 / 35%)</div></div>
       <div><img class="prev" src="hub-media/kdp/fascism_watch_opt4.jpg" alt="Fascism Watch" /><div class="meta">Fascism Watch</div></div>
